@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>BCA Study Hub — MGKVP · Krishu Prajapati</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06070d;
+  --surface:#0c0e1a;
+  --card:#101525;
+  --card2:#131829;
+  --border:rgba(255,255,255,.06);
+  --border2:rgba(255,255,255,.11);
+  --accent:#4f7eff;
+  --accent2:#8b5cf6;
+  --green:#10d98c;
+  --amber:#f59e0b;
+  --red:#f43f5e;
+  --cyan:#06b6d4;
+  --text:#e8eaf6;
+  --muted:#525873;
+  --muted2:#8b90b0;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden
+}
+
+/* ── ANIMATED BG ── */
+.bg-layer{position:fixed;inset:0;pointer-events:none;z-index:0}
+.bg-layer::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(79,126,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,126,255,.018) 1px,transparent 1px);
+  background-size:48px 48px
+}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);animation:orbdrift 14s ease-in-out infinite}
+.o1{width:500px;height:500px;background:rgba(79,126,255,.09);top:-150px;left:-150px}
+.o2{width:350px;height:350px;background:rgba(139,92,246,.07);bottom:-100px;right:-100px;animation-delay:-7s}
+.o3{width:250px;height:250px;background:rgba(16,217,140,.05);top:50%;left:55%;animation-delay:-3.5s}
+@keyframes orbdrift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-20px) scale(1.04)}}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 32px;
+  background:rgba(6,7,13,.85);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px)
+}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-icon{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;box-shadow:0 4px 14px rgba(79,126,255,.35)
+}
+.nav-brand{font-weight:700;font-size:14px;letter-spacing:-.2px}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-pill{
+  font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;cursor:pointer;text-decoration:none;
+  transition:all .2s
+}
+.nav-pill.ghost{
+  background:rgba(255,255,255,.04);border:1px solid var(--border2);
+  color:var(--muted2)
+}
+.nav-pill.ghost:hover{background:rgba(255,255,255,.08);color:var(--text)}
+.nav-pill.solid{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border:1px solid transparent;
+  box-shadow:0 4px 14px rgba(79,126,255,.3)
+}
+.nav-pill.solid:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(79,126,255,.45)}
+@media(max-width:480px){
+  nav{padding:10px 14px}
+  .nav-pill.ghost{display:none}
+  .nav-brand{font-size:13px}
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  max-width:860px;margin:0 auto;
+  padding:80px 24px 50px;text-align:center
+}
+@media(max-width:480px){
+  .hero{padding:52px 16px 36px}
+  .hero h1{letter-spacing:-1.5px !important}
+  .hero-sub{font-size:14px}
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--accent);
+  background:rgba(79,126,255,.08);border:1px solid rgba(79,126,255,.2);
+  padding:5px 13px;border-radius:100px;margin-bottom:20px
+}
+.hero-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{
+  font-size:clamp(34px,6.5vw,64px);font-weight:800;
+  letter-spacing:-2px;line-height:1.06;margin-bottom:14px
+}
+.hero h1 .grad{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 60%,var(--cyan) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
+}
+.hero-sub{
+  color:var(--muted2);font-size:16px;line-height:1.65;
+  max-width:480px;margin:0 auto 32px
+}
+.hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:11px 24px;border-radius:10px;font-size:14px;font-weight:600;
+  text-decoration:none;cursor:pointer;border:none;transition:all .2s
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),#6d52f0);
+  color:#fff;box-shadow:0 6px 24px rgba(79,126,255,.3)
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(79,126,255,.45)}
+.btn-ghost{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border2);color:var(--muted2)
+}
+.btn-ghost:hover{background:rgba(255,255,255,.08);color:var(--text)}
+
+/* ── STATS CARDS (main page) ── */
+.stats-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:36px;padding-top:28px;
+  border-top:1px solid var(--border)
+}
+@media(min-width:600px){
+  .stats-row{grid-template-columns:repeat(4,1fr)}
+}
+.stat-item{
+  text-align:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:18px 12px;
+  position:relative;overflow:hidden;
+  transition:transform .2s, border-color .2s, box-shadow .2s
+}
+.stat-item::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,var(--sg,rgba(79,126,255,.07)),transparent 70%);
+  pointer-events:none
+}
+.stat-item:nth-child(1){--sg:rgba(79,126,255,.12)}
+.stat-item:nth-child(2){--sg:rgba(139,92,246,.12)}
+.stat-item:nth-child(3){--sg:rgba(16,217,140,.12)}
+.stat-item:nth-child(4){--sg:rgba(245,158,11,.12)}
+.stat-item:hover{transform:translateY(-3px);border-color:var(--border2);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.stat-n{font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1}
+.stat-l{font-size:11px;color:var(--muted);margin-top:6px;font-family:var(--mono);letter-spacing:.4px}
+.stat-icon{font-size:20px;margin-bottom:8px;display:block}
+
+/* ── SECTION ── */
+.section{
+  position:relative;z-index:1;
+  max-width:860px;margin:0 auto;padding:52px 24px
+}
+.section-head{margin-bottom:28px}
+.section-eyebrow{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:7px
+}
+.section-title{font-size:22px;font-weight:700;letter-spacing:-.4px}
+.section-sub{color:var(--muted2);font-size:13px;margin-top:4px}
+
+/* ── SUBJECT LIST ── */
+/* ── SUBJECT GRID ── */
+.subject-list{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px
+}
+@media(min-width:640px){.subject-list{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:360px){.subject-list{grid-template-columns:1fr}}
+
+.subject-row{
+  display:flex;flex-direction:column;align-items:flex-start;gap:0;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  text-decoration:none;color:inherit;
+  position:relative;
+  cursor:pointer;
+  transition:transform .22s,border-color .22s,box-shadow .22s;
+  animation:slideup .4s ease both;
+  min-height:130px
+}
+.subject-row:nth-child(1){animation-delay:.04s}
+.subject-row:nth-child(2){animation-delay:.10s}
+.subject-row:nth-child(3){animation-delay:.16s}
+.subject-row:nth-child(4){animation-delay:.22s}
+.subject-row:nth-child(5){animation-delay:.28s}
+.subject-row:nth-child(6){animation-delay:.34s}
+@keyframes slideup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.subject-row:hover{
+  transform:translateY(-4px);
+  border-color:var(--border2);
+  box-shadow:0 12px 36px rgba(0,0,0,.55)
+}
+.subject-row:hover .row-arrow{transform:translateX(3px)}
+.subject-row:hover .row-glow{opacity:1}
+.row-glow{
+  position:absolute;left:0;top:0;right:0;height:2px;
+  opacity:0;transition:opacity .22s;border-radius:16px 16px 0 0
+}
+.s1 .row-glow{background:linear-gradient(90deg,#a78bfa,#ec4899)}
+.s2 .row-glow{background:linear-gradient(90deg,#4f7eff,#06b6d4)}
+.s3 .row-glow{background:linear-gradient(90deg,#fbbf24,#ef4444)}
+.s4 .row-glow{background:linear-gradient(90deg,#10d98c,#059669)}
+.s5 .row-glow{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+.s6 .row-glow{background:linear-gradient(90deg,#a855f7,#ec4899)}
+/* card header strip */
+.row-header{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;padding:10px 12px 0
+}
+.row-seq{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  color:var(--muted);background:rgba(255,255,255,.04);
+  border:1px solid var(--border);border-radius:4px;
+  padding:2px 6px
+}
+.row-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;margin:10px 12px 8px;flex-shrink:0
+}
+.ico-s1{background:rgba(167,139,250,.12)}
+.ico-s2{background:rgba(79,126,255,.12)}
+.ico-s3{background:rgba(251,191,36,.12)}
+.ico-s4{background:rgba(16,217,140,.12)}
+.ico-s5{background:rgba(245,158,11,.12)}
+.ico-s6{background:rgba(168,85,247,.12)}
+.row-body{flex:1;padding:0 12px 14px;min-width:0;width:100%}
+.row-tag{
+  font-size:9px;font-weight:700;letter-spacing:.9px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:4px
+}
+.row-title{
+  font-size:13px;font-weight:700;letter-spacing:-.2px;
+  line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+.row-desc{
+  font-size:11px;color:var(--muted2);line-height:1.5;margin-top:4px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+}
+.row-right{
+  display:flex;align-items:center;gap:6px;
+  padding:0;flex-shrink:0
+}
+.row-badge{
+  font-size:8.5px;font-family:var(--mono);font-weight:700;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:4px;padding:2px 6px;color:var(--muted)
+}
+.row-arrow{
+  font-size:14px;color:var(--muted);
+  transition:transform .22s
+}
+
+/* ── ROADMAP CARD ── */
+.roadmap-card{
+  display:flex;align-items:flex-start;gap:18px;
+  background:linear-gradient(135deg,rgba(245,158,11,.06),rgba(239,68,68,.06));
+  border:1px solid rgba(245,158,11,.18);
+  border-radius:16px;padding:22px 24px;
+  text-decoration:none;color:inherit;
+  position:relative;overflow:hidden;
+  transition:transform .22s,box-shadow .22s,border-color .22s
+}
+@media(max-width:480px){
+  .roadmap-card{flex-direction:column;gap:12px;padding:18px}
+  .roadmap-icon{width:44px;height:44px;font-size:20px;border-radius:12px}
+}
+.roadmap-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 16px 40px rgba(0,0,0,.5);
+  border-color:rgba(245,158,11,.3)
+}
+.roadmap-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--amber),var(--red),var(--accent2))
+}
+.roadmap-icon{
+  width:54px;height:54px;border-radius:14px;flex-shrink:0;
+  background:rgba(245,158,11,.12);
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  box-shadow:0 4px 14px rgba(245,158,11,.2)
+}
+.roadmap-body{flex:1}
+.roadmap-label{
+  font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--amber);margin-bottom:4px;font-family:var(--mono)
+}
+.roadmap-title{font-size:17px;font-weight:700;letter-spacing:-.3px;margin-bottom:5px}
+.roadmap-desc{font-size:12.5px;color:var(--muted2);line-height:1.55}
+.roadmap-action{
+  display:inline-flex;align-items:center;gap:6px;margin-top:10px;
+  font-size:12px;font-weight:600;color:var(--amber);transition:gap .2s
+}
+.roadmap-card:hover .roadmap-action{gap:10px}
+.roadmap-pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.r-pill{
+  font-size:9px;font-family:var(--mono);font-weight:700;
+  padding:2px 7px;border-radius:4px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  color:var(--muted2)
+}
+
+
+
+/* ── ABOUT ── */
+.about-box{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:20px;padding:32px;
+  display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start
+}
+@media(max-width:560px){.about-box{grid-template-columns:1fr;gap:20px}}
+.ava{
+  width:88px;height:88px;border-radius:18px;flex-shrink:0;
+  background:linear-gradient(135deg,#3b5bdb,#7c3aed);
+  display:flex;align-items:center;justify-content:center;
+  font-size:38px;position:relative;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08),0 12px 32px rgba(79,126,255,.28)
+}
+.ava-badge{
+  position:absolute;bottom:-5px;right:-5px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--green);display:flex;align-items:center;justify-content:center;
+  font-size:11px;border:2px solid var(--bg)
+}
+.about-name{font-size:20px;font-weight:700;letter-spacing:-.4px;margin-bottom:3px}
+.about-role{color:var(--accent);font-size:12.5px;font-weight:500;margin-bottom:4px}
+.about-college{color:var(--muted2);font-size:12px;margin-bottom:14px}
+.about-bio{
+  font-size:13px;color:var(--muted2);line-height:1.7;
+  background:rgba(255,255,255,.02);border:1px solid var(--border);
+  border-radius:10px;padding:13px;margin-bottom:14px
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{
+  font-size:11px;font-weight:500;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:100px;padding:4px 11px;color:var(--muted2)
+}
+.chip.hi{
+  border-color:rgba(79,126,255,.3);color:var(--accent);
+  background:rgba(79,126,255,.08)
+}
+.contact-line{
+  display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted2)
+}
+.contact-line a{color:var(--accent);text-decoration:none}
+.contact-line a:hover{text-decoration:underline}
+
+/* ── DIVIDER ── */
+.divider{border:none;height:1px;background:var(--border);margin:0}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;
+  text-align:center;padding:36px 24px;
+  border-top:1px solid var(--border);
+  color:var(--muted);font-size:12px
+}
+footer strong{color:var(--muted2)}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+/* ── MODAL (subject preview) ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(6,7,13,.92);backdrop-filter:blur(12px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-overlay.open .modal-sheet{transform:translateY(0)}
+.modal-sheet{
+  width:100%;max-width:560px;
+  background:var(--card2);
+  border:1px solid var(--border2);
+  border-radius:22px 22px 0 0;
+  padding:28px 26px 32px;
+  transform:translateY(60px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)
+}
+.modal-handle{
+  width:36px;height:4px;border-radius:100px;
+  background:rgba(255,255,255,.12);margin:0 auto 22px
+}
+.modal-head{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.modal-icon{
+  width:50px;height:50px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;font-size:22px
+}
+.modal-meta .modal-tag{
+  font-size:9.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:4px;font-family:var(--mono)
+}
+.modal-meta .modal-title{font-size:18px;font-weight:700;letter-spacing:-.3px}
+.modal-desc{
+  font-size:13.5px;color:var(--muted2);line-height:1.65;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:10px;padding:13px;margin-bottom:18px
+}
+.modal-topics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.m-chip{
+  font-size:11px;font-family:var(--mono);
+  padding:4px 9px;border-radius:6px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);
+  color:var(--muted2)
+}
+.modal-btns{display:flex;gap:10px}
+.modal-btn-open{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px;border-radius:11px;font-size:14px;font-weight:700;
+  text-decoration:none;color:#fff;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  box-shadow:0 6px 20px rgba(79,126,255,.3);
+  transition:transform .18s,box-shadow .18s
+}
+.modal-btn-open:hover{transform:translateY(-1px);box-shadow:0 10px 28px rgba(79,126,255,.45)}
+.modal-btn-close{
+  padding:13px 18px;border-radius:11px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.06);border:1px solid var(--border2);
+  color:var(--muted2);cursor:pointer;transition:background .18s
+}
+.modal-btn-close:hover{background:rgba(255,255,255,.1);color:var(--text)}
+@media(min-width:600px){
+  .modal-overlay{align-items:center}
+  .modal-sheet{border-radius:22px;max-height:90vh;overflow-y:auto}
+}
+
+/* ── WELCOME SPLASH ── */
+#kp-splash{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  background:rgba(6,7,13,.88);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  animation:splashIn .4s ease both
+}
+@keyframes splashIn{from{opacity:0}to{opacity:1}}
+@keyframes splashOut{to{opacity:0}}
+@keyframes cardIn{from{opacity:0;transform:translateY(32px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes cardOut{to{opacity:0;transform:translateY(18px) scale(.97)}}
+
+#kp-card{
+  position:relative;
+  width:100%;max-width:460px;
+  background:linear-gradient(145deg,#0d1022,#131829);
+  border:1px solid rgba(79,126,255,.22);
+  border-radius:26px;
+  padding:36px 32px 28px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,
+             0 32px 80px rgba(0,0,0,.75),
+             0 0 60px rgba(79,126,255,.07);
+  overflow:hidden;
+  animation:cardIn .5s cubic-bezier(.22,.9,.36,1) .1s both
+}
+/* ambient blobs inside card */
+#kp-card::before{
+  content:'';position:absolute;top:-70px;left:-70px;
+  width:220px;height:220px;
+  background:radial-gradient(circle,rgba(79,126,255,.12),transparent 70%);
+  pointer-events:none
+}
+#kp-card::after{
+  content:'';position:absolute;bottom:-50px;right:-50px;
+  width:180px;height:180px;
+  background:radial-gradient(circle,rgba(139,92,246,.1),transparent 70%);
+  pointer-events:none
+}
+
+/* close button */
+#kp-close{
+  position:absolute;top:14px;right:14px;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.09);
+  color:#525873;font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,color .2s,border-color .2s,transform .2s;
+  line-height:1;font-family:inherit
+}
+#kp-close:hover{
+  background:rgba(244,63,94,.15);
+  border-color:rgba(244,63,94,.35);
+  color:#f43f5e;transform:rotate(90deg) scale(1.1)
+}
+
+/* logo row */
+.kp-logo-row{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+.kp-logo-icon{
+  width:50px;height:50px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  box-shadow:0 6px 22px rgba(79,126,255,.4)
+}
+.kp-logo-text{flex:1}
+.kp-built-by{font-size:9px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);font-family:var(--mono);margin-bottom:1px}
+.kp-hub-name{
+  font-size:21px;font-weight:800;letter-spacing:-.4px;
+  background:linear-gradient(135deg,#fff 0%,var(--accent) 55%,var(--accent2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
+}
+.kp-author{font-size:12px;color:var(--muted2);margin-top:1px;font-weight:500}
+
+/* divider */
+.kp-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(79,126,255,.3),transparent);margin:0 0 20px}
+
+/* typewriter box */
+.kp-tw-box{
+  display:flex;align-items:center;gap:9px;
+  background:rgba(6,7,13,.6);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:10px;padding:11px 14px;
+  margin-bottom:18px;
+  min-height:42px;font-family:var(--mono);font-size:12.5px
+}
+.kp-prompt{color:var(--green);font-weight:700}
+#kp-tw{color:var(--text)}
+.kp-cursor{color:var(--accent);animation:blink 1s infinite}
+
+/* skill chips */
+.kp-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.kp-chip{
+  font-size:10.5px;font-weight:700;font-family:var(--mono);
+  padding:4px 10px;border-radius:6px;
+  transition:transform .15s,box-shadow .15s;cursor:default
+}
+.kp-chip:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.4)}
+.chip-c   {background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.25);color:#06b6d4}
+.chip-html{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:#f59e0b}
+.chip-css {background:rgba(79,126,255,.1);border:1px solid rgba(79,126,255,.25);color:#4f7eff}
+.chip-js  {background:rgba(16,217,140,.1);border:1px solid rgba(16,217,140,.25);color:#10d98c}
+.chip-ai  {background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);color:#8b5cf6}
+.chip-dsa {background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.25);color:#f43f5e}
+
+/* college badge */
+.kp-college{
+  background:rgba(79,126,255,.05);
+  border:1px solid rgba(79,126,255,.15);
+  border-radius:12px;padding:12px 15px;
+  margin-bottom:22px;
+  display:flex;align-items:flex-start;gap:10px
+}
+.kp-college-icon{font-size:20px;margin-top:1px;flex-shrink:0}
+.kp-college-name{font-size:13px;font-weight:600;line-height:1.4;margin-bottom:2px}
+.kp-college-sub{font-size:11px;color:var(--muted)}
+.kp-college-sub span{color:var(--muted2);font-weight:600}
+
+/* CTA button */
+#kp-cta{
+  width:100%;padding:13px;border-radius:12px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),#6d52f0);
+  color:#fff;font-size:14px;font-weight:700;letter-spacing:.2px;
+  font-family:'Outfit',sans-serif;
+  box-shadow:0 6px 24px rgba(79,126,255,.35);
+  transition:transform .2s,box-shadow .2s;display:block
+}
+#kp-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(79,126,255,.5)}
+#kp-cta:active{transform:scale(.98)}
+
+.kp-hint{
+  text-align:center;margin-top:11px;
+  font-size:10.5px;color:var(--muted);font-family:var(--mono)
+}
+.kp-hint kbd{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  padding:1px 6px;border-radius:4px;font-size:10px
+}
+
+/* ── MOBILE FIXES for welcome card ── */
+@keyframes cardInMobile{
+  from{opacity:0;transform:translateY(100%)}
+  to  {opacity:1;transform:translateY(0)}
+}
+@keyframes cardOutMobile{
+  to{opacity:0;transform:translateY(100%)}
+}
+@media(max-width:480px){
+  #kp-splash{
+    align-items:flex-end;
+    padding:0;
+  }
+  #kp-card{
+    max-width:100%;
+    border-radius:22px 22px 0 0;
+    padding:32px 20px 36px;
+    max-height:92vh;
+    overflow-y:auto;
+    animation:cardInMobile .4s cubic-bezier(.22,.9,.36,1) .1s both
+  }
+  #kp-card::before{
+    content:'';
+    position:absolute;top:10px;left:50%;
+    transform:translateX(-50%);
+    width:36px;height:4px;
+    background:rgba(255,255,255,.18);
+    border-radius:99px;
+    filter:none
+  }
+  .kp-logo-icon{width:42px;height:42px;font-size:19px;border-radius:12px}
+  .kp-hub-name{font-size:18px}
+  .kp-author{font-size:11px}
+  .kp-logo-row{margin-bottom:18px;gap:11px}
+  .kp-tw-box{font-size:12px;padding:10px 12px;min-height:40px}
+  .kp-chip{font-size:10px;padding:3px 9px}
+  .kp-college-name{font-size:12.5px}
+  .kp-college-sub{font-size:10.5px}
+  #kp-cta{font-size:15px;padding:14px}
+  .kp-hint kbd{display:none}
+  .kp-hint-kb{display:none}
+  .kp-hint::after{content:'tap outside to dismiss';color:var(--muted)}
+}
+
+/* very small phones (≤360px) */
+@media(max-width:360px){
+  #kp-card{padding:24px 16px 28px}
+  .kp-hub-name{font-size:16px}
+  .kp-college-name{font-size:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ WELCOME SPLASH CARD ═══════════════ -->
+<div id="kp-splash">
+  <div id="kp-card">
+
+    <!-- Close X -->
+    <button id="kp-close" onclick="kpClose()" aria-label="Close">✕</button>
+
+    <!-- Logo row -->
+    <div class="kp-logo-row">
+      <div class="kp-logo-icon">📚</div>
+      <div class="kp-logo-text">
+        <div class="kp-built-by">// built by</div>
+        <div class="kp-hub-name">KP Study Hub</div>
+        <div class="kp-author">Krishu Prajapati</div>
+      </div>
+    </div>
+
+    <div class="kp-divider"></div>
+
+    <!-- Typewriter -->
+    <div class="kp-tw-box">
+      <span class="kp-prompt">❯</span>
+      <span id="kp-tw"></span><span class="kp-cursor">▌</span>
+    </div>
+
+    <!-- Skill chips -->
+    <div class="kp-chips">
+      <span class="kp-chip chip-c">C</span>
+      <span class="kp-chip chip-html">HTML</span>
+      <span class="kp-chip chip-css">CSS</span>
+      <span class="kp-chip chip-js">JavaScript</span>
+      <span class="kp-chip chip-ai">AI Tools</span>
+      <span class="kp-chip chip-dsa">DSA</span>
+    </div>
+
+    <!-- College -->
+    <div class="kp-college">
+      <div class="kp-college-icon">🏫</div>
+      <div>
+        <div class="kp-college-name">Shri Ram PG College of Commerce &amp; Education, Panchkroshi</div>
+        <div class="kp-college-sub">Affiliated with <span>MGKVP</span> &nbsp;·&nbsp; BCA 1st Year</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <button id="kp-cta" onclick="kpClose()">Let's Study 🚀</button>
+    <div class="kp-hint">press <kbd>Esc</kbd> <span class="kp-hint-kb">to dismiss</span></div>
+
+  </div>
+</div>
+<!-- ═══════════════════════════════════════════════════ -->
+
+<div class="bg-layer">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-icon">🎓</div>
+    <span class="nav-brand">BCA Study Hub</span>
+  </div>
+  <div class="nav-right">
+    <a class="nav-pill ghost" href="#subjects">Subjects</a>
+    <a class="nav-pill ghost" href="#roadmap">Roadmap</a>
+    <a class="nav-pill ghost" href="dsa-tracker.html">DSA 100</a>
+    <a class="nav-pill ghost" href="#about">About</a>
+    <a class="nav-pill solid" href="bca_placement_roadmap.html" target="_blank">🗺️ Career</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag"><span class="dot"></span>Free for all MGKVP BCA Students</div>
+  <h1>Your <span class="grad">BCA Study Hub</span><br/>All in One Place</h1>
+  <p class="hero-sub">Clean, hand-crafted study guides for MGKVP BCA students — plus a full career roadmap and 100 DSA problems.</p>
+  <div class="hero-btns">
+    <a class="btn btn-primary" href="#subjects">📚 Browse Subjects</a>
+    <a class="btn btn-ghost" href="#roadmap">🗺️ Career Roadmap</a>
+    <a class="btn btn-ghost" href="dsa-tracker.html">🧠 DSA 100 Problems</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-icon">📚</div>
+      <div class="stat-n" style="color:var(--accent)">6</div>
+      <div class="stat-l">Guides</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">🎓</div>
+      <div class="stat-n" style="color:var(--accent2)">BCA 1st</div>
+      <div class="stat-l">Year</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">✅</div>
+      <div class="stat-n" style="color:var(--green)">Free</div>
+      <div class="stat-l">Always</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon">🗺️</div>
+      <div class="stat-n" style="color:var(--amber)">3yr</div>
+      <div class="stat-l">Roadmap</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- SUBJECTS (correct order: 01 to 05 then DSA 06 at bottom) -->
+<div class="section" id="subjects">
+  <div class="section-head">
+    <div class="section-eyebrow">// Study Materials</div>
+    <div class="section-title">Pick a Subject</div>
+    <div class="section-sub">Click any subject to preview details, then open the guide.</div>
+  </div>
+  <div class="subject-list">
+    <!-- 01 C Programming Basics I -->
+    <div class="subject-row s1"
+      data-title="C Programming Basics I"
+      data-tag="Computer Science"
+      data-icon="📘"
+      data-ico-class="ico-s1"
+      data-desc="History of C, data types, operators, conditionals (if-else, switch), loops, and functions — everything from absolute zero."
+      data-topics="History of C|Data Types|Operators|if-else|Switch|Loops|Functions|Basics"
+      data-href="c-basics.html"
+      data-badge="HTML Guide"
+      onclick="openModal(this)">
+      <div class="row-glow"></div>
+      <div class="row-header">
+        <span class="row-seq">01</span>
+        <div class="row-right"><span class="row-badge">HTML</span><span class="row-arrow">›</span></div>
+      </div>
+      <div class="row-icon ico-s1">📘</div>
+      <div class="row-body">
+        <div class="row-tag">Computer Science</div>
+        <div class="row-title">C Programming Basics I</div>
+        <div class="row-desc">History, data types, operators, if-else, switch, loops &amp; functions</div>
+      </div>
+    </div>
+    <!-- 02 C Programming Advanced II -->
+    <div class="subject-row s2"
+      data-title="C Programming Advanced II"
+      data-tag="Computer Science"
+      data-icon="💻"
+      data-ico-class="ico-s2"
+      data-desc="Arrays, pointers, strings, structures, unions, dynamic memory, and file handling — the complete advanced C guide."
+      data-topics="Arrays|Pointers|Strings|Structures|Unions|Dynamic Memory|File I/O|Recursion"
+      data-href="c-study-notes.html"
+      data-badge="HTML Guide"
+      onclick="openModal(this)">
+      <div class="row-glow"></div>
+      <div class="row-header">
+        <span class="row-seq">02</span>
+        <div class="row-right"><span class="row-badge">HTML</span><span class="row-arrow">›</span></div>
+      </div>
+      <div class="row-icon ico-s2">💻</div>
+      <div class="row-body">
+        <div class="row-tag">Computer Science</div>
+        <div class="row-title">C Programming Advanced Topics II</div>
+        <div class="row-desc">Arrays, pointers, structures, file handling &amp; more</div>
+      </div>
+    </div>
+    <!-- 03 Digital Electronics -->
+    <div class="subject-row s3"
+      data-title="Digital Electronics"
+      data-tag="Electronics"
+      data-icon="⚡"
+      data-ico-class="ico-s3"
+      data-desc="Number systems, logic gates, Boolean algebra, flip-flops, combinational & sequential circuits explained clearly with examples."
+      data-topics="Number Systems|Logic Gates|Boolean Algebra|K-Map|Flip-Flops|Combinational|Sequential|Registers"
+      data-href="digital_electronics_study_guide__1_.html"
+      data-badge="HTML Guide"
+      onclick="openModal(this)">
+      <div class="row-glow"></div>
+      <div class="row-header">
+        <span class="row-seq">03</span>
+        <div class="row-right"><span class="row-badge">HTML</span><span class="row-arrow">›</span></div>
+      </div>
+      <div class="row-icon ico-s3">⚡</div>
+      <div class="row-body">
+        <div class="row-tag">Electronics</div>
+        <div class="row-title">Digital Electronics</div>
+        <div class="row-desc">Logic gates, flip-flops, combinational &amp; sequential circuits</div>
+      </div>
+    </div>
+    <!-- 04 Organisational Behaviour -->
+    <div class="subject-row s4"
+      data-title="Organisational Behaviour"
+      data-tag="Management"
+      data-icon="🧠"
+      data-ico-class="ico-s4"
+      data-desc="Motivation theories, leadership styles, group dynamics, organisational culture, conflict management — complete OB notes."
+      data-topics="Motivation|Leadership|Group Dynamics|Culture|Conflict|Perception|Personality|Change"
+      data-href="organizational_behaviour__5_.html"
+      data-badge="HTML Guide"
+      onclick="openModal(this)">
+      <div class="row-glow"></div>
+      <div class="row-header">
+        <span class="row-seq">04</span>
+        <div class="row-right"><span class="row-badge">HTML</span><span class="row-arrow">›</span></div>
+      </div>
+      <div class="row-icon ico-s4">🧠</div>
+      <div class="row-body">
+        <div class="row-tag">Management</div>
+        <div class="row-title">Organisational Behaviour</div>
+        <div class="row-desc">Motivation, leadership, group dynamics &amp; organisational culture</div>
+      </div>
+    </div>
+    <!-- 05 Mathematics I and II -->
+    <div class="subject-row s5"
+      data-title="Mathematics I and II"
+      data-tag="Mathematics"
+      data-icon="📐"
+      data-ico-class="ico-s5"
+      data-desc="Sets, relations, matrices, determinants, limits, continuity, differentiation and integration — complete BCA Maths I guide with solved examples."
+      data-topics="Sets & Relations|Matrices|Determinants|Limits|Continuity|Differentiation|Integration|Solved Examples"
+      data-href="math1.html"
+      data-badge="HTML Guide"
+      onclick="openModal(this)">
+      <div class="row-glow"></div>
+      <div class="row-header">
+        <span class="row-seq">05</span>
+        <div class="row-right"><span class="row-badge">HTML</span><span class="row-arrow">›</span></div>
+      </div>
+      <div class="row-icon ico-s5">📐</div>
+      <div class="row-body">
+        <div class="row-tag">Mathematics</div>
+        <div class="row-title">Mathematics I and II</div>
+        <div class="row-desc">Sets, matrices, limits, differentiation &amp; integration with solved examples</div>
+      </div>
+    </div>
+    <!-- 06 DSA 100 Tracker (MOVED TO BOTTOM) -->
+    <div class="subject-row s6"
+      data-title="Data Structures & Algorithms (100 Problems)"
+      data-tag="DSA · Interview Prep"
+      data-icon="🧠"
+      data-ico-class="ico-s6"
+      data-desc="Complete 100-problem DSA tracker: Arrays, Strings, Linked List, Trees, Graphs, DP, Backtracking, Hashing, and more. Mark solved, track progress, filter by difficulty."
+      data-topics="Arrays|Strings|Linked List|Stack & Queue|Trees|Graphs|Sorting|DP|Backtracking|Hashing"
+      data-href="dsa-tracker.html"
+      data-badge="Interactive"
+      onclick="openModal(this)">
+      <div class="row-glow"></div>
+      <div class="row-header">
+        <span class="row-seq">06</span>
+        <div class="row-right"><span class="row-badge">Interactive</span><span class="row-arrow">›</span></div>
+      </div>
+      <div class="row-icon ico-s6">🧠</div>
+      <div class="row-body">
+        <div class="row-tag">Data Structures & Algorithms</div>
+        <div class="row-title">100 DSA Problems Tracker</div>
+        <div class="row-desc">Arrays, Strings, Trees, Graphs, DP — full interactive tracker with progress</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- ROADMAP SECTION -->
+<div class="section" id="roadmap">
+  <div class="section-head">
+    <div class="section-eyebrow">// Career Path</div>
+    <div class="section-title">BCA → Big Tech Roadmap</div>
+    <div class="section-sub">A complete 3-year plan to get placed at top tech companies from a non-IIT college.</div>
+  </div>
+  <a class="roadmap-card" href="bca_placement_roadmap.html" target="_blank">
+    <div class="roadmap-icon">🗺️</div>
+    <div class="roadmap-body">
+      <div class="roadmap-label">Career Roadmap · 3 Years · BCA → SDE</div>
+      <div class="roadmap-title">BCA → Big Tech Placement Roadmap</div>
+      <div class="roadmap-desc">Full timeline from BCA Year 1 to landing at Google, Amazon, Flipkart or top startups. Covers DSA, System Design, projects, internships, resume, LeetCode targets &amp; pro tips.</div>
+      <div class="roadmap-pills"><span class="r-pill">DSA</span><span class="r-pill">System Design</span><span class="r-pill">LeetCode</span><span class="r-pill">Projects</span><span class="r-pill">Internships</span><span class="r-pill">Resume</span><span class="r-pill">Salary Data</span><span class="r-pill">Progress Checklist</span></div>
+      <div class="roadmap-action">Open Full Roadmap →</div>
+    </div>
+  </a>
+</div>
+
+<hr class="divider"/>
+
+<!-- ABOUT SECTION -->
+<div class="section" id="about">
+  <div class="section-head">
+    <div class="section-eyebrow">// Creator</div>
+    <div class="section-title">About Me</div>
+    <div class="section-sub">The person behind BCA Study Hub.</div>
+  </div>
+  <div class="about-box">
+    <div class="ava">👨‍💻<div class="ava-badge">✨</div></div>
+    <div>
+      <div class="about-name">Krishu Prajapati</div>
+      <div class="about-role">BCA 1st Year · Tech Enthusiast · Builder</div>
+      <div class="about-college">🏫 Shri Ram PG College of Management &amp; Commerce · MGKVP University, Varanasi</div>
+      <div class="about-bio">Hey! I'm Krishu — a first-year BCA student passionate about tech and helping fellow students. I built this hub so every MGKVP BCA student gets clean, organised study material — completely free, no login needed. If it helps even one person crack their exam or land a job, that's a win. 🚀</div>
+      <div class="chips"><span class="chip hi">BCA 2025–28</span><span class="chip">C Programming</span><span class="chip">Web Dev</span><span class="chip">DSA Learning</span><span class="chip">MGKVP</span><span class="chip">Open Source</span></div>
+      <div class="contact-line">📧 <a href="mailto:krishuprajpati320906@gmail.com">krishuprajpati320906@gmail.com</a> &nbsp;·&nbsp; Feel free to reach out!</div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  Built with ❤️ by <strong>Krishu Prajapati</strong> · BCA 1st Year · Shri Ram PG College · MGKVP<br/>
+  <a href="mailto:krishuprajpati320906@gmail.com">krishuprajpati320906@gmail.com</a> &nbsp;·&nbsp; Open for all BCA students 🚀
+</footer>
+
+<!-- MODAL (subject preview) -->
+<div class="modal-overlay" id="modal" onclick="closeIfOutside(event)">
+  <div class="modal-sheet" id="modalSheet">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><div class="modal-icon" id="mIcon"></div><div class="modal-meta"><div class="modal-tag" id="mTag"></div><div class="modal-title" id="mTitle"></div></div></div>
+    <div class="modal-desc" id="mDesc"></div>
+    <div class="modal-topics" id="mTopics"></div>
+    <div class="modal-btns"><a class="modal-btn-open" id="mLink" href="#" target="_blank">📖 Open Study Guide</a><button class="modal-btn-close" onclick="closeModal()">✕ Close</button></div>
+  </div>
+</div>
+
+<script>
+// ----- Modal logic (subject preview) -----
+const modal    = document.getElementById('modal');
+const mIcon    = document.getElementById('mIcon');
+const mTag     = document.getElementById('mTag');
+const mTitle   = document.getElementById('mTitle');
+const mDesc    = document.getElementById('mDesc');
+const mTopics  = document.getElementById('mTopics');
+const mLink    = document.getElementById('mLink');
+
+function openModal(el){
+  mIcon.textContent   = el.dataset.icon;
+  mIcon.className     = 'modal-icon ' + el.dataset.icoClass;
+  mTag.textContent    = el.dataset.tag;
+  mTitle.textContent  = el.dataset.title;
+  mDesc.textContent   = el.dataset.desc;
+  let target = el.dataset.href;
+  mLink.href = target;
+  mLink.textContent = "📖 Open Study Guide";
+  mLink.setAttribute("target", "_blank");
+  mLink.removeAttribute("onclick");
+  mTopics.innerHTML = el.dataset.topics.split('|').map(t => `<span class="m-chip">${t}</span>`).join('');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){ modal.classList.remove('open'); document.body.style.overflow = ''; }
+function closeIfOutside(e){ if(e.target === modal) closeModal(); }
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+// ═══ WELCOME SPLASH LOGIC ═══
+(function(){
+  // Typewriter lines
+  const lines = [
+    "I am a BCA student",
+    "I am a tech enthusiast who loves to code",
+    "I want to help other students with my skills",
+    "Solving problems with DSA every day",
+    "Building cool things with HTML, CSS and JS"
+  ];
+  let li = 0, ci = 0, deleting = false;
+  const tw = document.getElementById('kp-tw');
+
+  function tick(){
+    const line = lines[li];
+    if(!deleting){
+      tw.textContent = line.slice(0, ++ci);
+      if(ci === line.length){ deleting = true; setTimeout(tick, 1900); return; }
+      setTimeout(tick, 60);
+    } else {
+      tw.textContent = line.slice(0, --ci);
+      if(ci === 0){ deleting = false; li = (li+1) % lines.length; setTimeout(tick, 400); return; }
+      setTimeout(tick, 30);
+    }
+  }
+  setTimeout(tick, 650);
+
+  // particle burst on close
+  function burst(){
+    const emojis = ['🚀','⭐','💡','✨','📚','💻'];
+    for(let i=0;i<12;i++){
+      const p = document.createElement('div');
+      p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      const angle = (Math.PI*2/12)*i;
+      const dist  = 80 + Math.random()*60;
+      p.style.cssText = `
+        position:fixed;z-index:10001;pointer-events:none;
+        font-size:${14+Math.random()*10}px;
+        left:50%;top:50%;
+        transform:translate(-50%,-50%);
+        transition:transform .7s cubic-bezier(.1,.8,.3,1),opacity .7s;
+        opacity:1;
+      `;
+      document.body.appendChild(p);
+      requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>{
+          p.style.transform = `translate(calc(-50% + ${Math.cos(angle)*dist}px), calc(-50% + ${Math.sin(angle)*dist}px)) scale(0)`;
+          p.style.opacity   = '0';
+        });
+      });
+      setTimeout(()=>p.remove(), 750);
+    }
+  }
+
+  window.kpClose = function(){
+    burst();
+    const card    = document.getElementById('kp-card');
+    const splash  = document.getElementById('kp-splash');
+    const isMobile = window.innerWidth <= 480;
+    card.style.animation   = isMobile ? 'cardOutMobile .32s ease forwards' : 'cardOut .32s ease forwards';
+    splash.style.animation = 'splashOut .45s ease .1s forwards';
+    setTimeout(()=>{ splash.remove(); document.body.style.overflow=''; }, 600);
+  };
+
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') window.kpClose(); });
+  // tap the dark backdrop (outside card) to close on mobile
+  document.getElementById('kp-splash').addEventListener('click', function(e){
+    if(e.target === this) window.kpClose();
+  });
+  document.body.style.overflow = 'hidden'; // lock scroll while card open
+})();
+
+</script>
+</body>
+</html>

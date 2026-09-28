@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCA → Big Tech Placement Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent1: #ff6b35;
+    --accent2: #00d4aa;
+    --accent3: #7c5cfc;
+    --accent4: #ffd166;
+    --text: #e8e8f0;
+    --muted: #7a7a9a;
+    --green: #06d6a0;
+    --red: #ef233c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,92,252,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,107,53,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 20% 70%, rgba(0,212,170,0.10) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(124,92,252,0.15);
+    border: 1px solid rgba(124,92,252,0.4);
+    color: #a88bfc;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -2px;
+    font-size: clamp(2.2rem, 7vw, 5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+
+  .hero h1 span.orange { color: var(--accent1); }
+  .hero h1 span.teal   { color: var(--accent2); }
+
+  .hero-sub {
+    font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+    color: var(--muted);
+    max-width: 560px;
+    margin-bottom: 40px;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+
+  .stat-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .stat-pill span { color: var(--accent2); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+  }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.5px;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+    margin-bottom: 36px;
+    line-height: 1.2;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { position: relative; padding-left: 0; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent3), var(--accent1), var(--accent2));
+    opacity: 0.4;
+  }
+
+  .phase {
+    position: relative;
+    padding-left: 70px;
+    margin-bottom: 48px;
+  }
+
+  .phase-dot {
+    position: absolute;
+    left: 18px;
+    top: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 3px solid;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+  }
+
+  .phase-dot.p1 { border-color: var(--accent3); color: var(--accent3); }
+  .phase-dot.p2 { border-color: var(--accent1); color: var(--accent1); }
+  .phase-dot.p3 { border-color: var(--accent2); color: var(--accent2); }
+  .phase-dot.p4 { border-color: var(--accent4); color: var(--accent4); }
+
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .phase-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .tag-p1 { background: rgba(124,92,252,0.15); color: #a88bfc; border: 1px solid rgba(124,92,252,0.3); }
+  .tag-p2 { background: rgba(255,107,53,0.15); color: #ff8f6b; border: 1px solid rgba(255,107,53,0.3); }
+  .tag-p3 { background: rgba(0,212,170,0.12); color: #00d4aa; border: 1px solid rgba(0,212,170,0.3); }
+  .tag-p4 { background: rgba(255,209,102,0.12); color: #ffd166; border: 1px solid rgba(255,209,102,0.3); }
+
+  .phase-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .phase-body {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    display: grid;
+    gap: 16px;
+  }
+
+  .phase-desc {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .topics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+  }
+
+  .topic-chip {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    transition: all 0.2s;
+  }
+
+  .topic-chip:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-1px);
+  }
+
+  .topic-chip .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-purple { background: var(--accent3); }
+  .dot-orange { background: var(--accent1); }
+  .dot-teal   { background: var(--accent2); }
+  .dot-yellow { background: var(--accent4); }
+
+  /* ── COMPANY CARDS ── */
+  .company-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .company-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .company-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .company-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .card-google::before { background: linear-gradient(90deg, #4285f4, #34a853, #fbbc04, #ea4335); }
+  .card-amazon::before { background: linear-gradient(90deg, #ff9900, #ff6b35); }
+  .card-meta::before   { background: linear-gradient(90deg, #0082fb, #00c6ff); }
+  .card-tcs::before    { background: linear-gradient(90deg, #00a3e0, #0057a8); }
+  .card-wipro::before  { background: linear-gradient(90deg, #7bcbf1, #9b59b6); }
+
+  .company-name {
+    font-size: 1rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .company-package {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent2);
+    margin-bottom: 14px;
+  }
+
+  .company-items {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .company-item {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    line-height: 1.4;
+  }
+
+  .company-item::before {
+    content: '→';
+    color: var(--accent1);
+    font-size: 0.7rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── RESOURCE TABLE ── */
+  .resources {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .resource-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+
+  .resource-card h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .resource-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+  }
+
+  .resource-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .resource-item {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 5px 8px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    border-left: 2px solid;
+  }
+
+  .r-free  { border-color: var(--accent2); }
+  .r-paid  { border-color: var(--accent4); }
+
+  /* ── CHECKLIST ── */
+  .checklist-wrapper {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .checklist-header {
+    padding: 18px 22px;
+    background: rgba(124,92,252,0.08);
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .checklist-items { padding: 16px 22px; display: grid; gap: 8px; }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.83rem;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 8px;
+    transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .check-item:hover { background: rgba(255,255,255,0.04); }
+
+  .check-box {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 0.7rem;
+  }
+
+  .check-item.done .check-box {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    color: var(--bg);
+  }
+
+  .check-item.done span { text-decoration: line-through; opacity: 0.5; }
+
+  /* ── TIPS BAND ── */
+  .tips-band {
+    background: linear-gradient(135deg, rgba(255,107,53,0.08), rgba(124,92,252,0.08));
+    border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 16px;
+    padding: 28px;
+    display: grid;
+    gap: 14px;
+  }
+
+  .tip {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .tip-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--accent1);
+    background: rgba(255,107,53,0.12);
+    border: 1px solid rgba(255,107,53,0.25);
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .tip-text {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .tip-text strong { color: var(--text); }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 48px 20px 60px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .footer-motto {
+    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  /* ── SEPARATOR ── */
+  .sep { 
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 20px;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent2);
+    white-space: nowrap;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-links::-webkit-scrollbar { display: none; }
+
+  .nav-link {
+    font-size: 0.7rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .nav-link:hover {
+    color: var(--text);
+    border-color: var(--border);
+    background: var(--card);
+  }
+
+  /* ── PROGRESS BANNER ── */
+  .progress-banner {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 32px;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: linear-gradient(90deg, var(--accent3), var(--accent2));
+    width: 8%;
+    transition: width 0.5s ease;
+  }
+
+  .progress-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* ── SALARY TABLE ── */
+  .salary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .salary-table th {
+    background: rgba(124,92,252,0.1);
+    padding: 12px 16px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .salary-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--muted);
+  }
+
+  .salary-table tr:last-child td { border-bottom: none; }
+  .salary-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .salary-table .company-col { color: var(--text); font-weight: 600; }
+
+  .badge-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+
+  .tier-faang { background: rgba(255,107,53,0.15); color: #ff8f6b; border: 1px solid rgba(255,107,53,0.3); }
+  .tier-mid   { background: rgba(0,212,170,0.1); color: var(--accent2); border: 1px solid rgba(0,212,170,0.25); }
+  .tier-mass  { background: rgba(124,92,252,0.1); color: #a88bfc; border: 1px solid rgba(124,92,252,0.25); }
+
+  .salary-high { color: var(--accent2); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .salary-mid  { color: var(--accent4); font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+  .salary-low  { color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  .table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: auto;
+  }
+
+  /* ── MONTHLY PLAN ── */
+  .monthly-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 12px;
+  }
+
+  .month-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    border-top: 3px solid;
+    transition: transform 0.2s;
+  }
+
+  .month-card:hover { transform: translateY(-2px); }
+
+  .month-card.y1 { border-top-color: var(--accent3); }
+  .month-card.y2 { border-top-color: var(--accent1); }
+
+  .month-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .month-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  .month-items {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .month-item {
+    font-size: 0.75rem;
+    color: var(--muted);
+    padding: 4px 8px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .phase { padding-left: 52px; }
+    .timeline::before { left: 18px; }
+    .phase-dot { left: 8px; }
+    .topics-grid { grid-template-columns: 1fr 1fr; }
+    .company-grid { grid-template-columns: 1fr; }
+    .resources { grid-template-columns: 1fr; }
+    .monthly-grid { grid-template-columns: 1fr 1fr; }
+    nav { padding: 10px 14px; }
+  }
+
+  @media (max-width: 380px) {
+    .monthly-grid { grid-template-columns: 1fr; }
+    .topics-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BCA→BigTech</div>
+  <div class="nav-links">
+    <a class="nav-link" href="#roadmap">Roadmap</a>
+    <a class="nav-link" href="#monthly">Monthly</a>
+    <a class="nav-link" href="#companies">Companies</a>
+    <a class="nav-link" href="#salaries">Packages</a>
+    <a class="nav-link" href="#resources">Resources</a>
+    <a class="nav-link" href="#checklist">Checklist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="grid-bg"></div>
+  <div class="hero-badge">🎯 BCA → Big Tech Placement Guide</div>
+  <h1>From <span class="orange">C Basics</span> to<br><span class="teal">₹40 LPA+</span></h1>
+  <p class="hero-sub">A no-college-placement, self-built, 2-year roadmap from Year 1 to cracking Google, Amazon, Meta, TCS, Wipro & more.</p>
+  <div class="hero-stats">
+    <div class="stat-pill"><span>2 Years</span> of structured prep</div>
+    <div class="stat-pill"><span>6 Phases</span> of learning</div>
+    <div class="stat-pill"><span>10+</span> target companies</div>
+    <div class="stat-pill">Starting from <span>C Basics</span></div>
+  </div>
+  <div class="scroll-hint">scroll down</div>
+</div>
+
+<div class="sep"></div>
+
+<!-- OVERVIEW -->
+<div class="section" id="roadmap">
+  <div class="section-label">// THE PLAN</div>
+  <div class="section-title">Your 2-Year Battle Plan</div>
+
+  <div class="progress-banner">
+    <div class="progress-label">
+      <span>Current: C Basics → C++</span>
+      <span id="prog-text">0% Complete</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="prog-fill"></div>
+    </div>
+    <div class="progress-desc">Complete checklist items below to track progress. Every tick brings you closer to your dream offer.</div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="timeline">
+    <div class="phase">
+      <div class="phase-dot p1">P1</div>
+      <div class="phase-header">
+        <span class="phase-tag tag-p1">MONTHS 1–3</span>
+        <span class="phase-title">C++ Mastery + CS Fundamentals</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-desc">
+          You know C basics — great. Now solidify your C++ foundation which is the <em>default interview language</em> for competitive programming and system design roles at top companies. Learn OOP deeply; it appears in every FAANG interview.
+        </div>
+        <div class="topics-grid">
+          <div class="topic-chip"><span class="dot dot-purple"></span>C++ STL (vectors, maps, sets)</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>OOP – Classes, Inheritance</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Pointers & References</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Templates & Generics</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>File I/O & Exceptions</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Time & Space Complexity</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Big-O Notation (must)</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Recursion deeply</div>
+        </div>
+        <div class="phase-desc" style="color:#a88bfc; font-size:0.8rem;">
+          📌 Goal: Solve 30 easy LeetCode problems using C++. Write 1 program daily.
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase">
+      <div class="phase-dot p1">P2</div>
+      <div class="phase-header">
+        <span class="phase-tag tag-p1">MONTHS 4–6</span>
+        <span class="phase-title">Data Structures — The Core Weapon</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-desc">
+          DSA is the single most important skill for placements at every company from TCS to Google. Spend these 3 months going deep — not just coding, but understanding WHY each structure exists and WHEN to use it.
+        </div>
+        <div class="topics-grid">
+          <div class="topic-chip"><span class="dot dot-purple"></span>Arrays & Strings</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Linked Lists (all types)</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Stacks & Queues</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Hash Maps & Hash Sets</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Binary Trees & BST</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Heaps & Priority Queue</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Graphs (BFS, DFS)</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Tries</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Sliding Window</div>
+          <div class="topic-chip"><span class="dot dot-purple"></span>Two Pointer</div>
+        </div>
+        <div class="phase-desc" style="color:#a88bfc; font-size:0.8rem;">
+          📌 Goal: 100 LeetCode problems (easy + medium). Create topic-wise notes.
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase">
+      <div class="phase-dot p2">P3</div>
+      <div class="phase-header">
+        <span class="phase-tag tag-p2">MONTHS 7–9</span>
+        <span class="phase-title">Algorithms + Web Dev Intro</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-desc">
+          Master key algorithms tested in every top-company OA (Online Assessment). Simultaneously start web development — building real projects makes your resume stand out, especially when your college provides no placement support.
+        </div>
+        <div class="topics-grid">
+          <div class="topic-chip"><span class="dot dot-orange"></span>Sorting (all types)</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Binary Search (deep)</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Dynamic Programming</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Greedy Algorithms</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Backtracking</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Graph Algorithms (Dijkstra)</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>HTML + CSS basics</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>JavaScript basics</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Build 2 web projects</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>GitHub — push daily</div>
+        </div>
+        <div class="phase-desc" style="color:#ff8f6b; font-size:0.8rem;">
+          📌 Goal: 200 total LeetCode problems. Deploy 1 project online. Start Codeforces rating.
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase">
+      <div class="phase-dot p2">P4</div>
+      <div class="phase-header">
+        <span class="phase-tag tag-p2">MONTHS 10–13</span>
+        <span class="phase-title">Full Stack Development + CS Theory</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-desc">
+          Build a full-stack project that you can showcase. Companies like Amazon and Meta care a lot about practical building. Simultaneously master the CS theory topics — OS, DBMS, and Networking are asked heavily in interviews at all levels.
+        </div>
+        <div class="topics-grid">
+          <div class="topic-chip"><span class="dot dot-orange"></span>React.js</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Node.js + Express</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>SQL & MongoDB</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>REST APIs</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Operating Systems</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>DBMS (joins, indexing)</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Computer Networks</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Git & GitHub deeply</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Deploy full-stack app</div>
+          <div class="topic-chip"><span class="dot dot-orange"></span>Build strong Resume</div>
+        </div>
+        <div class="phase-desc" style="color:#ff8f6b; font-size:0.8rem;">
+          📌 Goal: 1 complete full-stack project live. Resume ready. Apply for internships.
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 5 -->
+    <div class="phase">
+      <div class="phase-dot p3">P5</div>
+      <div class="phase-header">
+        <span class="phase-tag tag-p3">MONTHS 14–18</span>
+        <span class="phase-title">Advanced DSA + Competitive Programming</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-desc">
+          This is the phase that separates average programmers from FAANG-ready candidates. DP and graphs are the hardest but most rewarding. Aim for Codeforces rating 1400+ which signals real algorithmic thinking to recruiters.
+        </div>
+        <div class="topics-grid">
+          <div class="topic-chip"><span class="dot dot-teal"></span>DP on Trees & Graphs</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>Advanced Graph (SCC, MST)</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>Segment Trees</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>Bit Manipulation</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>Number Theory</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>LeetCode Hard problems</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>Weekly Contests</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>System Design Basics</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>Mock Interviews</div>
+          <div class="topic-chip"><span class="dot dot-teal"></span>Internship applications</div>
+        </div>
+        <div class="phase-desc" style="color:#00d4aa; font-size:0.8rem;">
+          📌 Goal: 350+ LeetCode. Codeforces 1400+. Apply to 50+ internships on LinkedIn/Unstop.
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 6 -->
+    <div class="phase">
+      <div class="phase-dot p4">P6</div>
+      <div class="phase-header">
+        <span class="phase-tag tag-p4">MONTHS 19–24</span>
+        <span class="phase-title">System Design + Interview Sprint</span>
+      </div>
+      <div class="phase-body">
+        <div class="phase-desc">
+          Final stretch. This is full interview mode — mock rounds, behavioral prep, and applying everywhere. System design is asked at senior/SDE-2 level but knowing basics differentiates you. Polish your online presence; recruiters WILL Google you.
+        </div>
+        <div class="topics-grid">
+          <div class="topic-chip"><span class="dot dot-yellow"></span>System Design (HLD/LLD)</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>STAR Method answers</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>Behavioral interview prep</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>LinkedIn optimization</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>500+ LeetCode target</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>Pramp mock interviews</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>Cold email recruiters</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>Apply to off-campus drives</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>Attend hackathons</div>
+          <div class="topic-chip"><span class="dot dot-yellow"></span>Portfolio website live</div>
+        </div>
+        <div class="phase-desc" style="color:#ffd166; font-size:0.8rem;">
+          📌 Goal: Land job/internship offer. Minimum 1 offer in hand before BCA ends.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- MONTHLY PLAN -->
+<div class="section" id="monthly">
+  <div class="section-label">// MONTH BY MONTH</div>
+  <div class="section-title">What to do Each Month</div>
+
+  <div class="monthly-grid">
+    <div class="month-card y1">
+      <div class="month-label">MONTH 1</div>
+      <div class="month-title">C++ Foundations</div>
+      <div class="month-items">
+        <div class="month-item">Master C++ syntax</div>
+        <div class="month-item">OOP: classes, objects</div>
+        <div class="month-item">30 LeetCode easy</div>
+        <div class="month-item">Setup GitHub</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 2</div>
+      <div class="month-title">STL + Recursion</div>
+      <div class="month-items">
+        <div class="month-item">STL: vector, map, set</div>
+        <div class="month-item">Recursion mastery</div>
+        <div class="month-item">Pointers & memory</div>
+        <div class="month-item">20 more LeetCode</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 3</div>
+      <div class="month-title">Big-O + Basic DS</div>
+      <div class="month-items">
+        <div class="month-item">Time complexity analysis</div>
+        <div class="month-item">Arrays & Strings</div>
+        <div class="month-item">Two-pointer technique</div>
+        <div class="month-item">Daily 2 problems</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 4</div>
+      <div class="month-title">Linked Lists + Stacks</div>
+      <div class="month-items">
+        <div class="month-item">Singly, doubly, circular</div>
+        <div class="month-item">Stack applications</div>
+        <div class="month-item">Queue & deque</div>
+        <div class="month-item">30 topic-wise problems</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 5</div>
+      <div class="month-title">Trees & Hashing</div>
+      <div class="month-items">
+        <div class="month-item">Binary trees, BST</div>
+        <div class="month-item">Tree traversals</div>
+        <div class="month-item">HashMap problems</div>
+        <div class="month-item">100 total LeetCode</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 6</div>
+      <div class="month-title">Graphs + Heaps</div>
+      <div class="month-items">
+        <div class="month-item">BFS & DFS fully</div>
+        <div class="month-item">Min/Max heap</div>
+        <div class="month-item">Graph problems 20+</div>
+        <div class="month-item">Start Codeforces</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 7</div>
+      <div class="month-title">Sorting + Binary Search</div>
+      <div class="month-items">
+        <div class="month-item">All sorting algos</div>
+        <div class="month-item">Binary search patterns</div>
+        <div class="month-item">HTML + CSS start</div>
+        <div class="month-item">150 total LeetCode</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 8</div>
+      <div class="month-title">Greedy + Backtracking</div>
+      <div class="month-items">
+        <div class="month-item">Greedy patterns</div>
+        <div class="month-item">Backtracking (N-queens)</div>
+        <div class="month-item">JavaScript basics</div>
+        <div class="month-item">1 mini web project</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 9</div>
+      <div class="month-title">DP Introduction</div>
+      <div class="month-items">
+        <div class="month-item">Memoization & tabulation</div>
+        <div class="month-item">Classic DP (knapsack)</div>
+        <div class="month-item">200 LeetCode milestone!</div>
+        <div class="month-item">Deploy project on Vercel</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 10</div>
+      <div class="month-title">React + Node.js</div>
+      <div class="month-items">
+        <div class="month-item">React components, hooks</div>
+        <div class="month-item">Node + Express REST API</div>
+        <div class="month-item">OS theory basics</div>
+        <div class="month-item">DBMS fundamentals</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 11</div>
+      <div class="month-title">Full Stack Build</div>
+      <div class="month-items">
+        <div class="month-item">Build full-stack app</div>
+        <div class="month-item">MongoDB integration</div>
+        <div class="month-item">Auth (JWT/sessions)</div>
+        <div class="month-item">Computer Networks</div>
+      </div>
+    </div>
+    <div class="month-card y1">
+      <div class="month-label">MONTH 12</div>
+      <div class="month-title">Resume + Internship Hunt</div>
+      <div class="month-items">
+        <div class="month-item">Polish resume (1 page)</div>
+        <div class="month-item">LinkedIn profile optimized</div>
+        <div class="month-item">Apply to 30 internships</div>
+        <div class="month-item">250 LeetCode total</div>
+      </div>
+    </div>
+    <div class="month-card y2">
+      <div class="month-label">MONTH 13</div>
+      <div class="month-title">Advanced DP</div>
+      <div class="month-items">
+        <div class="month-item">DP on trees & strings</div>
+        <div class="month-item">LCS, LIS patterns</div>
+        <div class="month-item">Weekly Codeforces contests</div>
+        <div class="month-item">300 LeetCode total</div>
+      </div>
+    </div>
+    <div class="month-card y2">
+      <div class="month-label">MONTH 14-15</div>
+      <div class="month-title">Advanced Graphs</div>
+      <div class="month-items">
+        <div class="month-item">Dijkstra, Bellman-Ford</div>
+        <div class="month-item">Floyd-Warshall</div>
+        <div class="month-item">Topological sort</div>
+        <div class="month-item">SCC, bridges</div>
+      </div>
+    </div>
+    <div class="month-card y2">
+      <div class="month-label">MONTH 16</div>
+      <div class="month-title">Bit Manipulation + Math</div>
+      <div class="month-items">
+        <div class="month-item">Bitwise ops mastery</div>
+        <div class="month-item">Number theory (GCD, prime)</div>
+        <div class="month-item">350+ LeetCode total</div>
+        <div class="month-item">CF rating 1200+</div>
+      </div>
+    </div>
+    <div class="month-card y2">
+      <div class="month-label">MONTH 17-18</div>
+      <div class="month-title">System Design Intro</div>
+      <div class="month-items">
+        <div class="month-item">HLD basics (URL shortener)</div>
+        <div class="month-item">LLD (parking lot, etc.)</div>
+        <div class="month-item">400 LeetCode total</div>
+        <div class="month-item">Start mock interviews</div>
+      </div>
+    </div>
+    <div class="month-card y2">
+      <div class="month-label">MONTH 19-20</div>
+      <div class="month-title">Mock + Apply Sprint</div>
+      <div class="month-items">
+        <div class="month-item">10 mock interviews (Pramp)</div>
+        <div class="month-item">Behavioral STAR answers</div>
+        <div class="month-item">Apply 100+ companies</div>
+        <div class="month-item">Hackathons / open source</div>
+      </div>
+    </div>
+    <div class="month-card y2">
+      <div class="month-label">MONTH 21-24</div>
+      <div class="month-title">Full Interview Mode</div>
+      <div class="month-items">
+        <div class="month-item">500+ LeetCode target</div>
+        <div class="month-item">Daily 1 mock interview</div>
+        <div class="month-item">Portfolio website live</div>
+        <div class="month-item">🎯 Land your offer!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- COMPANY BREAKDOWN -->
+<div class="section" id="companies">
+  <div class="section-label">// TARGET COMPANIES</div>
+  <div class="section-title">What Each Company Wants</div>
+
+  <div class="company-grid">
+    <div class="company-card card-google">
+      <div class="company-name">🔵 Google</div>
+      <div class="company-package">₹18 – 40+ LPA (SDE-1)</div>
+      <div class="company-items">
+        <div class="company-item">5–6 rounds: coding + behavioral + Googleyness</div>
+        <div class="company-item">Hardest DSA — LeetCode hard is normal</div>
+        <div class="company-item">Strong focus on problem-solving thought process</div>
+        <div class="company-item">Requires 400–500+ LeetCode problems</div>
+        <div class="company-item">Apply via Google Careers + referrals</div>
+        <div class="company-item">Participate in Google Kick Start, HashCode</div>
+      </div>
+    </div>
+
+    <div class="company-card card-amazon">
+      <div class="company-name">🟠 Amazon</div>
+      <div class="company-package">₹14 – 35 LPA (SDE-1)</div>
+      <div class="company-items">
+        <div class="company-item">Leadership Principles (LP) very important</div>
+        <div class="company-item">2 OA rounds + 3 interview rounds</div>
+        <div class="company-item">Medium DSA + system design basics</div>
+        <div class="company-item">Prepare 14 Amazon LP stories (STAR method)</div>
+        <div class="company-item">Off-campus: apply via Amazon.jobs</div>
+        <div class="company-item">Amazon Hackon and WoW contests help</div>
+      </div>
+    </div>
+
+    <div class="company-card card-meta">
+      <div class="company-name">🔷 Meta (Facebook)</div>
+      <div class="company-package">₹20 – 45 LPA (SDE-1)</div>
+      <div class="company-items">
+        <div class="company-item">Heavy on DSA — graphs & trees especially</div>
+        <div class="company-item">2 coding + 1 behavioral + system design</div>
+        <div class="company-item">Speed and accuracy matter a lot here</div>
+        <div class="company-item">Apply via Meta Careers website</div>
+        <div class="company-item">Open source contributions help resume</div>
+        <div class="company-item">Referrals massively boost selection chances</div>
+      </div>
+    </div>
+
+    <div class="company-card card-tcs">
+      <div class="company-name">🔵 TCS</div>
+      <div class="company-package">₹3.5 – 9 LPA (Digital/Prime/Ninja)</div>
+      <div class="company-items">
+        <div class="company-item">TCS NQT exam is the main entry gate</div>
+        <div class="company-item">Numerical ability + reasoning + coding</div>
+        <div class="company-item">TCS Digital: focus on advanced coding</div>
+        <div class="company-item">Register on NextStep portal</div>
+        <div class="company-item">Easiest MAANG-level to crack</div>
+        <div class="company-item">Good stepping stone with guaranteed growth</div>
+      </div>
+    </div>
+
+    <div class="company-card card-wipro">
+      <div class="company-name">🟣 Wipro</div>
+      <div class="company-package">₹3.5 – 6.5 LPA (Elite/Turbo)</div>
+      <div class="company-items">
+        <div class="company-item">WILP & NLTH programs for freshers</div>
+        <div class="company-item">Aptitude + technical + HR rounds</div>
+        <div class="company-item">Wipro Elite NTH: focuses on coding skills</div>
+        <div class="company-item">Register via careers.wipro.com</div>
+        <div class="company-item">Good work-life balance + training programs</div>
+        <div class="company-item">Apply for Wipro TechGig contests too</div>
+      </div>
+    </div>
+
+    <div class="company-card" style="border-top: 3px solid var(--accent2);">
+      <div class="company-name">⚡ Other Targets</div>
+      <div class="company-package">₹6 – 20 LPA range</div>
+      <div class="company-items">
+        <div class="company-item">Infosys: InfyTQ certification + campus</div>
+        <div class="company-item">Flipkart: strong DSA, 3 rounds</div>
+        <div class="company-item">Zoho: hard coding test, no degree bias</div>
+        <div class="company-item">Atlassian, Adobe, Qualcomm: referrals</div>
+        <div class="company-item">Startups via AngelList, Wellfound, Cutshort</div>
+        <div class="company-item">Internships: Internshala, LinkedIn, Unstop</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- SALARY TABLE -->
+<div class="section" id="salaries">
+  <div class="section-label">// PACKAGE BREAKDOWN</div>
+  <div class="section-title">Expected Packages (2024–25)</div>
+
+  <div class="table-wrap">
+    <table class="salary-table">
+      <thead>
+        <tr>
+          <th>Company</th>
+          <th>Tier</th>
+          <th>Role</th>
+          <th>Avg Package</th>
+          <th>Top Package</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="company-col">Google India</td>
+          <td><span class="badge-tier tier-faang">FAANG</span></td>
+          <td>SDE-1</td>
+          <td class="salary-high">₹28–40 LPA</td>
+          <td class="salary-high">₹60+ LPA</td>
+        </tr>
+        <tr>
+          <td class="company-col">Meta India</td>
+          <td><span class="badge-tier tier-faang">FAANG</span></td>
+          <td>SDE-1</td>
+          <td class="salary-high">₹25–45 LPA</td>
+          <td class="salary-high">₹70+ LPA</td>
+        </tr>
+        <tr>
+          <td class="company-col">Amazon India</td>
+          <td><span class="badge-tier tier-faang">FAANG</span></td>
+          <td>SDE-1</td>
+          <td class="salary-high">₹14–35 LPA</td>
+          <td class="salary-high">₹45 LPA</td>
+        </tr>
+        <tr>
+          <td class="company-col">Flipkart</td>
+          <td><span class="badge-tier tier-mid">MID</span></td>
+          <td>SDE-1</td>
+          <td class="salary-mid">₹15–25 LPA</td>
+          <td class="salary-mid">₹35 LPA</td>
+        </tr>
+        <tr>
+          <td class="company-col">Zoho</td>
+          <td><span class="badge-tier tier-mid">MID</span></td>
+          <td>Software Dev</td>
+          <td class="salary-mid">₹8–12 LPA</td>
+          <td class="salary-mid">₹15 LPA</td>
+        </tr>
+        <tr>
+          <td class="company-col">TCS Digital</td>
+          <td><span class="badge-tier tier-mass">MASS</span></td>
+          <td>Digital</td>
+          <td class="salary-low">₹7–9 LPA</td>
+          <td class="salary-low">₹9 LPA</td>
+        </tr>
+        <tr>
+          <td class="company-col">TCS Ninja</td>
+          <td><span class="badge-tier tier-mass">MASS</span></td>
+          <td>Associate</td>
+          <td class="salary-low">₹3.5 LPA</td>
+          <td class="salary-low">₹4 LPA</td>
+        </tr>
+        <tr>
+          <td class="company-col">Wipro Elite</td>
+          <td><span class="badge-tier tier-mass">MASS</span></td>
+          <td>Project Eng.</td>
+          <td class="salary-low">₹4.5–6.5 LPA</td>
+          <td class="salary-low">₹7 LPA</td>
+        </tr>
+        <tr>
+          <td class="company-col">Infosys</td>
+          <td><span class="badge-tier tier-mass">MASS</span></td>
+          <td>SE</td>
+          <td class="salary-low">₹3.5–5 LPA</td>
+          <td class="salary-low">₹6.5 LPA</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- RESOURCES -->
+<div class="section" id="resources">
+  <div class="section-label">// RESOURCES</div>
+  <div class="section-title">Best Free & Paid Resources</div>
+
+  <div class="resources">
+    <div class="resource-card">
+      <h4>
+        <div class="resource-icon" style="background:rgba(255,107,53,0.15); color:var(--accent1);">💻</div>
+        DSA Practice
+      </h4>
+      <div class="resource-list">
+        <div class="resource-item r-free">LeetCode — primary platform</div>
+        <div class="resource-item r-free">Codeforces — contests</div>
+        <div class="resource-item r-free">GeeksForGeeks — theory</div>
+        <div class="resource-item r-free">HackerRank — company OA</div>
+        <div class="resource-item r-free">CSES Problem Set — classic</div>
+      </div>
+    </div>
+
+    <div class="resource-card">
+      <h4>
+        <div class="resource-icon" style="background:rgba(124,92,252,0.15); color:var(--accent3);">📚</div>
+        DSA Courses
+      </h4>
+      <div class="resource-list">
+        <div class="resource-item r-free">Striver's A2Z DSA Sheet (free)</div>
+        <div class="resource-item r-free">Abdul Bari's Algorithms (YouTube)</div>
+        <div class="resource-item r-free">WilliamFiset (YouTube graphs)</div>
+        <div class="resource-item r-paid">Pepcoding / Apna College (paid)</div>
+        <div class="resource-item r-paid">LeetCode Premium (optional)</div>
+      </div>
+    </div>
+
+    <div class="resource-card">
+      <h4>
+        <div class="resource-icon" style="background:rgba(0,212,170,0.12); color:var(--accent2);">🌐</div>
+        Web Development
+      </h4>
+      <div class="resource-list">
+        <div class="resource-item r-free">The Odin Project (free, best)</div>
+        <div class="resource-item r-free">freeCodeCamp.org</div>
+        <div class="resource-item r-free">CS50 by Harvard (free)</div>
+        <div class="resource-item r-paid">Namaste React (by Akshay Saini)</div>
+        <div class="resource-item r-paid">Chai aur Code (Hindi, YouTube)</div>
+      </div>
+    </div>
+
+    <div class="resource-card">
+      <h4>
+        <div class="resource-icon" style="background:rgba(255,209,102,0.12); color:var(--accent4);">🎯</div>
+        Interview Prep
+      </h4>
+      <div class="resource-list">
+        <div class="resource-item r-free">Pramp.com — free mock interviews</div>
+        <div class="resource-item r-free">Interviewing.io (free tier)</div>
+        <div class="resource-item r-free">Neetcode.io — patterns explained</div>
+        <div class="resource-item r-paid">AlgoExpert (coding patterns)</div>
+        <div class="resource-item r-paid">System Design Interview (book)</div>
+      </div>
+    </div>
+
+    <div class="resource-card">
+      <h4>
+        <div class="resource-icon" style="background:rgba(255,107,53,0.12); color:var(--accent1);">🔧</div>
+        CS Theory
+      </h4>
+      <div class="resource-list">
+        <div class="resource-item r-free">Neso Academy (OS, DBMS, CN)</div>
+        <div class="resource-item r-free">Gate Smashers (YouTube, Hindi)</div>
+        <div class="resource-item r-free">InterviewBit — CS fundamentals</div>
+        <div class="resource-item r-free">Operating Systems by Galvin (book)</div>
+        <div class="resource-item r-free">Arpit Bhayani (system design)</div>
+      </div>
+    </div>
+
+    <div class="resource-card">
+      <h4>
+        <div class="resource-icon" style="background:rgba(124,92,252,0.12); color:var(--accent3);">🚀</div>
+        Job Portals
+      </h4>
+      <div class="resource-list">
+        <div class="resource-item r-free">LinkedIn — must have</div>
+        <div class="resource-item r-free">Unstop.com — competitions</div>
+        <div class="resource-item r-free">Internshala — internships</div>
+        <div class="resource-item r-free">Cutshort.io — startup jobs</div>
+        <div class="resource-item r-free">AngelList / Wellfound — startups</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- CHECKLIST -->
+<div class="section" id="checklist">
+  <div class="section-label">// TRACK YOUR PROGRESS</div>
+  <div class="section-title">Year-by-Year Checklist</div>
+
+  <div style="display: grid; gap: 16px;">
+    <div class="checklist-wrapper">
+      <div class="checklist-header">
+        <span style="color:var(--accent3);">■</span>
+        Year 1 — Foundation Milestones
+      </div>
+      <div class="checklist-items" id="list1">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Completed C++ syntax and all OOP concepts</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Solved 100 LeetCode problems (all easy)</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Mastered Arrays, Linked Lists, Stacks, Queues</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Mastered Trees, Graphs, and Hashing</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Solved 200 LeetCode problems total</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Built and deployed 1 full web project</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Created GitHub profile with 100+ commits</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Completed OS, DBMS, and CN basics</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Created LinkedIn profile + resume</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Applied to at least 30 internships</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist-wrapper">
+      <div class="checklist-header">
+        <span style="color:var(--accent1);">■</span>
+        Year 2 — Advanced Milestones
+      </div>
+      <div class="checklist-items" id="list2">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Mastered Dynamic Programming (all patterns)</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Solved 350 LeetCode problems total</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Codeforces rating crossed 1200</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Built 2+ full-stack projects (live links)</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Done 10+ mock interviews on Pramp</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Learned System Design basics (HLD/LLD)</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Solved 500 LeetCode problems total</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Applied to 100+ companies (track spreadsheet)</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>Participated in at least 2 hackathons</span>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box">✓</div>
+          <span>🎉 Received at least 1 job/internship offer!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sep"></div>
+
+<!-- TIPS -->
+<div class="section">
+  <div class="section-label">// PRO TIPS</div>
+  <div class="section-title">Golden Rules for No-Placement College Students</div>
+
+  <div class="tips-band">
+    <div class="tip">
+      <div class="tip-num">01</div>
+      <div class="tip-text"><strong>Self-placement IS possible.</strong> Most top engineers at Google and Amazon from India got in off-campus. Your college's placement cell does not define your ceiling — your daily effort does.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-num">02</div>
+      <div class="tip-text"><strong>LinkedIn is your placement cell.</strong> Optimize your profile with a headline like "BCA Student | C++ | DSA | React | Open to SDE roles". Connect with 500+ people. Message recruiters directly — it works more than you think.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-num">03</div>
+      <div class="tip-text"><strong>Consistency beats intensity.</strong> Solving 3 problems a day for 2 years (2,190 problems) is infinitely better than grinding 30 problems for one week then burning out. Show up every single day.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-num">04</div>
+      <div class="tip-text"><strong>Don't skip internships.</strong> Even a 2-month unpaid internship at a startup makes your resume 10x better. It shows real-world experience and companies ask about it in every interview.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-num">05</div>
+      <div class="tip-text"><strong>BCA degree is not a barrier.</strong> Companies like Zoho, Amazon, and many startups explicitly hire BCA graduates. Skills matter more than degree tier — prove it with your GitHub, LeetCode rating, and live projects.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-num">06</div>
+      <div class="tip-text"><strong>Participate in online contests.</strong> Unstop, HackerEarth, CodeChef, and company-specific hackathons (Amazon Hackathon, Flipkart Grid, etc.) directly lead to interviews and PPOs. These are <strong>golden shortcuts</strong>.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-num">07</div>
+      <div class="tip-text"><strong>Track everything in a spreadsheet.</strong> Track companies applied, OA given, interviews cleared, offers received. Job hunting is a numbers game — apply to 100+ places. A 5% conversion is great and gives you 5 offers.</div>
+    </div>
+    <div class="tip">
+      <div class="tip-num">08</div>
+      <div class="tip-text"><strong>Build in public.</strong> Post your projects, learning journey, and LeetCode milestones on LinkedIn. Recruiters follow and reach out. Multiple students have gotten cold interview calls just from posting "I solved 100 LeetCode problems today."</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-motto">You don't need a fancy college.<br>You need a plan and relentless execution.</div>
+  <p>Built for BCA students who refuse to let their college define their career.</p>
+  <p style="margin-top:8px; color:rgba(122,122,154,0.5);">Save this page. Open it every morning. Execute.</p>
+</div>
+
+<script>
+  function toggle(el) {
+    el.classList.toggle('done');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const all = document.querySelectorAll('.check-item');
+    const done = document.querySelectorAll('.check-item.done');
+    const pct = Math.round((done.length / all.length) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-text').textContent = pct + '% Complete';
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organizational Behaviour — Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #15151a;
+    --surface2: #1e1e26;
+    --border: #2a2a36;
+    --accent: #f0a500;
+    --accent2: #e05c5c;
+    --accent3: #5cc8e0;
+    --accent4: #7c5ce0;
+    --accent5: #5ce08a;
+    --text: #e8e8f0;
+    --text-muted: #888899;
+    --text-dim: #555568;
+    --radius: 16px;
+    --unit: 1rem;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1.5rem 3rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, #2a1a00 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 80% 80%, #1a0022 0%, transparent 60%),
+                radial-gradient(ellipse 40% 30% at 10% 60%, #001a2a 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(240,165,0,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(240,165,0,.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(240,165,0,.12);
+    border: 1px solid rgba(240,165,0,.3);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: .35rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp .6s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    animation: fadeUp .7s .1s ease both;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 1.2rem;
+    color: var(--text-muted);
+    font-size: clamp(.9rem, 2.5vw, 1.1rem);
+    max-width: 560px;
+    animation: fadeUp .7s .2s ease both;
+  }
+
+  .unit-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: center;
+    margin-top: 2rem;
+    animation: fadeUp .7s .3s ease both;
+  }
+
+  .unit-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: .75rem;
+    font-weight: 500;
+    padding: .3rem .75rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+  }
+
+  .unit-pill:hover {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    color: var(--text-dim);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    animation: fadeUp .7s .5s ease both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(var(--accent), transparent);
+    animation: scrollPulse 1.8s ease-in-out infinite;
+  }
+
+  /* ── TOC SIDEBAR ── */
+  .layout {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+
+  .toc {
+    position: sticky;
+    top: 1.5rem;
+    flex: 0 0 230px;
+    align-self: flex-start;
+    display: none;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+  }
+
+  @media(min-width: 1024px) { .toc { display: block; } }
+
+  .toc-title {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+  }
+
+  .toc a {
+    display: block;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: .78rem;
+    padding: .3rem .5rem;
+    border-radius: 6px;
+    transition: all .2s;
+    border-left: 2px solid transparent;
+  }
+
+  .toc a:hover, .toc a.active {
+    color: var(--accent);
+    background: rgba(240,165,0,.07);
+    border-left-color: var(--accent);
+  }
+
+  .toc-unit {
+    font-weight: 600;
+    color: var(--text);
+    font-size: .8rem;
+    margin-top: .8rem;
+    margin-bottom: .2rem;
+    padding: .3rem .5rem;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { flex: 1; min-width: 0; padding-bottom: 6rem; }
+
+  /* ── UNIT SECTION ── */
+  .unit-section {
+    margin-top: 4rem;
+    scroll-margin-top: 2rem;
+  }
+
+  .unit-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .unit-num {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    font-weight: 500;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: .25rem .7rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .unit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    margin-bottom: 1.5rem;
+    scroll-margin-top: 2rem;
+    transition: border-color .3s;
+  }
+
+  .card:hover { border-color: var(--text-dim); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: .8rem;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+
+  .card-title .icon {
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .card p { color: var(--text-muted); margin-bottom: .9rem; }
+  .card p:last-child { margin-bottom: 0; }
+  .card strong { color: var(--text); }
+
+  /* ── DEFINITION BOX ── */
+  .def-box {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    font-size: .9rem;
+    color: var(--text);
+  }
+
+  .def-box cite {
+    display: block;
+    color: var(--text-dim);
+    font-style: normal;
+    font-size: .75rem;
+    margin-top: .4rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── KEY POINTS GRID ── */
+  .kp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: .8rem;
+    margin: 1.2rem 0;
+  }
+
+  .kp-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .9rem 1rem;
+    font-size: .85rem;
+  }
+
+  .kp-item strong {
+    display: block;
+    color: var(--accent);
+    font-size: .72rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: .3rem;
+  }
+
+  /* ── VISUAL: PYRAMID ── */
+  .pyramid-wrap {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+
+  .pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 1rem 0;
+  }
+
+  .pyramid-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    height: 52px;
+    font-size: .82rem;
+    font-weight: 600;
+    color: #000;
+    transition: transform .2s;
+    cursor: default;
+  }
+
+  .pyramid-level:hover { transform: scaleX(1.03); }
+
+  /* ── VISUAL: FLOW ── */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+    margin: 1.2rem 0;
+  }
+
+  .flow-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .5rem 1rem;
+    font-size: .82rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .flow-arrow {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  /* ── VISUAL: MATRIX ── */
+  .matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .8rem;
+    margin: 1.2rem 0;
+  }
+
+  .matrix-cell {
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: .85rem;
+  }
+
+  .matrix-cell strong {
+    display: block;
+    font-size: .9rem;
+    margin-bottom: .3rem;
+  }
+
+  /* ── VISUAL: TABLE ── */
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .82rem;
+    margin: 1.2rem 0;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .styled-table th {
+    background: var(--surface2);
+    color: var(--accent);
+    padding: .6rem .9rem;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .styled-table td {
+    padding: .55rem .9rem;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+
+  .styled-table tr:hover td { background: var(--surface2); color: var(--text); }
+
+  /* ── VISUAL: TAG CLOUD ── */
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: 1rem 0;
+  }
+
+  .tag {
+    font-size: .78rem;
+    padding: .25rem .75rem;
+    border-radius: 50px;
+    font-weight: 500;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline { margin: 1.2rem 0; }
+
+  .tl-item {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1.2rem;
+    position: relative;
+  }
+
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: 18px;
+    top: 32px;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .tl-item:last-child::before { display: none; }
+
+  .tl-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .tl-body strong {
+    display: block;
+    color: var(--text);
+    font-size: .9rem;
+    margin-bottom: .2rem;
+  }
+
+  .tl-body p {
+    font-size: .82rem;
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  /* ── STAT CARDS ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: .8rem;
+    margin: 1.2rem 0;
+  }
+
+  .stat-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: .72rem;
+    color: var(--text-muted);
+    margin-top: .3rem;
+  }
+
+  /* ── BIG FIVE VISUAL ── */
+  .big5 {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    margin: 1.2rem 0;
+  }
+
+  .big5-row {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+  }
+
+  .big5-label {
+    font-size: .8rem;
+    font-weight: 600;
+    width: 150px;
+    flex-shrink: 0;
+    color: var(--text);
+  }
+
+  .big5-bar-wrap {
+    flex: 1;
+    background: var(--surface2);
+    border-radius: 50px;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  .big5-bar {
+    height: 100%;
+    border-radius: 50px;
+    animation: growBar .8s ease both;
+  }
+
+  /* ── STRESS DIAGRAM ── */
+  .stress-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: .8rem;
+    margin: 1.2rem 0;
+  }
+
+  .stress-card {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1rem;
+    border-top: 3px solid;
+  }
+
+  .stress-card strong {
+    display: block;
+    font-size: .85rem;
+    margin-bottom: .4rem;
+  }
+
+  .stress-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .stress-card ul li {
+    font-size: .78rem;
+    color: var(--text-muted);
+    padding: .15rem 0;
+    padding-left: .8rem;
+    position: relative;
+  }
+
+  .stress-card ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--text-dim);
+  }
+
+  /* ── CONFLICT PROCESS ── */
+  .conflict-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: .6rem;
+    margin: 1.2rem 0;
+  }
+
+  .cf-step {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: .8rem;
+    text-align: center;
+    font-size: .8rem;
+    font-weight: 600;
+    position: relative;
+    border-top: 2px solid;
+  }
+
+  .cf-step small {
+    display: block;
+    font-weight: 400;
+    font-size: .72rem;
+    color: var(--text-muted);
+    margin-top: .2rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%,100% { opacity: .4; transform: scaleY(1); }
+    50%      { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  @keyframes growBar {
+    from { width: 0 !important; }
+  }
+
+
+  /* ── FADE-IN SAFE (always visible) ── */
+  .fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .fade-in.anim { opacity: 0 !important; transform: translateY(20px) !important; }
+  .fade-in.anim.visible { opacity: 1 !important; transform: none !important; }
+
+  /* ── TABLE SCROLL WRAPPER ── */
+  .tbl-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.2rem 0;
+  }
+  .tbl-wrap .styled-table {
+    margin: 0;
+    min-width: 520px;
+    width: 100%;
+    display: table;
+  }
+
+  /* ── MOBILE TOP BAR ── */
+  .mob-bar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 900;
+    height: 52px;
+    background: #0d0d0f;
+    border-bottom: 1px solid #2a2a36;
+    padding: 0 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .mob-bar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: .95rem; font-weight: 700; color: #e8e8f0;
+  }
+  .mob-bar-title em { color: #f0a500; font-style: italic; }
+  .mob-ham {
+    background: #1e1e26; border: 1px solid #2a2a36; color: #e8e8f0;
+    width: 40px; height: 40px; border-radius: 8px; font-size: 1.2rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ── MOBILE OVERLAY ── */
+  .mob-overlay {
+    visibility: hidden; opacity: 0;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,.75);
+    z-index: 950;
+    transition: opacity .25s ease, visibility .25s ease;
+  }
+  .mob-overlay.open { visibility: visible; opacity: 1; }
+
+  /* ── MOBILE DRAWER ── */
+  .mob-drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 270px; max-width: 82vw;
+    background: #15151a;
+    border-left: 1px solid #2a2a36;
+    overflow-y: auto; overflow-x: hidden;
+    z-index: 960;
+    padding: 1rem;
+    transform: translateX(100%);
+    transition: transform .28s ease;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mob-drawer.open { transform: translateX(0); }
+  .mob-drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem; padding-bottom: .8rem; border-bottom: 1px solid #2a2a36;
+  }
+  .mob-drawer-head span {
+    font-family: 'DM Mono', monospace; font-size: .65rem;
+    text-transform: uppercase; letter-spacing: .12em; color: #555568;
+  }
+  .mob-close {
+    background: #1e1e26; border: 1px solid #2a2a36; color: #e8e8f0;
+    width: 32px; height: 32px; border-radius: 6px; font-size: .95rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mob-drawer .d-unit {
+    font-weight: 600; color: #e8e8f0; font-size: .8rem;
+    margin-top: .9rem; margin-bottom: .2rem; padding: .2rem .4rem;
+  }
+  .mob-drawer a {
+    display: block; color: #888899; text-decoration: none;
+    font-size: .82rem; padding: .4rem .5rem; border-radius: 6px;
+    border-left: 2px solid transparent;
+  }
+  .mob-drawer a:active { background: rgba(240,165,0,.1); color: #f0a500; border-left-color: #f0a500; }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 768px) {
+    body { font-size: 14px; }
+    .mob-bar { display: flex; }
+    .toc { display: none !important; }
+    .hero { padding-top: 5.5rem; min-height: auto; }
+    .layout { padding: 0 .6rem; }
+    .card { padding: .9rem; margin-bottom: .9rem; border-radius: 12px; }
+    .card-title { font-size: 1rem; }
+    .unit-section { margin-top: 2rem; }
+    .unit-header { flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+    .matrix { grid-template-columns: 1fr; }
+    .kp-grid { grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .stress-grid { grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .stat-row { grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .conflict-flow { grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .flow { flex-direction: column; align-items: stretch; gap: .3rem; }
+    .flow-step { white-space: normal; text-align: center; }
+    .flow-arrow { transform: rotate(90deg); align-self: center; }
+    .big5-label { width: 100px; font-size: .7rem; }
+    .unit-pill { font-size: .68rem; padding: .25rem .6rem; }
+    .pyramid-level { font-size: .7rem; height: 42px; }
+    .def-box { font-size: .84rem; padding: .8rem .9rem; }
+  }
+  @media (max-width: 400px) {
+    .kp-grid { grid-template-columns: 1fr; }
+    .stress-grid { grid-template-columns: 1fr; }
+    .conflict-flow { grid-template-columns: 1fr; }
+    .big5-label { width: 82px; font-size: .63rem; }
+  }
+
+  /* ── UNIT COLORS ── */
+  .u1 .unit-num { background: rgba(240,165,0,.15); color: var(--accent); }
+  .u2 .unit-num { background: rgba(92,200,224,.15); color: var(--accent3); }
+  .u3 .unit-num { background: rgba(124,92,224,.15); color: var(--accent4); }
+  .u4 .unit-num { background: rgba(224,92,92,.15); color: var(--accent2); }
+  .u5 .unit-num { background: rgba(92,224,138,.15); color: var(--accent5); }
+  .u6 .unit-num { background: rgba(224,165,92,.15); color: #e0a55c; }
+
+  .u1 .unit-title { color: var(--accent); }
+  .u2 .unit-title { color: var(--accent3); }
+  .u3 .unit-title { color: var(--accent4); }
+  .u4 .unit-title { color: var(--accent2); }
+  .u5 .unit-title { color: var(--accent5); }
+  .u6 .unit-title { color: #e0a55c; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- MOBILE TOP BAR -->
+<div class="mob-bar" id="mobBar">
+  <div class="mob-bar-title">OB <em>Guide</em></div>
+  <button class="mob-ham" id="mobHam">&#9776;</button>
+</div>
+
+<!-- OVERLAY -->
+<div class="mob-overlay" id="mobOverlay"></div>
+
+<!-- DRAWER -->
+<nav class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-head">
+    <span>Contents</span>
+    <button class="mob-close" id="mobClose">&#10005;</button>
+  </div>
+  <div class="d-unit">Unit I</div>
+  <a href="#ob-def">Definition &amp; Goals</a>
+  <a href="#ob-concepts">Fundamental Concepts</a>
+  <a href="#ob-models">Models of OB</a>
+  <a href="#ob-emerging">Emerging Aspects</a>
+  <div class="d-unit">Unit II</div>
+  <a href="#perception">Perception</a>
+  <a href="#attitude">Attitude &amp; Values</a>
+  <a href="#motivation">Motivation</a>
+  <a href="#theories-mot">Theories of Motivation</a>
+  <div class="d-unit">Unit III</div>
+  <a href="#personality">Personality Definition</a>
+  <a href="#personality-theories">Trait &amp; Type Theories</a>
+  <a href="#big5">Big Five Traits</a>
+  <a href="#mbti">MBTI &amp; Locus</a>
+  <div class="d-unit">Unit IV</div>
+  <a href="#stress-def">Stress Definition</a>
+  <a href="#stressors">Stressors</a>
+  <a href="#stress-mgmt">Stress Management</a>
+  <a href="#counselling">Employee Counselling</a>
+  <div class="d-unit">Unit V</div>
+  <a href="#groups">Groups &amp; Teams</a>
+  <a href="#team-building">Team Building</a>
+  <a href="#leadership">Leadership</a>
+  <div class="d-unit">Unit VI</div>
+  <a href="#conflict-nature">Nature of Conflict</a>
+  <a href="#conflict-levels">Levels of Conflict</a>
+  <a href="#conflict-res">Conflict Resolution</a>
+  <a href="#grievances">Grievances</a>
+</nav>
+
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge">Complete Study Guide</div>
+  <h1>Organizational<br><em>Behaviour</em></h1>
+  <p class="hero-sub">A comprehensive, visual reference covering all six units — from fundamental concepts to conflict resolution.</p>
+  <div class="unit-pills">
+    <a class="unit-pill" href="#unit1">Unit I · Fundamentals</a>
+    <a class="unit-pill" href="#unit2">Unit II · Perception & Motivation</a>
+    <a class="unit-pill" href="#unit3">Unit III · Personality</a>
+    <a class="unit-pill" href="#unit4">Unit IV · Work Stress</a>
+    <a class="unit-pill" href="#unit5">Unit V · Groups & Leadership</a>
+    <a class="unit-pill" href="#unit6">Unit VI · Conflict</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    scroll to explore
+  </div>
+</section>
+
+<!-- ══════════════ LAYOUT ══════════════ -->
+<div class="layout">
+
+  <!-- TOC -->
+  <nav class="toc" id="toc">
+    <div class="toc-title">Contents</div>
+    <div class="toc-unit">Unit I</div>
+    <a href="#ob-def">Definition & Goals</a>
+    <a href="#ob-concepts">Fundamental Concepts</a>
+    <a href="#ob-models">Models of OB</a>
+    <a href="#ob-emerging">Emerging Aspects</a>
+    <div class="toc-unit">Unit II</div>
+    <a href="#perception">Perception</a>
+    <a href="#attitude">Attitude & Values</a>
+    <a href="#motivation">Motivation</a>
+    <a href="#theories-mot">Theories of Motivation</a>
+    <div class="toc-unit">Unit III</div>
+    <a href="#personality">Personality Definition</a>
+    <a href="#personality-theories">Trait & Type Theories</a>
+    <a href="#big5">Big Five Traits</a>
+    <a href="#mbti">MBTI & Locus</a>
+    <div class="toc-unit">Unit IV</div>
+    <a href="#stress-def">Stress Definition</a>
+    <a href="#stressors">Stressors</a>
+    <a href="#stress-mgmt">Stress Management</a>
+    <a href="#counselling">Employee Counselling</a>
+    <div class="toc-unit">Unit V</div>
+    <a href="#groups">Groups & Teams</a>
+    <a href="#team-building">Team Building</a>
+    <a href="#leadership">Leadership</a>
+    <div class="toc-unit">Unit VI</div>
+    <a href="#conflict-nature">Nature of Conflict</a>
+    <a href="#conflict-levels">Levels of Conflict</a>
+    <a href="#conflict-res">Conflict Resolution</a>
+    <a href="#grievances">Grievances</a>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ═══════ UNIT I ═══════ -->
+    <section class="unit-section u1" id="unit1">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit I</div>
+        <h2 class="unit-title">Fundamentals of Organizational Behaviour</h2>
+      </div>
+
+      <!-- Definition -->
+      <div class="card fade-in" id="ob-def">
+        <div class="card-title"><span class="icon">📖</span> Definition, Nature & Goals of OB</div>
+        <div class="def-box">
+          Organizational Behaviour (OB) is the <strong>systematic study and application of knowledge</strong> about how individuals and groups act within the organizations where they work.
+          <cite>— Stephen P. Robbins</cite>
+        </div>
+        <p>OB integrates knowledge from <strong>psychology, sociology, anthropology, political science, and economics</strong> to understand behaviour in workplace settings.</p>
+
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Nature</strong>An interdisciplinary applied science; empirical and goal-oriented.</div>
+          <div class="kp-item"><strong>Scope</strong>Individual, group, and organizational-level behaviour.</div>
+          <div class="kp-item"><strong>Goal 1</strong>Describe human behaviour at work accurately.</div>
+          <div class="kp-item"><strong>Goal 2</strong>Understand why behaviour occurs.</div>
+          <div class="kp-item"><strong>Goal 3</strong>Predict future behaviour patterns.</div>
+          <div class="kp-item"><strong>Goal 4</strong>Control and manage behaviour to improve performance.</div>
+        </div>
+
+        <div class="tag-cloud">
+          <span class="tag" style="background:rgba(240,165,0,.15);color:var(--accent)">Interdisciplinary</span>
+          <span class="tag" style="background:rgba(92,200,224,.15);color:var(--accent3)">Applied Science</span>
+          <span class="tag" style="background:rgba(124,92,224,.15);color:var(--accent4)">Goal-Oriented</span>
+          <span class="tag" style="background:rgba(92,224,138,.15);color:var(--accent5)">Humanistic</span>
+          <span class="tag" style="background:rgba(224,92,92,.15);color:var(--accent2)">Empirical</span>
+        </div>
+      </div>
+
+      <!-- Fundamental Concepts -->
+      <div class="card fade-in" id="ob-concepts">
+        <div class="card-title"><span class="icon">🧱</span> Fundamental Concepts of OB</div>
+        <p>OB rests on a foundation of <strong>six key concepts</strong> that shape our understanding of workplace behaviour.</p>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot" style="background:rgba(240,165,0,.2);color:var(--accent)">1</div>
+            <div class="tl-body"><strong>Individual Differences</strong><p>Every person is unique. OB respects this through a personalized approach to management rather than one-size-fits-all rules.</p></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:rgba(92,200,224,.2);color:var(--accent3)">2</div>
+            <div class="tl-body"><strong>A Whole Person</strong><p>Employees bring their whole self to work — skills, personal life, emotions, family background — all of which affect performance.</p></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:rgba(124,92,224,.2);color:var(--accent4)">3</div>
+            <div class="tl-body"><strong>Motivated Behaviour</strong><p>People are motivated by needs. OB helps managers understand these needs to channel behaviour toward organizational goals.</p></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:rgba(92,224,138,.2);color:var(--accent5)">4</div>
+            <div class="tl-body"><strong>Value of the Person (Human Dignity)</strong><p>People deserve to be treated with respect and dignity — not merely as tools for achieving organizational ends.</p></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:rgba(224,92,92,.2);color:var(--accent2)">5</div>
+            <div class="tl-body"><strong>Organizations as Social Systems</strong><p>Organizations function as social systems governed by both formal rules and informal norms. Relationships are dynamic and interdependent.</p></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot" style="background:rgba(224,165,92,.2);color:#e0a55c">6</div>
+            <div class="tl-body"><strong>Mutuality of Interest</strong><p>Organizations need people; people need organizations. Healthy OB builds symbiotic relationships between both parties.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Models -->
+      <div class="card fade-in" id="ob-models">
+        <div class="card-title"><span class="icon">🏛️</span> Models of Organizational Behaviour</div>
+        <p>Keith Davis identified <strong>four major OB models</strong>, each reflecting a different managerial philosophy and era:</p>
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead>
+            <tr><th>Model</th><th>Basis</th><th>Managerial Orientation</th><th>Employee Orientation</th><th>Outcome</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Autocratic</strong></td><td>Power & Authority</td><td>Authority</td><td>Obedience</td><td>Minimum performance</td></tr>
+            <tr><td><strong>Custodial</strong></td><td>Economic resources</td><td>Money</td><td>Security & Benefits</td><td>Passive cooperation</td></tr>
+            <tr><td><strong>Supportive</strong></td><td>Leadership</td><td>Support</td><td>Job performance</td><td>Awakened drives</td></tr>
+            <tr><td><strong>Collegial</strong></td><td>Partnership</td><td>Teamwork</td><td>Responsible behavior</td><td>Moderate enthusiasm</td></tr>
+          </tbody>
+        </table></div>
+        <div class="def-box" style="border-color:var(--accent3)">
+          <strong>System Model (5th)</strong>: The latest model emphasizes employee self-motivation, meaning, and organizational citizenship. Managers serve as coaches; employees experience self-actualization and organizational commitment.
+        </div>
+      </div>
+
+      <!-- Emerging Aspects -->
+      <div class="card fade-in" id="ob-emerging">
+        <div class="card-title"><span class="icon">🌍</span> Emerging Aspects: Cultural Diversity & Perception</div>
+        <p><strong>Cultural Diversity</strong> in OB refers to the variety of human societies, cultures, ethnic groups, and identities present in an organization.</p>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(240,165,0,.08);border:1px solid rgba(240,165,0,.2)">
+            <strong style="color:var(--accent)">Surface-Level Diversity</strong>
+            Age, gender, race/ethnicity, physical ability — observable characteristics.
+          </div>
+          <div class="matrix-cell" style="background:rgba(92,200,224,.08);border:1px solid rgba(92,200,224,.2)">
+            <strong style="color:var(--accent3)">Deep-Level Diversity</strong>
+            Personality, values, beliefs, attitudes — less visible but more impactful.
+          </div>
+          <div class="matrix-cell" style="background:rgba(124,92,224,.08);border:1px solid rgba(124,92,224,.2)">
+            <strong style="color:var(--accent4)">Benefits of Diversity</strong>
+            Broader perspectives, creativity, better problem-solving, wider talent pool.
+          </div>
+          <div class="matrix-cell" style="background:rgba(92,224,138,.08);border:1px solid rgba(92,224,138,.2)">
+            <strong style="color:var(--accent5)">Managing Diversity</strong>
+            Inclusive leadership, cultural sensitivity training, equitable policies.
+          </div>
+        </div>
+        <p><strong>Managing the Perception Process</strong> involves being aware of perceptual biases (stereotyping, halo effect, selective perception) and actively working to make fair, objective judgments about people and situations in the workplace.</p>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT II ═══════ -->
+    <section class="unit-section u2" id="unit2">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit II</div>
+        <h2 class="unit-title">Perception, Attitude, Values & Motivation</h2>
+      </div>
+
+      <!-- Perception -->
+      <div class="card fade-in" id="perception">
+        <div class="card-title"><span class="icon">👁️</span> Perception: Concept, Nature & Process</div>
+        <div class="def-box">
+          Perception is the <strong>process by which individuals organize and interpret their sensory impressions</strong> in order to give meaning to their environment.
+        </div>
+        <p>Perception is important because <strong>behaviour is based on perception of reality, not on reality itself.</strong> Two people can see the same thing and interpret it differently.</p>
+
+        <p><strong>The Perceptual Process:</strong></p>
+        <div class="flow">
+          <div class="flow-step">👁 Stimuli (Environmental Input)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">🧠 Selection</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">📦 Organization</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">🔍 Interpretation</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">⚡ Behaviour / Response</div>
+        </div>
+
+        <p><strong>Factors influencing Perception:</strong></p>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Perceiver Factors</strong>Attitudes, motives, interests, past experiences, expectations.</div>
+          <div class="kp-item"><strong>Target Factors</strong>Novelty, motion, sounds, size, background, proximity.</div>
+          <div class="kp-item"><strong>Situation Factors</strong>Time, work setting, social setting — context matters enormously.</div>
+        </div>
+
+        <p><strong>Common Perceptual Distortions (Management Behavioural Aspects):</strong></p>
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead><tr><th>Distortion</th><th>Description</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Halo Effect</td><td>One positive trait colors overall impression</td><td>Good-looking person assumed to be competent</td></tr>
+            <tr><td>Horn Effect</td><td>One negative trait dominates</td><td>One mistake → "always lazy"</td></tr>
+            <tr><td>Stereotyping</td><td>Judging based on group membership</td><td>"Engineers are introverts"</td></tr>
+            <tr><td>Selective Perception</td><td>Noticing info that confirms existing beliefs</td><td>Manager notices only faults of disliked employee</td></tr>
+            <tr><td>Projection</td><td>Attributing own feelings to others</td><td>Dishonest manager suspects everyone is dishonest</td></tr>
+            <tr><td>Attribution Error</td><td>Blaming external factors for own failures; internal for others'</td><td>"My failure = bad luck; your failure = incompetence"</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <!-- Attitude & Values -->
+      <div class="card fade-in" id="attitude">
+        <div class="card-title"><span class="icon">💡</span> Attitude, Values & Job Satisfaction</div>
+        <div class="def-box" style="border-color:var(--accent3)">
+          An <strong>attitude</strong> is a learned predisposition to respond in a consistently favorable or unfavorable manner toward a given object, person, or event.
+        </div>
+
+        <p><strong>Components of Attitude (ABC Model):</strong></p>
+        <div class="kp-grid">
+          <div class="kp-item"><strong style="color:var(--accent3)">A — Affective</strong>Emotional/feeling component ("I feel anxious about this policy")</div>
+          <div class="kp-item"><strong style="color:var(--accent3)">B — Behavioural</strong>Intended actions ("I will avoid that coworker")</div>
+          <div class="kp-item"><strong style="color:var(--accent3)">C — Cognitive</strong>Belief/knowledge component ("I believe the policy is unfair")</div>
+        </div>
+
+        <p><strong>Effects of Employee Attitudes:</strong> Positive attitudes → higher productivity, better teamwork, lower absenteeism. Negative attitudes → poor performance, high turnover, conflicts.</p>
+
+        <p><strong>Values</strong> are enduring beliefs about what is important. <em>Personal values</em> reflect individual priorities (family, success, freedom); <em>organizational values</em> define culture and guide decisions (integrity, innovation, customer focus).</p>
+
+        <div class="def-box" style="border-color:var(--accent5)">
+          <strong>Job Satisfaction</strong> is a pleasurable or positive emotional state resulting from one's appraisal of job and job experiences. Key determinants: pay, work itself, promotion, supervision, co-workers, working conditions.
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-card"><div class="stat-num" style="color:var(--accent5)">↑23%</div><div class="stat-label">Productivity gain with satisfied employees</div></div>
+          <div class="stat-card"><div class="stat-num" style="color:var(--accent2)">↓43%</div><div class="stat-label">Absenteeism when satisfaction is high</div></div>
+          <div class="stat-card"><div class="stat-num" style="color:var(--accent3)">↓51%</div><div class="stat-label">Turnover with satisfied workforce</div></div>
+        </div>
+      </div>
+
+      <!-- Motivation -->
+      <div class="card fade-in" id="motivation">
+        <div class="card-title"><span class="icon">🔥</span> Nature & Importance of Motivation</div>
+        <div class="def-box" style="border-color:var(--accent)">
+          Motivation is an <strong>internal force that drives an individual to behave in a certain way</strong> to satisfy an unsatisfied need. It energizes, directs, and sustains behaviour toward a goal.
+        </div>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Nature</strong>Internal process; complex and individual-specific; goal-directed; persistent; socially influenced.</div>
+          <div class="kp-item"><strong>Importance</strong>Improves performance, reduces absenteeism, builds loyalty, fosters creativity, and aligns individual–org goals.</div>
+          <div class="kp-item"><strong>Achievement Motive</strong>McClelland's nAch: a strong desire to accomplish challenging tasks and excel. High-achievers prefer moderate risk and immediate feedback.</div>
+        </div>
+      </div>
+
+      <!-- Theories of Motivation -->
+      <div class="card fade-in" id="theories-mot">
+        <div class="card-title"><span class="icon">🏔️</span> Maslow's Need Hierarchy Theory</div>
+        <p>Abraham Maslow (1943) proposed that human needs are arranged in a <strong>five-level hierarchy</strong>. Lower needs must be satisfied before higher needs become motivating.</p>
+
+        <div class="pyramid-wrap">
+          <div class="pyramid">
+            <div class="pyramid-level" style="width:220px;background:linear-gradient(135deg,#f0a500,#e08800)">Self-Actualization 🌟</div>
+            <div class="pyramid-level" style="width:280px;background:linear-gradient(135deg,#7c5ce0,#6340c8)">Esteem Needs 🏆</div>
+            <div class="pyramid-level" style="width:340px;background:linear-gradient(135deg,#5cc8e0,#3ab0c8)">Social / Love Needs 🤝</div>
+            <div class="pyramid-level" style="width:400px;background:linear-gradient(135deg,#5ce08a,#3ac870)">Safety & Security Needs 🔒</div>
+            <div class="pyramid-level" style="width:460px;background:linear-gradient(135deg,#e05c5c,#c84040)">Physiological Needs 🍞</div>
+          </div>
+        </div>
+
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead><tr><th>Level</th><th>Needs</th><th>Satisfied By</th></tr></thead>
+          <tbody>
+            <tr><td>1 — Physiological</td><td>Food, water, sleep, shelter</td><td>Basic salary, working conditions</td></tr>
+            <tr><td>2 — Safety</td><td>Security, stability, freedom from fear</td><td>Job security, pension, safe environment</td></tr>
+            <tr><td>3 — Social</td><td>Belonging, friendship, love</td><td>Teams, social events, good supervision</td></tr>
+            <tr><td>4 — Esteem</td><td>Achievement, recognition, status</td><td>Promotions, titles, recognition programs</td></tr>
+            <tr><td>5 — Self-Actualization</td><td>Growth, creativity, realizing potential</td><td>Challenging work, autonomy, personal growth</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="card fade-in">
+        <div class="card-title"><span class="icon">⚖️</span> McGregor's Theory X and Theory Y</div>
+        <p>Douglas McGregor (1960) proposed two contrasting sets of assumptions managers hold about their employees:</p>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(224,92,92,.08);border:1px solid rgba(224,92,92,.3)">
+            <strong style="color:var(--accent2)">Theory X — Pessimistic View</strong>
+            Employees are inherently lazy, dislike work, avoid responsibility, need close supervision, and are motivated primarily by money and fear of punishment. Management style: Authoritarian.
+          </div>
+          <div class="matrix-cell" style="background:rgba(92,224,138,.08);border:1px solid rgba(92,224,138,.3)">
+            <strong style="color:var(--accent5)">Theory Y — Optimistic View</strong>
+            Employees are self-motivated, seek responsibility, are creative, exercise self-direction, and find work natural. Management style: Participative, decentralized decision-making.
+          </div>
+        </div>
+        <div class="def-box" style="border-color:var(--accent4)">
+          <strong>Managerial Implication:</strong> Theory Y assumptions lead to higher morale, commitment, and productivity. Modern OB strongly advocates a Theory Y orientation while recognizing situational flexibility.
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT III ═══════ -->
+    <section class="unit-section u3" id="unit3">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit III</div>
+        <h2 class="unit-title">Personality</h2>
+      </div>
+
+      <div class="card fade-in" id="personality">
+        <div class="card-title"><span class="icon">🧩</span> Definition & Determinants of Personality</div>
+        <div class="def-box" style="border-color:var(--accent4)">
+          Personality is the <strong>sum total of ways in which an individual reacts to and interacts with others</strong>. It is the dynamic organization of psychophysical systems that determines characteristic behaviour, thoughts, and feelings.
+          <cite>— Gordon Allport</cite>
+        </div>
+        <p><strong>Determinants of Personality:</strong></p>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Heredity</strong>Genes, biological makeup, chromosomal structure. Sets the outer limits of personality development.</div>
+          <div class="kp-item"><strong>Environment</strong>Culture, family, social groups, norms, experiences — shapes personality within hereditary limits.</div>
+          <div class="kp-item"><strong>Family Background</strong>Parenting styles, siblings, socioeconomic status, early socialization experiences.</div>
+          <div class="kp-item"><strong>Situational Factors</strong>Different situations bring out different traits; personality is not static across all contexts.</div>
+        </div>
+      </div>
+
+      <div class="card fade-in" id="personality-theories">
+        <div class="card-title"><span class="icon">🔬</span> Trait and Type Theories</div>
+        <p><strong>Trait Theories</strong> identify specific characteristics (traits) that describe personality. Traits are relatively stable, consistent ways of behaving.</p>
+        <div class="def-box" style="border-color:var(--accent4)">
+          Allport's Trait Theory classifies traits as: <strong>Cardinal</strong> (dominant, life-defining), <strong>Central</strong> (general characteristics, ~5–10 per person), and <strong>Secondary</strong> (situational, less consistent).
+        </div>
+        <p><strong>Type Theories</strong> classify people into discrete categories or "types." Sheldon's somatotype theory (endomorph/mesomorph/ectomorph) linked body type to personality — largely rejected today. More influential: introvert vs. extravert (Jung).</p>
+      </div>
+
+      <div class="card fade-in" id="big5">
+        <div class="card-title"><span class="icon">⭐</span> The Big Five Personality Traits (OCEAN)</div>
+        <p>The most empirically validated personality framework. Five broad dimensions capture most personality variation:</p>
+        <div class="big5">
+          <div class="big5-row">
+            <div class="big5-label">🌊 Openness</div>
+            <div class="big5-bar-wrap"><div class="big5-bar" style="width:80%;background:linear-gradient(90deg,#f0a500,#e08800)"></div></div>
+            <span style="font-size:.75rem;color:var(--text-muted);width:50px">Creativity</span>
+          </div>
+          <div class="big5-row">
+            <div class="big5-label">✅ Conscientiousness</div>
+            <div class="big5-bar-wrap"><div class="big5-bar" style="width:90%;background:linear-gradient(90deg,#5ce08a,#3ac870)"></div></div>
+            <span style="font-size:.75rem;color:var(--text-muted);width:50px">Reliable</span>
+          </div>
+          <div class="big5-row">
+            <div class="big5-label">🎉 Extraversion</div>
+            <div class="big5-bar-wrap"><div class="big5-bar" style="width:70%;background:linear-gradient(90deg,#5cc8e0,#3ab0c8)"></div></div>
+            <span style="font-size:.75rem;color:var(--text-muted);width:50px">Social</span>
+          </div>
+          <div class="big5-row">
+            <div class="big5-label">🤝 Agreeableness</div>
+            <div class="big5-bar-wrap"><div class="big5-bar" style="width:75%;background:linear-gradient(90deg,#7c5ce0,#6340c8)"></div></div>
+            <span style="font-size:.75rem;color:var(--text-muted);width:50px">Cooperative</span>
+          </div>
+          <div class="big5-row">
+            <div class="big5-label">😟 Neuroticism</div>
+            <div class="big5-bar-wrap"><div class="big5-bar" style="width:55%;background:linear-gradient(90deg,#e05c5c,#c84040)"></div></div>
+            <span style="font-size:.75rem;color:var(--text-muted);width:50px">Emotional</span>
+          </div>
+        </div>
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead><tr><th>Trait</th><th>High Score</th><th>Low Score</th><th>Work Impact</th></tr></thead>
+          <tbody>
+            <tr><td>Openness</td><td>Creative, curious, flexible</td><td>Conventional, cautious</td><td>Innovation, adaptability</td></tr>
+            <tr><td>Conscientiousness</td><td>Organized, dependable, disciplined</td><td>Impulsive, careless</td><td>Best predictor of performance</td></tr>
+            <tr><td>Extraversion</td><td>Sociable, assertive, energetic</td><td>Reserved, withdrawn</td><td>Leadership, sales roles</td></tr>
+            <tr><td>Agreeableness</td><td>Cooperative, trusting, kind</td><td>Competitive, suspicious</td><td>Team cohesion</td></tr>
+            <tr><td>Neuroticism</td><td>Anxious, moody, insecure</td><td>Calm, emotionally stable</td><td>Burnout risk if high</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <div class="card fade-in" id="mbti">
+        <div class="card-title"><span class="icon">🧭</span> MBTI, Locus of Control & Type A/B</div>
+        <p>The <strong>Myers-Briggs Type Indicator (MBTI)</strong> measures personality along four dichotomies:</p>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>E vs I</strong>Extraversion (outer world) vs. Introversion (inner world)</div>
+          <div class="kp-item"><strong>S vs N</strong>Sensing (concrete facts) vs. Intuition (patterns & possibilities)</div>
+          <div class="kp-item"><strong>T vs F</strong>Thinking (logic) vs. Feeling (values & people)</div>
+          <div class="kp-item"><strong>J vs P</strong>Judging (structured) vs. Perceiving (flexible)</div>
+        </div>
+        <p>This yields <strong>16 personality types</strong> (e.g., INTJ, ENFP). Used widely in career counselling and team composition.</p>
+
+        <div class="matrix" style="margin-top:1rem">
+          <div class="matrix-cell" style="background:rgba(240,165,0,.08);border:1px solid rgba(240,165,0,.25)">
+            <strong style="color:var(--accent)">Locus of Control</strong>
+            <em>Internal LOC:</em> Belief that outcomes are controlled by oneself → higher motivation, better performance.<br><br>
+            <em>External LOC:</em> Belief in fate, luck, or others' control → lower initiative, more stress.
+          </div>
+          <div class="matrix-cell" style="background:rgba(224,92,92,.08);border:1px solid rgba(224,92,92,.25)">
+            <strong style="color:var(--accent2)">Type A vs Type B</strong>
+            <em>Type A:</em> Competitive, time-pressured, impatient, aggressive — high CHD risk, strong performance but prone to burnout.<br><br>
+            <em>Type B:</em> Relaxed, patient, easygoing — better long-term health, creative thinkers.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT IV ═══════ -->
+    <section class="unit-section u4" id="unit4">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit IV</div>
+        <h2 class="unit-title">Work Stress</h2>
+      </div>
+
+      <div class="card fade-in" id="stress-def">
+        <div class="card-title"><span class="icon">⚡</span> Meaning, Definition & Symptoms of Stress</div>
+        <div class="def-box" style="border-color:var(--accent2)">
+          Stress is a <strong>dynamic condition in which an individual is confronted with an opportunity, constraint, or demand related to what they desire</strong> and for which the outcome is perceived to be both uncertain and important.
+          <cite>— Robbins & Judge</cite>
+        </div>
+        <p>Hans Selye (1936) described stress as the "<strong>non-specific response of the body</strong> to any demand made upon it," coining the GAS model (General Adaptation Syndrome): Alarm → Resistance → Exhaustion.</p>
+
+        <p><strong>Symptoms of Stress:</strong></p>
+        <div class="kp-grid">
+          <div class="kp-item"><strong style="color:var(--accent2)">Physiological</strong>Headaches, high BP, heart disease, ulcers, fatigue, muscle tension.</div>
+          <div class="kp-item"><strong style="color:var(--accent)">Psychological</strong>Anxiety, depression, irritability, job dissatisfaction, boredom.</div>
+          <div class="kp-item"><strong style="color:var(--accent3)">Behavioural</strong>Reduced productivity, absenteeism, turnover, substance abuse, sleep disorders.</div>
+        </div>
+      </div>
+
+      <div class="card fade-in" id="stressors">
+        <div class="card-title"><span class="icon">🌪️</span> Sources of Stress & Stressors</div>
+        <div class="stress-grid">
+          <div class="stress-card" style="border-color:var(--accent)">
+            <strong style="color:var(--accent)">Individual Level</strong>
+            <ul>
+              <li>Role conflict & ambiguity</li>
+              <li>Work overload/underload</li>
+              <li>Lack of autonomy</li>
+              <li>Career development concerns</li>
+              <li>Personal life events</li>
+            </ul>
+          </div>
+          <div class="stress-card" style="border-color:var(--accent3)">
+            <strong style="color:var(--accent3)">Group Level</strong>
+            <ul>
+              <li>Poor group dynamics</li>
+              <li>Interpersonal conflicts</li>
+              <li>Lack of social support</li>
+              <li>Status incongruence</li>
+              <li>Group cohesiveness issues</li>
+            </ul>
+          </div>
+          <div class="stress-card" style="border-color:var(--accent4)">
+            <strong style="color:var(--accent4)">Organizational Level</strong>
+            <ul>
+              <li>Organizational culture</li>
+              <li>Leadership style</li>
+              <li>Poor communication</li>
+              <li>Technology change</li>
+              <li>Downsizing/restructuring</li>
+            </ul>
+          </div>
+          <div class="stress-card" style="border-color:var(--accent2)">
+            <strong style="color:var(--accent2)">Extra-Organizational</strong>
+            <ul>
+              <li>Family/marital problems</li>
+              <li>Economic difficulties</li>
+              <li>Rapid social change</li>
+              <li>Community issues</li>
+              <li>Housing, commuting</li>
+            </ul>
+          </div>
+        </div>
+        <div class="def-box" style="border-color:var(--accent2);margin-top:1rem">
+          <strong>Burnout</strong> is a state of chronic stress that leads to physical and emotional exhaustion, cynicism and detachment, and feelings of ineffectiveness. It is the ultimate negative outcome of unmanaged occupational stress.
+        </div>
+      </div>
+
+      <div class="card fade-in" id="stress-mgmt">
+        <div class="card-title"><span class="icon">🛡️</span> Stress Management Strategies</div>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(92,224,138,.07);border:1px solid rgba(92,224,138,.25)">
+            <strong style="color:var(--accent5)">Individual Strategies</strong>
+            Time management · Exercise & physical fitness · Relaxation techniques (yoga, meditation) · Social support networks · Cognitive restructuring (change thinking patterns) · Biofeedback · Proper nutrition and sleep · Hobbies and leisure
+          </div>
+          <div class="matrix-cell" style="background:rgba(92,200,224,.07);border:1px solid rgba(92,200,224,.25)">
+            <strong style="color:var(--accent3)">Organizational Strategies</strong>
+            Improved communication · Role clarity · Reasonable workloads · Employee wellness programs · Flexible work arrangements · Supportive supervision · Team building · EAP (Employee Assistance Programs)
+          </div>
+        </div>
+      </div>
+
+      <div class="card fade-in" id="counselling">
+        <div class="card-title"><span class="icon">💬</span> Employee Counselling</div>
+        <div class="def-box" style="border-color:var(--accent5)">
+          Employee counselling is a <strong>discussion of an emotional problem with an employee</strong> with the general goal of decreasing it. It involves a trained counsellor (or manager) helping the employee understand their situation and develop coping strategies.
+        </div>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Directive Counselling</strong>Counsellor-led; advises, directs, and reassures. Best for specific, immediate problems.</div>
+          <div class="kp-item"><strong>Non-Directive Counselling</strong>Employee-led; counsellor listens, reflects, and facilitates self-discovery. Deeper personal issues.</div>
+          <div class="kp-item"><strong>Cooperative Counselling</strong>Balanced approach combining elements of both directive and non-directive methods.</div>
+          <div class="kp-item"><strong>Functions</strong>Advice, reassurance, communication, release of emotional tension, reorientation.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT V ═══════ -->
+    <section class="unit-section u5" id="unit5">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit V</div>
+        <h2 class="unit-title">Group Behaviour & Leadership</h2>
+      </div>
+
+      <div class="card fade-in" id="groups">
+        <div class="card-title"><span class="icon">👥</span> Nature & Types of Groups</div>
+        <div class="def-box" style="border-color:var(--accent5)">
+          A <strong>group</strong> is defined as two or more individuals, interacting and interdependent, who come together to achieve particular objectives.
+        </div>
+
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(92,224,138,.07);border:1px solid rgba(92,224,138,.25)">
+            <strong style="color:var(--accent5)">Formal Groups</strong>
+            Defined by organizational structure with designated roles. Subtypes: Command Group (boss + direct reports), Task Group (cross-functional, project-based).
+          </div>
+          <div class="matrix-cell" style="background:rgba(240,165,0,.07);border:1px solid rgba(240,165,0,.25)">
+            <strong style="color:var(--accent)">Informal Groups</strong>
+            Naturally formed for social needs, not organizational mandate. Subtypes: Interest Group (shared goal), Friendship Group (social affinity).
+          </div>
+        </div>
+
+        <p><strong>Stages of Group Development (Tuckman's Model):</strong></p>
+        <div class="flow">
+          <div class="flow-step">🔵 Forming</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">🟡 Storming</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">🟢 Norming</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">🔥 Performing</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">⚫ Adjourning</div>
+        </div>
+      </div>
+
+      <div class="card fade-in" id="team-building">
+        <div class="card-title"><span class="icon">🏗️</span> Teams, Team Building & Effective Teamwork</div>
+        <div class="def-box" style="border-color:var(--accent3)">
+          A <strong>team</strong> is a group of people with complementary skills committed to a common purpose, shared performance goals, and mutual accountability. Teams generate positive synergy through coordinated effort.
+        </div>
+
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead><tr><th>Dimension</th><th>Group</th><th>Team</th></tr></thead>
+          <tbody>
+            <tr><td>Leadership</td><td>Single strong leader</td><td>Shared leadership roles</td></tr>
+            <tr><td>Accountability</td><td>Individual only</td><td>Individual + mutual</td></tr>
+            <tr><td>Purpose</td><td>Same as organization</td><td>Specific shared goal</td></tr>
+            <tr><td>Synergy</td><td>Neutral/negative</td><td>Positive</td></tr>
+            <tr><td>Meetings</td><td>Discuss, decide, delegate</td><td>Discuss, decide, do real work together</td></tr>
+          </tbody>
+        </table></div>
+
+        <p><strong>Effective Teamwork</strong> requires: clear goals, trust, complementary skills, open communication, accountability, mutual support, and strong leadership. <strong>Team building</strong> activities include goal-setting workshops, role clarification exercises, problem-solving activities, and interpersonal relationship building.</p>
+      </div>
+
+      <div class="card fade-in" id="leadership">
+        <div class="card-title"><span class="icon">👑</span> Leadership: Nature, Styles & Traits</div>
+        <div class="def-box" style="border-color:var(--accent5)">
+          Leadership is the <strong>process of influencing people and providing an environment for them to achieve team or organizational objectives</strong>. It involves vision, inspiration, and guiding others toward goals.
+        </div>
+
+        <p><strong>Classical Leadership Styles:</strong></p>
+        <div class="kp-grid">
+          <div class="kp-item"><strong style="color:var(--accent2)">Autocratic</strong>Leader makes all decisions alone; fast but stifles creativity. Best in crisis situations.</div>
+          <div class="kp-item"><strong style="color:var(--accent5)">Democratic</strong>Team participates in decisions; higher morale and creativity but slower.</div>
+          <div class="kp-item"><strong style="color:var(--accent3)">Laissez-faire</strong>Hands-off; full autonomy to team. Works with highly skilled, self-motivated individuals.</div>
+          <div class="kp-item"><strong style="color:var(--accent4)">Transformational</strong>Inspires change through vision; motivates beyond self-interest. Builds long-term commitment.</div>
+          <div class="kp-item"><strong style="color:var(--accent)">Transactional</strong>Exchange-based; rewards and punishments tied to performance targets.</div>
+          <div class="kp-item"><strong style="color:#e0a55c">Servant Leadership</strong>Leader prioritizes followers' needs; builds trust and community.</div>
+        </div>
+
+        <p><strong>Traits of Effective Leaders:</strong></p>
+        <div class="tag-cloud">
+          <span class="tag" style="background:rgba(240,165,0,.15);color:var(--accent)">Intelligence</span>
+          <span class="tag" style="background:rgba(92,224,138,.15);color:var(--accent5)">Self-Confidence</span>
+          <span class="tag" style="background:rgba(92,200,224,.15);color:var(--accent3)">Determination</span>
+          <span class="tag" style="background:rgba(124,92,224,.15);color:var(--accent4)">Integrity</span>
+          <span class="tag" style="background:rgba(224,92,92,.15);color:var(--accent2)">Sociability</span>
+          <span class="tag" style="background:rgba(224,165,92,.15);color:#e0a55c">Emotional Intelligence</span>
+          <span class="tag" style="background:rgba(240,165,0,.15);color:var(--accent)">Visionary</span>
+          <span class="tag" style="background:rgba(92,224,138,.15);color:var(--accent5)">Decisiveness</span>
+          <span class="tag" style="background:rgba(92,200,224,.15);color:var(--accent3)">Empathy</span>
+          <span class="tag" style="background:rgba(124,92,224,.15);color:var(--accent4)">Communication</span>
+          <span class="tag" style="background:rgba(224,92,92,.15);color:var(--accent2)">Adaptability</span>
+          <span class="tag" style="background:rgba(224,165,92,.15);color:#e0a55c">Accountability</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT VI ═══════ -->
+    <section class="unit-section u6" id="unit6">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit VI</div>
+        <h2 class="unit-title">Conflict in Organizations</h2>
+      </div>
+
+      <div class="card fade-in" id="conflict-nature">
+        <div class="card-title"><span class="icon">⚔️</span> Nature & Process of Conflict</div>
+        <div class="def-box" style="border-color:#e0a55c">
+          Conflict is a <strong>process that begins when one party perceives that another party has negatively affected, or is about to negatively affect, something the first party cares about</strong>.
+          <cite>— Robbins</cite>
+        </div>
+
+        <p><strong>Views of Conflict:</strong></p>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Traditional View</strong>Conflict is bad, harmful, disruptive — must be avoided and eliminated.</div>
+          <div class="kp-item"><strong>Human Relations View</strong>Conflict is natural and inevitable in any group; can be accepted.</div>
+          <div class="kp-item"><strong>Interactionist View</strong>Some conflict is necessary for group performance — promotes creativity and self-evaluation.</div>
+        </div>
+
+        <p><strong>Process of Conflict (Pondy's Model):</strong></p>
+        <div class="conflict-flow">
+          <div class="cf-step" style="border-color:#e0a55c">Latent Conflict<small>Conditions exist</small></div>
+          <div class="cf-step" style="border-color:var(--accent)">Perceived Conflict<small>Awareness</small></div>
+          <div class="cf-step" style="border-color:var(--accent2)">Felt Conflict<small>Emotional involvement</small></div>
+          <div class="cf-step" style="border-color:var(--accent4)">Manifest Conflict<small>Open behaviour</small></div>
+          <div class="cf-step" style="border-color:var(--accent5)">Conflict Aftermath<small>Resolution or escalation</small></div>
+        </div>
+      </div>
+
+      <div class="card fade-in" id="conflict-levels">
+        <div class="card-title"><span class="icon">🏔️</span> Levels of Conflict & Sources</div>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(240,165,0,.07);border:1px solid rgba(240,165,0,.25)">
+            <strong style="color:var(--accent)">Intrapersonal Conflict</strong>
+            Within a single individual. Types:<br>
+            • <em>Approach–Approach:</em> Choice between two positives<br>
+            • <em>Avoidance–Avoidance:</em> Two equally undesirable options<br>
+            • <em>Approach–Avoidance:</em> One goal with both positive and negative aspects<br>
+            • Role conflict: multiple incompatible role demands
+          </div>
+          <div class="matrix-cell" style="background:rgba(224,92,92,.07);border:1px solid rgba(224,92,92,.25)">
+            <strong style="color:var(--accent2)">Interpersonal Conflict</strong>
+            Between two or more individuals. Caused by personality differences, communication breakdowns, status differences, resource competition, goal incompatibility, and differing values.
+          </div>
+        </div>
+
+        <p style="margin-top:1rem"><strong>Sources of Conflict:</strong></p>
+        <div class="tag-cloud">
+          <span class="tag" style="background:rgba(240,165,0,.15);color:var(--accent)">Resource Scarcity</span>
+          <span class="tag" style="background:rgba(92,200,224,.15);color:var(--accent3)">Goal Incompatibility</span>
+          <span class="tag" style="background:rgba(124,92,224,.15);color:var(--accent4)">Communication Failure</span>
+          <span class="tag" style="background:rgba(224,92,92,.15);color:var(--accent2)">Value Differences</span>
+          <span class="tag" style="background:rgba(92,224,138,.15);color:var(--accent5)">Status Ambiguity</span>
+          <span class="tag" style="background:rgba(224,165,92,.15);color:#e0a55c">Structural Factors</span>
+          <span class="tag" style="background:rgba(240,165,0,.15);color:var(--accent)">Personal Grudges</span>
+          <span class="tag" style="background:rgba(92,200,224,.15);color:var(--accent3)">Role Ambiguity</span>
+        </div>
+
+        <div class="def-box" style="border-color:var(--accent2);margin-top:1rem">
+          <strong>Effects of Conflict:</strong> Positive — stimulates creativity, identifies problems, promotes change, increases group cohesion (against external threat). Negative — stress, burnout, reduced communication, hostility, organisational inefficiency.
+        </div>
+      </div>
+
+      <div class="card fade-in" id="conflict-res">
+        <div class="card-title"><span class="icon">🕊️</span> Conflict Resolution</div>
+        <p>Thomas-Kilmann model identifies <strong>five conflict-handling styles</strong> based on assertiveness (concern for self) and cooperativeness (concern for others):</p>
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead><tr><th>Style</th><th>Assertiveness</th><th>Cooperativeness</th><th>When to Use</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Competing</strong></td><td>High</td><td>Low</td><td>Emergency; clear right/wrong; unpopular but necessary decisions</td></tr>
+            <tr><td><strong>Collaborating</strong></td><td>High</td><td>High</td><td>Long-term relationships; complex issues requiring creative solutions</td></tr>
+            <tr><td><strong>Compromising</strong></td><td>Medium</td><td>Medium</td><td>Temporary solutions; equal power; time-pressured situations</td></tr>
+            <tr><td><strong>Avoiding</strong></td><td>Low</td><td>Low</td><td>Trivial issues; when others can resolve it better</td></tr>
+            <tr><td><strong>Accommodating</strong></td><td>Low</td><td>High</td><td>When you're wrong; issue more important to other party; goodwill building</td></tr>
+          </tbody>
+        </table></div>
+
+        <p><strong>Other Resolution Mechanisms:</strong> Mediation (neutral third party facilitates), Arbitration (binding third-party decision), Negotiation, Superordinate goals (shared goals transcend conflict), Structural changes (redesigning roles/departments).</p>
+      </div>
+
+      <div class="card fade-in" id="grievances">
+        <div class="card-title"><span class="icon">📋</span> Grievances: Meaning, Types & Process</div>
+        <div class="def-box" style="border-color:#e0a55c">
+          A <strong>grievance</strong> is any real or perceived feeling of dissatisfaction or injustice in the workplace that an employee feels about their employment relationship, and desires management to resolve.
+        </div>
+
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Factual Grievance</strong>Genuine reason exists; management has failed to meet obligations (e.g., withheld promised promotion).</div>
+          <div class="kp-item"><strong>Imaginary Grievance</strong>Based on misunderstanding or wrong perception; still needs to be addressed respectfully.</div>
+          <div class="kp-item"><strong>Disguised Grievance</strong>Real cause is unknown even to the employee; may stem from personal or psychological problems.</div>
+        </div>
+
+        <p><strong>Common Causes:</strong> Wage/salary issues, working conditions, promotions, disciplinary actions, leave policies, supervisory behavior, transfer issues.</p>
+
+        <p><strong>Grievance Handling Process (Open-Door / Step-Ladder):</strong></p>
+        <div class="flow">
+          <div class="flow-step">1️⃣ Employee to Immediate Supervisor</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">2️⃣ Department Head</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">3️⃣ HR / Grievance Committee</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">4️⃣ Top Management</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">5️⃣ Arbitration (if unresolved)</div>
+        </div>
+
+        <div class="def-box" style="border-color:var(--accent5)">
+          <strong>Principles of a Good Grievance System:</strong> Speedy resolution · Fair hearing · Accessibility to all employees · Final and binding decisions · Prevention-focused · Confidential and free from victimization.
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer style="text-align:center;padding:3rem 1rem;color:var(--text-dim);font-size:.78rem;border-top:1px solid var(--border);margin-top:4rem;">
+  <p style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text-muted);margin-bottom:.5rem">Organizational Behaviour</p>
+  <p>Complete Study Guide · All Six Units · Visual Reference</p>
+</footer>
+
+<script>
+(function() {
+  // ── MENU ──
+  var ham     = document.getElementById('mobHam');
+  var overlay = document.getElementById('mobOverlay');
+  var drawer  = document.getElementById('mobDrawer');
+  var closeBtn= document.getElementById('mobClose');
+
+  function open() {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  ham.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', close);
+  drawer.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() { setTimeout(close, 120); });
+  });
+
+  // ── FADE IN ──
+  if ('IntersectionObserver' in window) {
+    var els = document.querySelectorAll('.fade-in');
+    els.forEach(function(el) { el.classList.add('anim'); });
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.05 });
+    els.forEach(function(el) { obs.observe(el); });
+  }
+
+  // ── TOC ACTIVE ──
+  var tocLinks = document.querySelectorAll('.toc a');
+  if (tocLinks.length && 'IntersectionObserver' in window) {
+    var tObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          tocLinks.forEach(function(l) { l.classList.remove('active'); });
+          var a = document.querySelector('.toc a[href="#' + e.target.id + '"]');
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('[id]').forEach(function(s) { tObs.observe(s); });
+  }
+
+  // ── BIG FIVE BARS ──
+  if ('IntersectionObserver' in window) {
+    var bObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.big5-bar').forEach(function(b) {
+            b.style.animation = 'none'; void b.offsetHeight;
+            b.style.animation = 'growBar 1s ease both';
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.big5').forEach(function(el) { bObs.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Electronics — Complete Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #15151a;
+    --surface2: #1e1e26;
+    --border: #2a2a36;
+    --accent: #00d4ff;
+    --accent2: #e05c5c;
+    --accent3: #5ce08a;
+    --accent4: #a55ce0;
+    --accent5: #f0a500;
+    --text: #e8e8f0;
+    --text-muted: #888899;
+    --text-dim: #555568;
+    --radius: 16px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1.5rem 3rem;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, #001f2a 0%, transparent 70%),
+      radial-gradient(ellipse 50% 40% at 80% 80%, #1a0022 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 10% 60%, #001a1a 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(0,212,255,.12);
+    border: 1px solid rgba(0,212,255,.3);
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: .35rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp .6s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    animation: fadeUp .7s .1s ease both;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    margin-top: 1.2rem;
+    color: var(--text-muted);
+    font-size: clamp(.9rem, 2.5vw, 1.1rem);
+    max-width: 560px;
+    animation: fadeUp .7s .2s ease both;
+  }
+  .unit-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: center;
+    margin-top: 2rem;
+    animation: fadeUp .7s .3s ease both;
+  }
+  .unit-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: .75rem;
+    font-weight: 500;
+    padding: .3rem .75rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+  }
+  .unit-pill:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+
+  .scroll-hint {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    color: var(--text-dim);
+    font-size: .72rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    animation: fadeUp .7s .5s ease both;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(var(--accent), transparent);
+    animation: scrollPulse 1.8s ease-in-out infinite;
+  }
+
+  /* ── MOBILE NAV ── */
+  .mob-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,13,15,.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: .75rem 1.2rem;
+  }
+  .mob-nav-title {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    color: var(--accent);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .ham-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  .ham-btn:hover { background: var(--border); }
+  @media(min-width: 1024px) { .mob-nav { display: none; } }
+
+  /* ── DRAWER ── */
+  .mob-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.6);
+    z-index: 200;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+  }
+  .mob-overlay.open { opacity: 1; visibility: visible; }
+  .mob-drawer {
+    position: fixed;
+    top: 0; left: -290px;
+    width: 280px; height: 100%;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    z-index: 300;
+    overflow-y: auto;
+    padding: 1.5rem;
+    transition: left .3s ease;
+  }
+  .mob-drawer.open { left: 0; }
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+  .drawer-title {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--text-dim);
+  }
+  .close-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: .9rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mob-drawer a {
+    display: block;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: .82rem;
+    padding: .35rem .5rem;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    transition: all .2s;
+  }
+  .mob-drawer a:hover { color: var(--accent); background: rgba(0,212,255,.06); border-left-color: var(--accent); }
+  .drawer-unit { font-weight: 600; color: var(--text); font-size: .82rem; margin-top: .8rem; margin-bottom: .2rem; padding: .3rem .5rem; }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+  .toc {
+    position: sticky;
+    top: 1.5rem;
+    flex: 0 0 230px;
+    align-self: flex-start;
+    display: none;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+  }
+  @media(min-width: 1024px) { .toc { display: block; } }
+  .toc-title {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+  }
+  .toc a {
+    display: block;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: .78rem;
+    padding: .3rem .5rem;
+    border-radius: 6px;
+    transition: all .2s;
+    border-left: 2px solid transparent;
+  }
+  .toc a:hover, .toc a.active {
+    color: var(--accent);
+    background: rgba(0,212,255,.07);
+    border-left-color: var(--accent);
+  }
+  .toc-unit {
+    font-weight: 600;
+    color: var(--text);
+    font-size: .8rem;
+    margin-top: .8rem;
+    margin-bottom: .2rem;
+    padding: .3rem .5rem;
+  }
+
+  /* ── MOBILE OVERFLOW FIX ── */
+  html, body { max-width: 100%; overflow-x: hidden; }
+  @media(max-width: 1023px) {
+    .layout { padding: 0 .75rem; }
+    .card { padding: 1.2rem; }
+    .gate-row { gap: .6rem; }
+    .gate-card { min-width: 120px; }
+  }
+
+  /* ── MAIN ── */
+  .main { flex: 1; min-width: 0; padding-bottom: 6rem; width: 100%; }
+
+  /* ── UNIT SECTION ── */
+  .unit-section { margin-top: 4rem; scroll-margin-top: 2rem; }
+  .unit-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .unit-num {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem;
+    font-weight: 500;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    padding: .25rem .7rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .unit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem, 3.5vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.8rem;
+    margin-bottom: 1.5rem;
+    scroll-margin-top: 2rem;
+    transition: border-color .3s;
+  }
+  .card:hover { border-color: var(--text-dim); }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: .8rem;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+  }
+  .card-title .icon { font-size: 1.3rem; flex-shrink: 0; }
+  .card p { color: var(--text-muted); margin-bottom: .9rem; }
+  .card p:last-child { margin-bottom: 0; }
+  .card strong { color: var(--text); }
+
+  /* ── DEF BOX ── */
+  .def-box {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 1rem 1.2rem;
+    margin: 1rem 0;
+    font-size: .9rem;
+    color: var(--text);
+  }
+  .def-box cite {
+    display: block;
+    color: var(--text-dim);
+    font-style: normal;
+    font-size: .75rem;
+    margin-top: .4rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── KP GRID ── */
+  .kp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: .8rem;
+    margin: 1.2rem 0;
+  }
+  .kp-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: .9rem 1rem;
+    font-size: .85rem;
+  }
+  .kp-item strong {
+    display: block;
+    color: var(--accent);
+    font-size: .72rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    margin-bottom: .3rem;
+  }
+
+  /* ── FLOW ── */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+    margin: 1.2rem 0;
+  }
+  .flow-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: .5rem 1rem;
+    font-size: .82rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .flow-arrow { color: var(--text-dim); font-size: 1.1rem; flex-shrink: 0; }
+
+  /* ── TABLE ── */
+  .tbl-wrap { overflow-x: auto; }
+  .styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .82rem;
+    margin: 1.2rem 0;
+    min-width: 400px;
+  }
+  .styled-table th {
+    background: var(--surface2);
+    color: var(--accent);
+    padding: .6rem .9rem;
+    text-align: left;
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    border-bottom: 1px solid var(--border);
+  }
+  .styled-table td {
+    padding: .55rem .9rem;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+  .styled-table tr:hover td { background: var(--surface2); color: var(--text); }
+
+  /* ── TAG CLOUD ── */
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+  .tag { font-size: .78rem; padding: .25rem .75rem; border-radius: 50px; font-weight: 500; }
+
+  /* ── TRUTH TABLE ── */
+  .truth-table {
+    display: inline-block;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: 'DM Mono', monospace;
+    font-size: .82rem;
+    margin: .5rem .5rem .5rem 0;
+  }
+  .truth-table table { border-collapse: collapse; }
+  .truth-table th {
+    background: var(--surface2);
+    color: var(--accent);
+    padding: .4rem .8rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .truth-table td {
+    padding: .3rem .8rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    color: var(--text-muted);
+  }
+  .truth-table td.hi { color: var(--accent3); font-weight: 600; }
+  .truth-table td.lo { color: var(--accent2); }
+
+  /* ── GATE DIAGRAM ── */
+  .gate-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.2rem 0;
+    align-items: flex-start;
+  }
+  .gate-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    flex: 1;
+    min-width: 150px;
+    text-align: center;
+  }
+  .gate-name {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent);
+    margin-bottom: .5rem;
+    font-weight: 500;
+  }
+  .gate-symbol {
+    font-size: 1.5rem;
+    margin-bottom: .4rem;
+  }
+  .gate-expr {
+    font-family: 'DM Mono', monospace;
+    font-size: .85rem;
+    color: var(--text-muted);
+    margin-bottom: .3rem;
+  }
+  .gate-desc { font-size: .78rem; color: var(--text-dim); }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: .82rem;
+    color: var(--accent3);
+    margin: 1rem 0;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.8;
+  }
+
+  /* ── KMAP ── */
+  .kmap-wrap { overflow-x: auto; margin: 1rem 0; }
+  .kmap {
+    display: inline-block;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'DM Mono', monospace;
+  }
+  .kmap table { border-collapse: collapse; }
+  .kmap th {
+    background: var(--surface2);
+    padding: .4rem .9rem;
+    font-size: .78rem;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+  .kmap td {
+    width: 50px; height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid var(--border);
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+  .kmap td.grp1 { background: rgba(0,212,255,.15); color: var(--accent); }
+  .kmap td.grp2 { background: rgba(92,224,138,.15); color: var(--accent3); }
+  .kmap td.grp3 { background: rgba(240,165,0,.15); color: var(--accent5); }
+
+  /* ── MATRIX ── */
+  .matrix {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .8rem;
+    margin: 1.2rem 0;
+  }
+  @media(max-width: 500px) { .matrix { grid-template-columns: 1fr; } }
+  .matrix-cell {
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: .85rem;
+  }
+  .matrix-cell strong { display: block; font-size: .9rem; margin-bottom: .3rem; }
+
+  /* ── FLIP FLOP DIAGRAM ── */
+  .ff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.2rem 0;
+  }
+  .ff-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+  }
+  .ff-title {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: .6rem;
+    font-weight: 500;
+  }
+  .ff-feature { font-size: .8rem; color: var(--text-muted); padding: .1rem 0; }
+
+  /* ── STAT ROW ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: .8rem;
+    margin: 1.2rem 0;
+  }
+  .stat-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .stat-label { font-size: .72rem; color: var(--text-muted); margin-top: .3rem; }
+
+  /* ── MEMORY HIERARCHY ── */
+  .mem-pyramid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+    width: 100%;
+  }
+  .mem-level {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    height: 52px;
+    font-size: .82rem;
+    font-weight: 600;
+    color: #000;
+    transition: transform .2s;
+    cursor: default;
+    text-align: center;
+    padding: 0 .75rem;
+    box-sizing: border-box;
+  }
+  .mem-level:nth-child(1) { width: 38%; min-width: 140px; }
+  .mem-level:nth-child(2) { width: 54%; min-width: 160px; }
+  .mem-level:nth-child(3) { width: 70%; min-width: 180px; }
+  .mem-level:nth-child(4) { width: 85%; min-width: 200px; }
+  .mem-level:nth-child(5) { width: 100%; }
+  .mem-level:hover { transform: scaleX(1.02); }
+
+  /* ── FADE IN ── */
+  .fade-in.anim { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+  .fade-in.anim.visible { opacity: 1; transform: none; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity: .4; } 50% { opacity: 1; }
+  }
+
+  /* ── UNIT COLORS ── */
+  .u1 .unit-num { background: rgba(0,212,255,.12); color: var(--accent); border: 1px solid rgba(0,212,255,.3); }
+  .u2 .unit-num { background: rgba(92,224,138,.12); color: var(--accent3); border: 1px solid rgba(92,224,138,.3); }
+  .u3 .unit-num { background: rgba(224,92,92,.12); color: var(--accent2); border: 1px solid rgba(224,92,92,.3); }
+  .u4 .unit-num { background: rgba(165,92,224,.12); color: var(--accent4); border: 1px solid rgba(165,92,224,.3); }
+  .u5 .unit-num { background: rgba(240,165,0,.12); color: var(--accent5); border: 1px solid rgba(240,165,0,.3); }
+
+  .u1 .card-title { color: var(--accent); }
+  .u2 .card-title { color: var(--accent3); }
+  .u3 .card-title { color: var(--accent2); }
+  .u4 .card-title { color: var(--accent4); }
+  .u5 .card-title { color: var(--accent5); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge">B.Tech · Computer Science · Digital Electronics</div>
+  <h1>Digital <em>Electronics</em><br>& Computer Organisation</h1>
+  <p class="hero-sub">Complete visual study notes — Logic Gates, Combinational Circuits, Memories, Sequential Building Blocks & Memory Organization.</p>
+  <div class="unit-pills">
+    <a class="unit-pill" href="#unit1">Unit I · Logic Gates</a>
+    <a class="unit-pill" href="#unit2">Unit II · Combinational</a>
+    <a class="unit-pill" href="#unit3">Unit III · Memories</a>
+    <a class="unit-pill" href="#unit4">Unit IV · Sequential</a>
+    <a class="unit-pill" href="#unit5">Unit V · Mem. Organization</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    scroll to explore
+  </div>
+</section>
+
+<!-- ── MOBILE NAV ── -->
+<nav class="mob-nav">
+  <span class="mob-nav-title">Digital Electronics</span>
+  <button class="ham-btn" id="mobHam">☰</button>
+</nav>
+
+<!-- ── DRAWER ── -->
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="drawer-head">
+    <span class="drawer-title">Contents</span>
+    <button class="close-btn" id="mobClose">✕</button>
+  </div>
+  <div class="drawer-unit">Unit I · Logic Gates</div>
+  <a href="#logic-gates">Logic Gates Overview</a>
+  <a href="#demorgan">De Morgan's Laws</a>
+  <a href="#boolean">Boolean Laws</a>
+  <a href="#sop-pos-kmap">SOP, POS & K-Map</a>
+  <div class="drawer-unit">Unit II · Combinational</div>
+  <a href="#mux-demux">Multiplexers & Demux</a>
+  <a href="#encoder-decoder">Encoder & Decoder</a>
+  <a href="#adder-sub">Adder & Subtractor</a>
+  <div class="drawer-unit">Unit III · Memories</div>
+  <a href="#rom-types">ROM & PROM & EPROM</a>
+  <a href="#ram-types">RAM Types</a>
+  <a href="#storage-media">HDD, Floppy & CD-ROM</a>
+  <div class="drawer-unit">Unit IV · Sequential</div>
+  <a href="#flip-flops">Flip-Flops</a>
+  <a href="#registers">Registers & Shift Registers</a>
+  <a href="#counters">Counters</a>
+  <div class="drawer-unit">Unit V · Mem. Organization</div>
+  <a href="#sram-dram">Static & Dynamic RAM Cell</a>
+  <a href="#large-memory">Building Large Memories</a>
+  <a href="#assoc-cache">Associative & Cache Memory</a>
+  <a href="#virtual-mem">Virtual Memory</a>
+</div>
+
+<!-- ── LAYOUT ── -->
+<div class="layout">
+
+  <!-- ── TOC ── -->
+  <aside class="toc">
+    <div class="toc-title">Contents</div>
+    <div class="toc-unit">Unit I · Logic Gates</div>
+    <a href="#logic-gates">Logic Gates Overview</a>
+    <a href="#demorgan">De Morgan's Laws</a>
+    <a href="#boolean">Boolean Laws</a>
+    <a href="#sop-pos-kmap">SOP, POS & K-Map</a>
+    <div class="toc-unit">Unit II · Combinational</div>
+    <a href="#mux-demux">Multiplexers & Demux</a>
+    <a href="#encoder-decoder">Encoder & Decoder</a>
+    <a href="#adder-sub">Adder & Subtractor</a>
+    <div class="toc-unit">Unit III · Memories</div>
+    <a href="#rom-types">ROM, PROM & EPROM</a>
+    <a href="#ram-types">RAM Types</a>
+    <a href="#storage-media">HDD, Floppy & CD-ROM</a>
+    <div class="toc-unit">Unit IV · Sequential</div>
+    <a href="#flip-flops">Flip-Flops</a>
+    <a href="#registers">Registers & Shift Registers</a>
+    <a href="#counters">Counters</a>
+    <div class="toc-unit">Unit V · Mem. Organization</div>
+    <a href="#sram-dram">Static & Dynamic RAM Cell</a>
+    <a href="#large-memory">Building Large Memories</a>
+    <a href="#assoc-cache">Associative & Cache Memory</a>
+    <a href="#virtual-mem">Virtual Memory</a>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <main class="main">
+
+    <!-- ═══════ UNIT I ═══════ -->
+    <section class="unit-section u1" id="unit1">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit I</div>
+        <h2 class="unit-title">Logic Gates & Circuit Design</h2>
+      </div>
+
+      <!-- Logic Gates -->
+      <div class="card fade-in" id="logic-gates">
+        <div class="card-title"><span class="icon">⚡</span> Logic Gates Overview</div>
+        <div class="def-box">
+          A <strong>logic gate</strong> is a basic building block of digital circuits that performs a Boolean operation on one or more binary inputs and produces a single binary output.
+        </div>
+
+        <p><strong>The Six Fundamental Gates:</strong></p>
+        <div class="gate-row">
+          <div class="gate-card">
+            <div class="gate-name">OR Gate</div>
+            <div class="gate-symbol">🔵</div>
+            <div class="gate-expr">Y = A + B</div>
+            <div class="gate-desc">Output is 1 if any input is 1</div>
+          </div>
+          <div class="gate-card">
+            <div class="gate-name">AND Gate</div>
+            <div class="gate-symbol">🟢</div>
+            <div class="gate-expr">Y = A · B</div>
+            <div class="gate-desc">Output is 1 only if all inputs are 1</div>
+          </div>
+          <div class="gate-card">
+            <div class="gate-name">NOR Gate</div>
+            <div class="gate-symbol">🔴</div>
+            <div class="gate-expr">Y = (A + B)′</div>
+            <div class="gate-desc">Inverted OR. Universal gate.</div>
+          </div>
+          <div class="gate-card">
+            <div class="gate-name">NAND Gate</div>
+            <div class="gate-symbol">🟠</div>
+            <div class="gate-expr">Y = (A · B)′</div>
+            <div class="gate-desc">Inverted AND. Universal gate.</div>
+          </div>
+          <div class="gate-card">
+            <div class="gate-name">XOR Gate</div>
+            <div class="gate-symbol">🟣</div>
+            <div class="gate-expr">Y = A ⊕ B</div>
+            <div class="gate-desc">Output 1 when inputs differ</div>
+          </div>
+          <div class="gate-card">
+            <div class="gate-name">XNOR Gate</div>
+            <div class="gate-symbol">⚪</div>
+            <div class="gate-expr">Y = (A ⊕ B)′</div>
+            <div class="gate-desc">Output 1 when inputs are equal</div>
+          </div>
+        </div>
+
+        <p><strong>Truth Tables (2-input gates):</strong></p>
+        <div style="display:flex;flex-wrap:wrap;gap:1rem;margin-top:.5rem;">
+          <div class="truth-table">
+            <table>
+              <thead><tr><th>A</th><th>B</th><th>AND</th><th>OR</th><th>XOR</th></tr></thead>
+              <tbody>
+                <tr><td class="lo">0</td><td class="lo">0</td><td class="lo">0</td><td class="lo">0</td><td class="lo">0</td></tr>
+                <tr><td class="lo">0</td><td class="hi">1</td><td class="lo">0</td><td class="hi">1</td><td class="hi">1</td></tr>
+                <tr><td class="hi">1</td><td class="lo">0</td><td class="lo">0</td><td class="hi">1</td><td class="hi">1</td></tr>
+                <tr><td class="hi">1</td><td class="hi">1</td><td class="hi">1</td><td class="hi">1</td><td class="lo">0</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="truth-table">
+            <table>
+              <thead><tr><th>A</th><th>B</th><th>NAND</th><th>NOR</th><th>XNOR</th></tr></thead>
+              <tbody>
+                <tr><td class="lo">0</td><td class="lo">0</td><td class="hi">1</td><td class="hi">1</td><td class="hi">1</td></tr>
+                <tr><td class="lo">0</td><td class="hi">1</td><td class="hi">1</td><td class="lo">0</td><td class="lo">0</td></tr>
+                <tr><td class="hi">1</td><td class="lo">0</td><td class="hi">1</td><td class="lo">0</td><td class="lo">0</td></tr>
+                <tr><td class="hi">1</td><td class="hi">1</td><td class="lo">0</td><td class="lo">0</td><td class="hi">1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="def-box" style="border-color:var(--accent3);margin-top:1rem">
+          <strong>Universal Gates:</strong> NAND and NOR are called universal gates because <em>any</em> Boolean function can be implemented using only NAND gates or only NOR gates. This simplifies manufacturing.
+        </div>
+      </div>
+
+      <!-- De Morgan's -->
+      <div class="card fade-in" id="demorgan">
+        <div class="card-title"><span class="icon">📐</span> De Morgan's Laws</div>
+        <p>De Morgan's theorems are fundamental for simplifying and transforming Boolean expressions.</p>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.25)">
+            <strong style="color:var(--accent)">First Theorem</strong>
+            <div class="code-block">(A · B)′ = A′ + B′</div>
+            The complement of a product = sum of complements.<br>
+            <em>NAND → bubble the inputs and change AND to OR.</em>
+          </div>
+          <div class="matrix-cell" style="background:rgba(92,224,138,.07);border:1px solid rgba(92,224,138,.25)">
+            <strong style="color:var(--accent3)">Second Theorem</strong>
+            <div class="code-block">(A + B)′ = A′ · B′</div>
+            The complement of a sum = product of complements.<br>
+            <em>NOR → bubble the inputs and change OR to AND.</em>
+          </div>
+        </div>
+        <div class="def-box" style="border-color:var(--accent5)">
+          <strong>Quick Rule:</strong> To apply De Morgan's — <em>Break the bar, change the operator</em> (AND ↔ OR, + ↔ ·, complement each variable).
+        </div>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Dual Principle</strong>Every Boolean identity has a dual: swap AND↔OR and 0↔1 throughout.</div>
+          <div class="kp-item"><strong>Multi-variable</strong>(A·B·C)′ = A′+B′+C′ — De Morgan's extends to n-variable expressions.</div>
+          <div class="kp-item"><strong>Verification</strong>Always verify with a truth table after applying De Morgan's transformation.</div>
+        </div>
+      </div>
+
+      <!-- Boolean Laws -->
+      <div class="card fade-in" id="boolean">
+        <div class="card-title"><span class="icon">📏</span> Boolean Laws & Theorems</div>
+        <p>Boolean algebra provides rules for simplifying logic expressions before implementing them in hardware.</p>
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead><tr><th>Law / Theorem</th><th>AND Form</th><th>OR Form</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Identity</strong></td><td>A · 1 = A</td><td>A + 0 = A</td></tr>
+            <tr><td><strong>Null / Dominance</strong></td><td>A · 0 = 0</td><td>A + 1 = 1</td></tr>
+            <tr><td><strong>Idempotent</strong></td><td>A · A = A</td><td>A + A = A</td></tr>
+            <tr><td><strong>Complement</strong></td><td>A · A′ = 0</td><td>A + A′ = 1</td></tr>
+            <tr><td><strong>Double Complement</strong></td><td colspan="2">(A′)′ = A</td></tr>
+            <tr><td><strong>Commutative</strong></td><td>A·B = B·A</td><td>A+B = B+A</td></tr>
+            <tr><td><strong>Associative</strong></td><td>(A·B)·C = A·(B·C)</td><td>(A+B)+C = A+(B+C)</td></tr>
+            <tr><td><strong>Distributive</strong></td><td>A·(B+C) = A·B + A·C</td><td>A+(B·C) = (A+B)·(A+C)</td></tr>
+            <tr><td><strong>Absorption</strong></td><td>A·(A+B) = A</td><td>A+(A·B) = A</td></tr>
+            <tr><td><strong>De Morgan's</strong></td><td>(A·B)′ = A′+B′</td><td>(A+B)′ = A′·B′</td></tr>
+          </tbody>
+        </table></div>
+        <div class="def-box" style="border-color:var(--accent2)">
+          <strong>Consensus Theorem:</strong> A·B + A′·C + B·C = A·B + A′·C — the third term (B·C) is redundant and can be eliminated.
+        </div>
+      </div>
+
+      <!-- SOP POS K-Map -->
+      <div class="card fade-in" id="sop-pos-kmap">
+        <div class="card-title"><span class="icon">🗺️</span> Circuit Design: SOP, POS & K-Map</div>
+
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.25)">
+            <strong style="color:var(--accent)">Sum of Products (SOP)</strong>
+            Boolean function expressed as OR of AND terms (minterms).<br>
+            <code style="color:var(--accent3);font-family:'DM Mono',monospace;font-size:.82rem">F = A'B + AB' + AB</code><br>
+            Each AND term = one row where output = 1.
+          </div>
+          <div class="matrix-cell" style="background:rgba(92,224,138,.07);border:1px solid rgba(92,224,138,.25)">
+            <strong style="color:var(--accent3)">Product of Sums (POS)</strong>
+            Boolean function expressed as AND of OR terms (maxterms).<br>
+            <code style="color:var(--accent);font-family:'DM Mono',monospace;font-size:.82rem">F = (A+B)(A'+B')</code><br>
+            Each OR term = one row where output = 0.
+          </div>
+        </div>
+
+        <p><strong>Karnaugh Map (K-Map) — Simplification Technique:</strong></p>
+        <p>A K-Map groups adjacent 1s (for SOP) or 0s (for POS) in powers of 2 (1, 2, 4, 8…) to eliminate variables and produce the minimal expression.</p>
+
+        <p><strong>Example K-Map for F(A,B,C,D):</strong></p>
+        <div class="kmap-wrap">
+          <div class="kmap">
+            <table>
+              <thead>
+                <tr><th>AB \ CD</th><th>00</th><th>01</th><th>11</th><th>10</th></tr>
+              </thead>
+              <tbody>
+                <tr><th>00</th><td class="grp1">1</td><td class="grp1">1</td><td>0</td><td>0</td></tr>
+                <tr><th>01</th><td class="grp2">1</td><td class="grp2">1</td><td class="grp3">1</td><td class="grp3">1</td></tr>
+                <tr><th>11</th><td class="grp2">1</td><td class="grp2">1</td><td class="grp3">1</td><td class="grp3">1</td></tr>
+                <tr><th>10</th><td>0</td><td>0</td><td>0</td><td>0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="tag-cloud">
+          <span class="tag" style="background:rgba(0,212,255,.15);color:var(--accent)">Group Blue: A'C' → 2-cell pair</span>
+          <span class="tag" style="background:rgba(92,224,138,.15);color:var(--accent3)">Group Green: A'B eliminated</span>
+          <span class="tag" style="background:rgba(240,165,0,.15);color:var(--accent5)">Group Yellow: BC simplified</span>
+        </div>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Rules for Grouping</strong>Groups must be rectangles of size 1, 2, 4, 8 cells. Groups can wrap around edges. Larger groups = more variables eliminated.</div>
+          <div class="kp-item"><strong>Prime Implicant</strong>A group that cannot be included in a larger group. Essential prime implicants must appear in the final expression.</div>
+          <div class="kp-item"><strong>Don't Cares (X)</strong>Cells with undefined output (marked X) can be treated as 0 or 1 — use them to form larger groups and simplify further.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT II ═══════ -->
+    <section class="unit-section u2" id="unit2">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit II</div>
+        <h2 class="unit-title">Combinational Building Blocks</h2>
+      </div>
+
+      <!-- Mux Demux -->
+      <div class="card fade-in" id="mux-demux">
+        <div class="card-title"><span class="icon">🔀</span> Multiplexer & Demultiplexer</div>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(92,224,138,.07);border:1px solid rgba(92,224,138,.25)">
+            <strong style="color:var(--accent3)">Multiplexer (MUX)</strong>
+            <em>"Many to One"</em> — selects one of N input lines and routes it to a single output using select lines.<br><br>
+            A 2ⁿ-to-1 MUX needs <strong>n select lines</strong>.<br>
+            Example: 4×1 MUX has 4 inputs, 2 select lines, 1 output.<br><br>
+            <strong>Expression:</strong> Y = S'·I₀ + S·I₁ (for 2:1 MUX)
+          </div>
+          <div class="matrix-cell" style="background:rgba(165,92,224,.07);border:1px solid rgba(165,92,224,.25)">
+            <strong style="color:var(--accent4)">Demultiplexer (DEMUX)</strong>
+            <em>"One to Many"</em> — routes a single input to one of N output lines using select lines.<br><br>
+            A 1-to-2ⁿ DEMUX needs <strong>n select lines</strong>.<br>
+            Example: 1×4 DEMUX has 1 input, 2 select lines, 4 outputs.<br><br>
+            <strong>Note:</strong> Decoder with enable = DEMUX.
+          </div>
+        </div>
+        <div class="def-box" style="border-color:var(--accent3)">
+          <strong>MUX as Universal Logic:</strong> Any Boolean function of n variables can be implemented using a 2ⁿ⁻¹-to-1 MUX. MUX is also used in data routing, time-division multiplexing, and function generators.
+        </div>
+        <p><strong>MUX applications:</strong></p>
+        <div class="flow">
+          <div class="flow-step">Data Selector</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Parallel-to-Serial</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Function Generator</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Data Routing in Networks</div>
+        </div>
+      </div>
+
+      <!-- Encoder Decoder -->
+      <div class="card fade-in" id="encoder-decoder">
+        <div class="card-title"><span class="icon">🔢</span> Encoder & Decoder</div>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.25)">
+            <strong style="color:var(--accent)">Decoder</strong>
+            Converts an n-bit binary code to one of 2ⁿ unique outputs (active high or low).<br>
+            A 3-to-8 decoder: 3 inputs → 8 output lines, only one HIGH at a time.<br><br>
+            <strong>Enable pin:</strong> When EN=0, all outputs = 0. Used to expand decoders.<br>
+            <strong>Uses:</strong> Memory address decoding, demultiplexing, BCD-to-7 segment.
+          </div>
+          <div class="matrix-cell" style="background:rgba(240,165,0,.07);border:1px solid rgba(240,165,0,.25)">
+            <strong style="color:var(--accent5)">Encoder</strong>
+            Performs the reverse: 2ⁿ input lines → n-bit binary output.<br>
+            An 8-to-3 encoder: 8 inputs → 3-bit binary code.<br><br>
+            <strong>Priority Encoder:</strong> When multiple inputs are active, it encodes the highest-priority (usually highest-numbered) input. Resolves ambiguity. Has a Valid Output (V) flag.
+          </div>
+        </div>
+        <p><strong>BCD to 7-Segment Decoder:</strong> A practical decoder that converts a 4-bit BCD value (0–9) to the 7 segment signals (a,b,c,d,e,f,g) needed to drive a 7-segment LED display.</p>
+        <div class="flow">
+          <div class="flow-step">BCD Input (0000–1001)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">7-Segment Decoder</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">7 Segment Lines (a–g)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">LED Display</div>
+        </div>
+      </div>
+
+      <!-- Adder Subtractor -->
+      <div class="card fade-in" id="adder-sub">
+        <div class="card-title"><span class="icon">➕</span> Adder & Subtractor</div>
+        <div class="kp-grid">
+          <div class="kp-item">
+            <strong>Half Adder</strong>
+            Adds two 1-bit numbers. Outputs: Sum (S) and Carry (C).<br>
+            S = A ⊕ B &nbsp;&nbsp; C = A · B<br>
+            No carry-in input.
+          </div>
+          <div class="kp-item">
+            <strong>Full Adder</strong>
+            Adds two 1-bit numbers + carry-in (Cᵢₙ).<br>
+            S = A ⊕ B ⊕ Cᵢₙ<br>
+            Cₒᵤₜ = A·B + B·Cᵢₙ + A·Cᵢₙ
+          </div>
+          <div class="kp-item">
+            <strong>Ripple Carry Adder</strong>
+            Chain of full adders. Carry "ripples" from LSB to MSB. Simple but slow for large n due to propagation delay.
+          </div>
+          <div class="kp-item">
+            <strong>Carry Look-Ahead Adder</strong>
+            Computes all carries in parallel using Generate (G=A·B) and Propagate (P=A⊕B) signals. Faster — O(log n) delay.
+          </div>
+        </div>
+
+        <p><strong>Binary Subtraction using 2's Complement:</strong></p>
+        <div class="def-box" style="border-color:var(--accent2)">
+          A – B = A + (2's complement of B) = A + (B' + 1). The same adder circuit with XOR gates and a carry-in of 1 can perform both addition and subtraction. This is implemented in the <strong>Adder-Subtractor</strong> circuit using a Mode control (M).
+        </div>
+        <div class="flow">
+          <div class="flow-step">M=0 → Addition (A + B)</div>
+          <div class="flow-arrow">|</div>
+          <div class="flow-step">M=1 → Subtraction (A – B)</div>
+        </div>
+        <p><strong>Half Subtractor:</strong> Computes Difference (D = A⊕B) and Borrow (Bₒᵤₜ = A'·B). Full Subtractor adds a borrow-in input.</p>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT III ═══════ -->
+    <section class="unit-section u3" id="unit3">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit III</div>
+        <h2 class="unit-title">Memory Devices</h2>
+      </div>
+
+      <!-- ROMs -->
+      <div class="card fade-in" id="rom-types">
+        <div class="card-title"><span class="icon">💾</span> ROM, PROM & EPROM</div>
+        <div class="def-box" style="border-color:var(--accent2)">
+          <strong>Read-Only Memory (ROM)</strong> is non-volatile memory whose contents are permanently or semi-permanently stored and can only be read during normal operation, not written.
+        </div>
+        <div class="kp-grid">
+          <div class="kp-item">
+            <strong>ROM (Mask ROM)</strong>
+            Programmed during fabrication. Contents fixed by the chip manufacturer's mask. Cannot be altered after manufacture. Used for firmware, boot code.
+          </div>
+          <div class="kp-item">
+            <strong>PROM</strong>
+            Programmable ROM — blank from factory. User programs it <em>once</em> using a PROM programmer (blows fuses). Cannot be reprogrammed after.
+          </div>
+          <div class="kp-item">
+            <strong>EPROM</strong>
+            Erasable PROM — can be reprogrammed. Erased by exposing the quartz window to UV light for 15–20 min. Reprogrammed electrically. Identified by quartz window on chip.
+          </div>
+          <div class="kp-item">
+            <strong>EEPROM</strong>
+            Electrically Erasable PROM — erased and reprogrammed electrically, byte-by-byte, without removal from circuit. Slower write than RAM.
+          </div>
+          <div class="kp-item">
+            <strong>Flash Memory</strong>
+            Modern evolution of EEPROM. Erased in blocks (not bytes). Fast, dense, used in SSDs, USB drives, memory cards. NAND Flash for storage, NOR Flash for execute-in-place.
+          </div>
+          <div class="kp-item">
+            <strong>ROM as Combinational Circuit</strong>
+            A 2ⁿ × m ROM = n-to-2ⁿ decoder + m OR gates. Can implement any Boolean function of n variables with m outputs.
+          </div>
+        </div>
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead><tr><th>Type</th><th>Write</th><th>Erase Method</th><th>Volatile?</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td>ROM</td><td>Factory only</td><td>Cannot erase</td><td>No</td><td>Mass-produced firmware</td></tr>
+            <tr><td>PROM</td><td>Once (user)</td><td>Cannot erase</td><td>No</td><td>Small-batch prototyping</td></tr>
+            <tr><td>EPROM</td><td>Multiple (re-program)</td><td>UV light</td><td>No</td><td>Development & testing</td></tr>
+            <tr><td>EEPROM</td><td>Multiple</td><td>Electrical (byte)</td><td>No</td><td>BIOS, calibration data</td></tr>
+            <tr><td>Flash</td><td>Multiple</td><td>Electrical (block)</td><td>No</td><td>SSDs, USB, smartphones</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+
+      <!-- RAM -->
+      <div class="card fade-in" id="ram-types">
+        <div class="card-title"><span class="icon">🧠</span> RAM Types</div>
+        <div class="def-box" style="border-color:var(--accent3)">
+          <strong>Random Access Memory (RAM)</strong> allows data to be read and written at any address in roughly equal time. It is <em>volatile</em> — contents are lost when power is removed.
+        </div>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(92,224,138,.07);border:1px solid rgba(92,224,138,.25)">
+            <strong style="color:var(--accent3)">Static RAM (SRAM)</strong>
+            Uses flip-flop (6-transistor cell) to store each bit. Retains data as long as power is on — no refresh needed.<br>
+            <ul style="margin:.5rem 0 0 1rem;font-size:.82rem;color:var(--text-muted)">
+              <li>Faster access (~1–10 ns)</li>
+              <li>More expensive, lower density</li>
+              <li>Used in CPU cache (L1, L2, L3)</li>
+              <li>Low power in standby</li>
+            </ul>
+          </div>
+          <div class="matrix-cell" style="background:rgba(224,92,92,.07);border:1px solid rgba(224,92,92,.25)">
+            <strong style="color:var(--accent2)">Dynamic RAM (DRAM)</strong>
+            Uses 1-transistor + 1-capacitor cell. Capacitor leaks charge → must be refreshed every ~64 ms.<br>
+            <ul style="margin:.5rem 0 0 1rem;font-size:.82rem;color:var(--text-muted)">
+              <li>Slower access (~50–100 ns)</li>
+              <li>Cheap, high density</li>
+              <li>Used as main memory (DDR4/DDR5)</li>
+              <li>Requires refresh circuitry</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Storage Media -->
+      <div class="card fade-in" id="storage-media">
+        <div class="card-title"><span class="icon">💿</span> Hard Disk, Floppy Disk & CD-ROM</div>
+        <div class="kp-grid">
+          <div class="kp-item">
+            <strong>Hard Disk Drive (HDD)</strong>
+            Magnetic storage on spinning platters coated with ferromagnetic material. Read/write heads on actuator arms hover nanometers above the surface.
+            Organized as: Platters → Tracks → Cylinders → Sectors (512B or 4KB each).
+            Access time = Seek time + Rotational latency + Transfer time.
+          </div>
+          <div class="kp-item">
+            <strong>Floppy Disk</strong>
+            Removable, flexible magnetic disk. 3.5" HD floppy = 1.44 MB. Two-sided, 80 tracks per side, 18 sectors per track. Now obsolete; replaced by USB and optical media. Uses similar magnetic recording to HDD but slower.
+          </div>
+          <div class="kp-item">
+            <strong>CD-ROM</strong>
+            Optical storage: laser reads pits (0) and lands (1) pressed into a polycarbonate disc. 650–700 MB capacity. Constant Linear Velocity (CLV) — disc spins faster when reading inner tracks. 1× = 150 KB/s read speed.
+          </div>
+        </div>
+        <div class="tbl-wrap"><table class="styled-table">
+          <thead><tr><th>Medium</th><th>Type</th><th>Capacity</th><th>Access Time</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>HDD</td><td>Magnetic</td><td>500 GB – 20 TB</td><td>5–15 ms</td><td>Still widely used</td></tr>
+            <tr><td>Floppy (3.5")</td><td>Magnetic</td><td>1.44 MB</td><td>~200 ms</td><td>Obsolete</td></tr>
+            <tr><td>CD-ROM</td><td>Optical</td><td>650–700 MB</td><td>80–150 ms</td><td>Legacy use</td></tr>
+            <tr><td>DVD-ROM</td><td>Optical</td><td>4.7–17 GB</td><td>~100 ms</td><td>Declining</td></tr>
+            <tr><td>SSD (Flash)</td><td>Electronic</td><td>128 GB – 4 TB</td><td>0.05–0.1 ms</td><td>Dominant</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT IV ═══════ -->
+    <section class="unit-section u4" id="unit4">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit IV</div>
+        <h2 class="unit-title">Sequential Building Blocks</h2>
+      </div>
+
+      <!-- Flip-Flops -->
+      <div class="card fade-in" id="flip-flops">
+        <div class="card-title"><span class="icon">🔄</span> Flip-Flops</div>
+        <div class="def-box" style="border-color:var(--accent4)">
+          A <strong>flip-flop</strong> is a bistable multivibrator — a sequential circuit that stores 1 bit of information. Unlike combinational circuits, its output depends on both current inputs <em>and</em> the previous state.
+        </div>
+        <div class="ff-grid">
+          <div class="ff-card">
+            <div class="ff-title" style="color:var(--accent)">SR Flip-Flop</div>
+            <div class="ff-feature">Set (S) = 1 → Q becomes 1</div>
+            <div class="ff-feature">Reset (R) = 1 → Q becomes 0</div>
+            <div class="ff-feature">S=R=0 → Hold (no change)</div>
+            <div class="ff-feature" style="color:var(--accent2)">S=R=1 → Forbidden / Invalid state</div>
+            <div class="ff-feature">Built from NAND or NOR gates</div>
+          </div>
+          <div class="ff-card">
+            <div class="ff-title" style="color:var(--accent3)">D Flip-Flop (Data/Delay)</div>
+            <div class="ff-feature">D input directly determines next state</div>
+            <div class="ff-feature">On clock edge: Q(next) = D</div>
+            <div class="ff-feature">Eliminates forbidden state of SR FF</div>
+            <div class="ff-feature">Used in registers, data storage</div>
+            <div class="ff-feature">Most widely used flip-flop</div>
+          </div>
+          <div class="ff-card">
+            <div class="ff-title" style="color:var(--accent4)">JK Flip-Flop</div>
+            <div class="ff-feature">J=K=0 → Hold (no change)</div>
+            <div class="ff-feature">J=1, K=0 → Set (Q=1)</div>
+            <div class="ff-feature">J=0, K=1 → Reset (Q=0)</div>
+            <div class="ff-feature">J=K=1 → Toggle (Q flips)</div>
+            <div class="ff-feature">Universal FF — no forbidden state</div>
+          </div>
+          <div class="ff-card">
+            <div class="ff-title" style="color:var(--accent5)">T Flip-Flop (Toggle)</div>
+            <div class="ff-feature">T=0 → Hold (no change)</div>
+            <div class="ff-feature">T=1 → Toggle (Q flips)</div>
+            <div class="ff-feature">Derived from JK with J=K=T</div>
+            <div class="ff-feature">Used in binary counters</div>
+            <div class="ff-feature">Output frequency = clk/2</div>
+          </div>
+          <div class="ff-card">
+            <div class="ff-title" style="color:var(--accent2)">Master-Slave JK FF</div>
+            <div class="ff-feature">Two FFs cascaded: Master + Slave</div>
+            <div class="ff-feature">Master captures input on CLK=1</div>
+            <div class="ff-feature">Slave transfers to output on CLK=0</div>
+            <div class="ff-feature">Eliminates race condition (1s catching)</div>
+            <div class="ff-feature">Edge-triggered behavior achieved</div>
+          </div>
+        </div>
+
+        <div class="def-box" style="border-color:var(--accent5)">
+          <strong>Edge Triggering:</strong> Modern flip-flops are edge-triggered — they respond only on the rising edge (↑) or falling edge (↓) of the clock, preventing timing hazards during the stable clock level.
+        </div>
+      </div>
+
+      <!-- Registers -->
+      <div class="card fade-in" id="registers">
+        <div class="card-title"><span class="icon">📦</span> Registers & Shift Registers</div>
+        <p>A <strong>register</strong> is a group of flip-flops used to store multiple bits simultaneously. An n-bit register = n flip-flops.</p>
+        <div class="kp-grid">
+          <div class="kp-item">
+            <strong>SISO (Serial-In Serial-Out)</strong>
+            Data enters and exits one bit at a time. n clock pulses needed to shift n bits. Used as delay lines and data buffers.
+          </div>
+          <div class="kp-item">
+            <strong>SIPO (Serial-In Parallel-Out)</strong>
+            Data enters serially; all bits available simultaneously at output. Converts serial data to parallel (e.g., UART receiver).
+          </div>
+          <div class="kp-item">
+            <strong>PISO (Parallel-In Serial-Out)</strong>
+            All bits loaded simultaneously; shifted out one by one. Converts parallel data to serial (e.g., UART transmitter).
+          </div>
+          <div class="kp-item">
+            <strong>PIPO (Parallel-In Parallel-Out)</strong>
+            All bits loaded and read simultaneously. Fastest mode. Used as temporary storage registers in CPUs (accumulators, data registers).
+          </div>
+          <div class="kp-item">
+            <strong>Bidirectional Shift Register</strong>
+            Can shift data left or right. Direction controlled by a mode select pin. Used in arithmetic operations (shift left = ×2, shift right = ÷2).
+          </div>
+          <div class="kp-item">
+            <strong>Universal Shift Register</strong>
+            Supports all four modes: SISO, SIPO, PISO, PIPO, left shift, right shift. Most flexible. Example: 74HC194.
+          </div>
+        </div>
+      </div>
+
+      <!-- Counters -->
+      <div class="card fade-in" id="counters">
+        <div class="card-title"><span class="icon">🔢</span> Counters — Synchronous & Asynchronous</div>
+        <div class="def-box" style="border-color:var(--accent4)">
+          A <strong>counter</strong> is a sequential circuit that cycles through a predetermined sequence of states in response to clock pulses. It counts events, measures time, and generates addresses.
+        </div>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(165,92,224,.07);border:1px solid rgba(165,92,224,.25)">
+            <strong style="color:var(--accent4)">Asynchronous (Ripple) Counter</strong>
+            Only the first FF is clocked by the external clock. Each subsequent FF is clocked by the output of the previous one. The carry "ripples" through.<br>
+            ✅ Simple circuit, fewer connections<br>
+            ❌ Slower — propagation delay accumulates (td × n)<br>
+            ❌ Glitches in intermediate states<br>
+            Example: 4-bit ripple counter with 4 T FFs.
+          </div>
+          <div class="matrix-cell" style="background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.25)">
+            <strong style="color:var(--accent)">Synchronous Counter</strong>
+            All flip-flops share the same clock — triggered simultaneously. Carry logic computed in parallel using AND gates.<br>
+            ✅ Faster — no ripple delay<br>
+            ✅ No glitches in intermediate states<br>
+            ❌ More complex logic circuitry<br>
+            Used in high-speed digital systems, CPUs, and signal processing.
+          </div>
+        </div>
+        <p><strong>Designing Method (State Machine Approach):</strong></p>
+        <div class="flow">
+          <div class="flow-step">1. Define States & Count Sequence</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">2. Draw State Diagram</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">3. Create State Table</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">4. Derive Flip-Flop Excitation</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">5. Simplify with K-Map</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">6. Draw Circuit</div>
+        </div>
+        <div class="kp-grid">
+          <div class="kp-item"><strong>Mod-N Counter</strong>Counts from 0 to N–1, then resets. A Mod-6 counter uses 3 FFs and resets on state 6. Built by adding a combinational reset logic.</div>
+          <div class="kp-item"><strong>Ring Counter</strong>Single 1 circulates through n FFs. n-bit ring = n states. Simple, no decoding needed. Useful for timing and sequencing.</div>
+          <div class="kp-item"><strong>Johnson Counter</strong>Complement of output fed back to input. 2n states from n FFs. More states than ring counter. Used in decade counters.</div>
+          <div class="kp-item"><strong>Up/Down Counter</strong>Counts upward or downward based on a direction control input. Used in bidirectional control applications.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ UNIT V ═══════ -->
+    <section class="unit-section u5" id="unit5">
+      <div class="unit-header fade-in">
+        <div class="unit-num">Unit V</div>
+        <h2 class="unit-title">Memory Organization</h2>
+      </div>
+
+      <!-- SRAM DRAM Cell -->
+      <div class="card fade-in" id="sram-dram">
+        <div class="card-title"><span class="icon">🔬</span> Basic Cell of Static & Dynamic RAM</div>
+        <div class="matrix">
+          <div class="matrix-cell" style="background:rgba(240,165,0,.07);border:1px solid rgba(240,165,0,.25)">
+            <strong style="color:var(--accent5)">SRAM Cell (6-Transistor)</strong>
+            Composed of 2 cross-coupled CMOS inverters (4 transistors) + 2 access transistors.<br><br>
+            <strong>Operation:</strong><br>
+            • <em>Write:</em> Assert word line → bit lines drive the cross-coupled pair to desired state<br>
+            • <em>Read:</em> Assert word line → sense amplifier detects small differential voltage on bit lines<br>
+            • <em>Hold:</em> Word line de-asserted → inverter pair holds state indefinitely (power on)<br><br>
+            <strong>No refresh needed.</strong> State held by regenerative feedback.
+          </div>
+          <div class="matrix-cell" style="background:rgba(92,224,138,.07);border:1px solid rgba(92,224,138,.25)">
+            <strong style="color:var(--accent3)">DRAM Cell (1T-1C)</strong>
+            Composed of 1 access transistor + 1 capacitor.<br><br>
+            <strong>Operation:</strong><br>
+            • <em>Write:</em> Assert row select → charge/discharge capacitor via bit line<br>
+            • <em>Read:</em> Assert row select → small charge on capacitor shared with bit line; sense amplifier detects and restores (destructive read)<br>
+            • <em>Refresh:</em> Capacitor leaks ~every 64 ms → memory controller must read and rewrite each row periodically<br><br>
+            <strong>Destructive read</strong> — data must be rewritten after reading.
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--accent5)">6T</div>
+            <div class="stat-label">Transistors per SRAM cell</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--accent3)">1T+1C</div>
+            <div class="stat-label">Transistors per DRAM cell</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--accent)">~1 ns</div>
+            <div class="stat-label">SRAM access time</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num" style="color:var(--accent2)">~60 ns</div>
+            <div class="stat-label">DRAM access time</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Large Memory -->
+      <div class="card fade-in" id="large-memory">
+        <div class="card-title"><span class="icon">🏗️</span> Building Large Memories Using Chips</div>
+        <p>A single memory chip may not provide sufficient address space or word width. We combine chips to build larger memories.</p>
+        <div class="kp-grid">
+          <div class="kp-item">
+            <strong>Word Length Expansion</strong>
+            To increase word width: connect chips in <em>parallel</em> (same address lines, different data lines). Example: Two 1K×4 chips → 1K×8 memory. Address lines shared; data lines doubled.
+          </div>
+          <div class="kp-item">
+            <strong>Address Space Expansion</strong>
+            To increase addressable locations: connect chips in <em>series</em> with a decoder selecting the active chip. Example: Two 1K×8 chips → 2K×8 memory. A higher address bit selects the chip via CS (chip select).
+          </div>
+          <div class="kp-item">
+            <strong>Chip Select (CS)</strong>
+            Each chip has a CS̄ (active low) pin. Decoder output drives CS̄. Only the selected chip drives the data bus; others are in high-impedance (tri-state). Prevents bus contention.
+          </div>
+          <div class="kp-item">
+            <strong>Combined Expansion</strong>
+            Real systems expand both word length and address space simultaneously. Memory map partitions address space into banks, each served by a chip group.
+          </div>
+        </div>
+        <div class="def-box" style="border-color:var(--accent5)">
+          <strong>Example:</strong> Build 8K×16 from 2K×8 chips. Need 4 chips for word expansion (2×2K×8 → 2K×16) and 4 banks for address expansion (4×2K = 8K). Total: 4 × 4 = 16 chips. A 2-to-4 decoder selects the active bank using address bits A11–A10.
+        </div>
+      </div>
+
+      <!-- Associative & Cache -->
+      <div class="card fade-in" id="assoc-cache">
+        <div class="card-title"><span class="icon">⚡</span> Associative Memory & Cache Memory Organization</div>
+        <div class="def-box" style="border-color:var(--accent)">
+          <strong>Associative Memory (Content-Addressable Memory — CAM):</strong> Unlike RAM (addressed by location), CAM is addressed by <em>content</em>. A search key is compared simultaneously with all stored entries; matching locations return their addresses or data. Used in TLBs, routers, and cache tag arrays.
+        </div>
+        <div class="kp-grid">
+          <div class="kp-item">
+            <strong>Cache Memory</strong>
+            A small, fast SRAM buffer between the CPU and slower main memory (DRAM). Stores recently and frequently used data.
+            Hit ratio h = (cache accesses) / (total accesses). Average access time = h·tC + (1–h)·tM.
+          </div>
+          <div class="kp-item">
+            <strong>Locality of Reference</strong>
+            <em>Temporal:</em> Recently accessed data likely reused soon.<br>
+            <em>Spatial:</em> Data near recently accessed locations likely used soon.<br>
+            Cache exploits both types of locality.
+          </div>
+        </div>
+        <p><strong>Cache Mapping Techniques:</strong></p>
+        <div class="kp-grid">
+          <div class="kp-item">
+            <strong>Direct Mapping</strong>
+            Each main memory block maps to exactly one cache line. Address = Tag | Line Index | Block Offset. Simple, fast, but suffers from conflict misses.
+          </div>
+          <div class="kp-item">
+            <strong>Fully Associative</strong>
+            Any block can go into any cache line. Uses CAM for tag comparison. Highest flexibility, lowest miss rate — but expensive comparator hardware.
+          </div>
+          <div class="kp-item">
+            <strong>Set-Associative (n-way)</strong>
+            Cache divided into sets; each block maps to one set but can occupy any of n lines within that set. Balance between direct and fully associative. Most common (e.g., 8-way L3 cache).
+          </div>
+          <div class="kp-item">
+            <strong>Replacement Policies</strong>
+            When a cache set is full: <em>LRU</em> (evict least recently used), <em>FIFO</em> (evict oldest), <em>Random</em> (evict random line — simple, surprisingly effective).
+          </div>
+          <div class="kp-item">
+            <strong>Write Policies</strong>
+            <em>Write-through:</em> Write to both cache and main memory simultaneously. Consistent but slower.<br>
+            <em>Write-back:</em> Write only to cache; update main memory when line is evicted (dirty bit used).
+          </div>
+          <div class="kp-item">
+            <strong>Cache Levels</strong>
+            Modern CPUs: L1 (4–64 KB, ~1 ns, per-core), L2 (256 KB–4 MB, ~5 ns, per-core), L3 (4–64 MB, ~20 ns, shared). Larger = slower = cheaper per bit.
+          </div>
+        </div>
+        <div class="mem-pyramid">
+          <div class="mem-level" style="background:linear-gradient(135deg,#00d4ff,#0090cc)">CPU Registers (ns)</div>
+          <div class="mem-level" style="background:linear-gradient(135deg,#5ce08a,#3ba85e)">L1 / L2 Cache SRAM</div>
+          <div class="mem-level" style="background:linear-gradient(135deg,#a55ce0,#7a2cb8)">L3 Cache (Shared)</div>
+          <div class="mem-level" style="background:linear-gradient(135deg,#f0a500,#c07800)">Main Memory DRAM</div>
+          <div class="mem-level" style="background:linear-gradient(135deg,#888,#555)">Secondary Storage (SSD/HDD)</div>
+        </div>
+      </div>
+
+      <!-- Virtual Memory -->
+      <div class="card fade-in" id="virtual-mem">
+        <div class="card-title"><span class="icon">🌐</span> Virtual Memory Organization</div>
+        <div class="def-box" style="border-color:var(--accent3)">
+          <strong>Virtual Memory</strong> creates the illusion of a large, contiguous address space for each process, even when physical RAM is smaller. The OS and MMU (Memory Management Unit) manage the translation between virtual addresses (used by programs) and physical addresses (actual RAM locations).
+        </div>
+        <div class="kp-grid">
+          <div class="kp-item">
+            <strong>Paging</strong>
+            Virtual and physical memory divided into fixed-size <em>pages</em> (typically 4 KB). OS maintains a Page Table per process. Virtual address = Page Number + Page Offset. Page Table maps VPN → PFN (Physical Frame Number).
+          </div>
+          <div class="kp-item">
+            <strong>Page Fault</strong>
+            When the referenced page is not in RAM (present bit = 0), a page fault interrupt occurs. OS loads the missing page from disk (swap space) into a free frame. Can be slow (~1–10 ms).
+          </div>
+          <div class="kp-item">
+            <strong>TLB (Translation Look-aside Buffer)</strong>
+            Small, fast CAM cache storing recent VPN→PFN translations. If VPN found in TLB (TLB hit) → fast translation; else (TLB miss) → walk the page table. TLB hit rates typically 99%+.
+          </div>
+          <div class="kp-item">
+            <strong>Segmentation</strong>
+            Alternative approach: divides address space into variable-length <em>segments</em> (code, data, stack). Address = Segment Number + Offset. More natural for programs but leads to external fragmentation.
+          </div>
+          <div class="kp-item">
+            <strong>Demand Paging</strong>
+            Pages loaded into RAM only when first accessed (not all at program start). Reduces startup time and memory usage. Most modern OSes use demand paging.
+          </div>
+          <div class="kp-item">
+            <strong>Page Replacement</strong>
+            When RAM is full and a new page is needed: <em>LRU</em> (evict least-recently used page), <em>FIFO</em>, <em>Optimal</em> (theoretical best — evict page used farthest in future), <em>Clock/Second-Chance</em> (practical LRU approximation).
+          </div>
+        </div>
+        <p><strong>Address Translation Flow:</strong></p>
+        <div class="flow">
+          <div class="flow-step">CPU generates Virtual Address</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">MMU checks TLB</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">TLB Hit → Physical Addr</div>
+          <div class="flow-arrow">|</div>
+          <div class="flow-step">TLB Miss → Page Table Walk</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Physical Address → RAM</div>
+        </div>
+        <div class="def-box" style="border-color:var(--accent2)">
+          <strong>Thrashing:</strong> If a process has too few frames, it constantly causes page faults — spending more time swapping pages than executing code. Prevented by working set model (allocate enough frames for a process's active pages).
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer style="text-align:center;padding:3rem 1rem;color:var(--text-dim);font-size:.78rem;border-top:1px solid var(--border);margin-top:4rem;">
+  <p style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--text-muted);margin-bottom:.5rem">Digital Electronics & Computer Organisation</p>
+  <p>Complete Study Guide · Five Units · Visual Reference · B.Tech CSE</p>
+</footer>
+
+<script>
+(function() {
+  var ham      = document.getElementById('mobHam');
+  var overlay  = document.getElementById('mobOverlay');
+  var drawer   = document.getElementById('mobDrawer');
+  var closeBtn = document.getElementById('mobClose');
+
+  function openDrawer() {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (ham)      ham.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (overlay)  overlay.addEventListener('click', closeDrawer);
+  if (drawer) {
+    drawer.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() { setTimeout(closeDrawer, 150); });
+    });
+  }
+
+  // Fade in on scroll
+  if ('IntersectionObserver' in window) {
+    var els = document.querySelectorAll('.fade-in');
+    els.forEach(function(el) { el.classList.add('anim'); });
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.05 });
+    els.forEach(function(el) { obs.observe(el); });
+  }
+
+  // TOC active highlight
+  var tocLinks = document.querySelectorAll('.toc a');
+  if (tocLinks.length && 'IntersectionObserver' in window) {
+    var tObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          tocLinks.forEach(function(l) { l.classList.remove('active'); });
+          var a = document.querySelector('.toc a[href="#' + e.target.id + '"]');
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('[id]').forEach(function(s) { tObs.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C Programming — Complete Study Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=JetBrains+Mono:wght@400;500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0d1117;
+  --surface:  #161b22;
+  --card:     #1c2230;
+  --border:   #2d3748;
+  --accent:   #f6c90e;
+  --accent2:  #38bdf8;
+  --accent3:  #4ade80;
+  --accent4:  #f87171;
+  --accent5:  #c084fc;
+  --text:     #e2e8f0;
+  --muted:    #8892a4;
+  --code-bg:  #0a0e14;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Lato',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  min-height:100vh;
+  font-size:15px;
+  line-height:1.7;
+}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:260px;
+  flex-shrink:0;
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  padding:24px 0;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-logo{
+  padding:0 20px 20px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:16px;
+}
+
+.sidebar-logo-title{
+  font-family:'Playfair Display',serif;
+  font-size:18px;
+  font-weight:900;
+  color:#fff;
+  line-height:1.2;
+}
+
+.sidebar-logo-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.nav-label{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:0.12em;
+  color:var(--muted);
+  padding:0 20px 8px;
+  font-weight:700;
+}
+
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px 20px;
+  cursor:pointer;
+  border-left:3px solid transparent;
+  transition:all 0.15s;
+  text-decoration:none;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:700;
+}
+
+.nav-item:hover{background:#ffffff08;color:var(--text);}
+.nav-item.active{border-left-color:var(--accent);background:#f6c90e10;color:var(--accent);}
+
+.nav-icon{font-size:16px;flex-shrink:0;}
+
+.nav-badge{
+  margin-left:auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;
+  background:var(--border);
+  color:var(--muted);
+  padding:2px 6px;
+  border-radius:99px;
+}
+
+/* ── CONTENT ── */
+.content{
+  flex:1;
+  min-width:0;
+  padding:40px;
+  max-width:900px;
+}
+
+/* ── PAGE HEADER ── */
+.page-hero{
+  margin-bottom:48px;
+  padding-bottom:32px;
+  border-bottom:1px solid var(--border);
+}
+
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.15em;
+  color:var(--accent);
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,5vw,52px);
+  font-weight:900;
+  line-height:1.1;
+  color:#fff;
+  margin-bottom:16px;
+}
+
+.hero-title span{color:var(--accent);}
+
+.hero-desc{
+  color:var(--muted);
+  font-size:15px;
+  max-width:600px;
+  line-height:1.8;
+}
+
+.hero-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:20px;
+}
+
+.chip{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  padding:4px 12px;
+  border-radius:99px;
+  border:1px solid;
+  font-weight:500;
+}
+
+/* ── TOPIC SECTION ── */
+.topic{
+  margin-bottom:64px;
+  scroll-margin-top:24px;
+}
+
+.topic-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:24px;
+}
+
+.topic-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:3px 9px;
+  border-radius:5px;
+}
+
+.topic-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(22px,3vw,30px);
+  font-weight:700;
+  color:#fff;
+}
+
+.topic-title span{
+  display:inline-block;
+  width:6px;height:6px;
+  border-radius:50%;
+  margin-right:8px;
+  vertical-align:middle;
+  position:relative;top:-2px;
+}
+
+.topic-divider{
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+
+/* ── PROSE ── */
+.prose{
+  color:#cbd5e1;
+  font-size:15px;
+  line-height:1.85;
+  margin-bottom:20px;
+}
+
+.prose strong{color:#fff;font-weight:700;}
+.prose em{color:var(--accent);font-style:normal;}
+
+/* ── SUBSECTION ── */
+.sub{
+  font-family:'Playfair Display',serif;
+  font-size:18px;
+  font-weight:600;
+  color:#fff;
+  margin:28px 0 12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.sub::before{
+  content:'';
+  display:inline-block;
+  width:4px;height:18px;
+  background:var(--accent);
+  border-radius:2px;
+  flex-shrink:0;
+}
+
+/* ── CODE BLOCK ── */
+.code-block{
+  background:var(--code-bg);
+  border:1px solid var(--border);
+  border-radius:10px;
+  margin:16px 0;
+  overflow:hidden;
+}
+
+.code-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:9px 16px;
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+}
+
+.code-lang{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--accent);
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+}
+
+.code-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;
+  color:var(--muted);
+}
+
+pre{
+  padding:18px 20px;
+  overflow-x:auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  line-height:1.7;
+  color:#e2e8f0;
+}
+
+.kw{color:#c084fc;}
+.ty{color:#38bdf8;}
+.cm{color:#4a5568;font-style:italic;}
+.st{color:#4ade80;}
+.nu{color:#f6c90e;}
+.fn{color:#fb923c;}
+
+/* ── VISUAL BOX ── */
+.visual-box{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:24px;
+  margin:20px 0;
+  overflow-x:auto;
+}
+
+.visual-title{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.visual-title::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+
+/* ── INFO CARDS ── */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:12px;
+  margin:20px 0;
+}
+
+.info-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  border-top:3px solid;
+}
+
+.info-card-icon{font-size:22px;margin-bottom:8px;}
+.info-card-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;}
+.info-card-text{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;margin:16px 0;}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+th{
+  background:var(--surface);
+  color:var(--accent);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  padding:10px 14px;
+  text-align:left;
+  border-bottom:1px solid var(--border);
+}
+
+td{
+  padding:9px 14px;
+  border-bottom:1px solid #1e2535;
+  color:#cbd5e1;
+  font-size:13px;
+}
+
+td code{
+  font-family:'JetBrains Mono',monospace;
+  background:var(--code-bg);
+  padding:2px 7px;
+  border-radius:4px;
+  font-size:12px;
+  color:var(--accent2);
+}
+
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#ffffff04;}
+
+/* ── CALLOUT ── */
+.callout{
+  border-radius:10px;
+  padding:14px 18px;
+  margin:16px 0;
+  border-left:4px solid;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.callout-tip  {background:#4ade8010;border-color:#4ade80;color:#86efac;}
+.callout-warn {background:#f59e0b10;border-color:#f59e0b;color:#fcd34d;}
+.callout-info {background:#38bdf810;border-color:#38bdf8;color:#7dd3fc;}
+.callout-note {background:#c084fc10;border-color:#c084fc;color:#d8b4fe;}
+
+.callout strong{color:#fff;}
+
+/* ── SVG DIAGRAMS ── */
+svg text{font-family:'JetBrains Mono',monospace;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:#2d3748;border-radius:99px;}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  body{flex-direction:column;}
+  .sidebar{width:100%;height:auto;position:relative;padding:16px 0;}
+  .content{padding:20px 16px;}
+  .nav-items-wrap{display:flex;overflow-x:auto;padding:0 16px;gap:4px;}
+  .nav-item{white-space:nowrap;border-left:none;border-bottom:3px solid transparent;padding:8px 12px;}
+  .nav-item.active{border-left-color:transparent;border-bottom-color:var(--accent);}
+  .nav-label{display:none;}
+  .sidebar-logo{border-bottom:none;padding-bottom:8px;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-title">C Programming<br>Study Notes</div>
+    <div class="sidebar-logo-sub">// Complete Reference Guide</div>
+  </div>
+  <div class="nav-label">Topics</div>
+  <div class="nav-items-wrap">
+    <a class="nav-item active" href="#arrays"><span class="nav-icon">📦</span>Arrays<span class="nav-badge">01</span></a>
+    <a class="nav-item" href="#strings"><span class="nav-icon">🔤</span>Strings<span class="nav-badge">02</span></a>
+    <a class="nav-item" href="#pointers"><span class="nav-icon">👉</span>Pointers<span class="nav-badge">03</span></a>
+    <a class="nav-item" href="#structures"><span class="nav-icon">🏗️</span>Structures<span class="nav-badge">04</span></a>
+    <a class="nav-item" href="#unions"><span class="nav-icon">🔀</span>Unions<span class="nav-badge">05</span></a>
+    <a class="nav-item" href="#filehandling"><span class="nav-icon">📁</span>File Handling<span class="nav-badge">06</span></a>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+  <!-- HERO -->
+  <div class="page-hero">
+    <div class="hero-eyebrow">// Complete Study Notes</div>
+    <h1 class="hero-title">C Programming<br><span>Core Concepts</span></h1>
+    <p class="hero-desc">A comprehensive, visual guide to Arrays, Strings, Pointers, Structures, Unions and File Handling in C — with memory diagrams, code examples, and clear explanations.</p>
+    <div class="hero-chips">
+      <span class="chip" style="color:#f6c90e;border-color:#f6c90e44">📦 Arrays</span>
+      <span class="chip" style="color:#38bdf8;border-color:#38bdf844">🔤 Strings</span>
+      <span class="chip" style="color:#4ade80;border-color:#4ade8044">👉 Pointers</span>
+      <span class="chip" style="color:#f87171;border-color:#f8717144">🏗️ Structures</span>
+      <span class="chip" style="color:#c084fc;border-color:#c084fc44">🔀 Unions</span>
+      <span class="chip" style="color:#fb923c;border-color:#fb923c44">📁 File Handling</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       01 — ARRAYS
+  ════════════════════════════════════════════════ -->
+  <section class="topic" id="arrays">
+    <div class="topic-header">
+      <span class="topic-num">01</span>
+      <h2 class="topic-title"><span style="background:#f6c90e"></span>Arrays</h2>
+      <div class="topic-divider"></div>
+    </div>
+
+    <p class="prose">An <strong>array</strong> is a collection of elements of the <em>same data type</em> stored in <strong>contiguous memory locations</strong>. Think of it as a row of numbered boxes — each box holds one value, and every box is the same size.</p>
+
+    <div class="callout callout-info">
+      <strong>Key Idea:</strong> Arrays give you O(1) random access — you can jump to any element instantly using its index, because the memory address is calculated as:<br>
+      <code>address = base_address + (index × size_of_element)</code>
+    </div>
+
+    <div class="sub">Declaration & Initialization</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Array Declaration</span></div>
+      <pre><span class="cm">// Syntax: data_type  array_name[size];</span>
+
+<span class="ty">int</span>  marks[<span class="nu">5</span>];                          <span class="cm">// uninitialized</span>
+<span class="ty">int</span>  primes[<span class="nu">5</span>] = {<span class="nu">2</span>, <span class="nu">3</span>, <span class="nu">5</span>, <span class="nu">7</span>, <span class="nu">11</span>};     <span class="cm">// initialized</span>
+<span class="ty">int</span>  zeros[<span class="nu">10</span>] = {<span class="nu">0</span>};                    <span class="cm">// all elements = 0</span>
+<span class="ty">char</span> grade[<span class="nu">3</span>] = {<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>};        <span class="cm">// char array</span>
+<span class="ty">float</span> temp[] = {<span class="nu">36.5</span>, <span class="nu">37.0</span>, <span class="nu">38.2</span>};      <span class="cm">// size auto-inferred = 3</span>
+
+<span class="cm">// Accessing elements (0-indexed)</span>
+primes[<span class="nu">0</span>] = <span class="nu">2</span>;   <span class="cm">// first element</span>
+primes[<span class="nu">4</span>] = <span class="nu">11</span>;  <span class="cm">// last element (index = size-1)</span></pre>
+    </div>
+
+    <!-- VISUAL: 1D Array Memory Layout -->
+    <div class="visual-box">
+      <div class="visual-title">📊 1D Array — Memory Layout</div>
+      <svg viewBox="0 0 700 160" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background -->
+        <rect width="700" height="160" fill="none"/>
+
+        <!-- Label -->
+        <text x="20" y="28" fill="#8892a4" font-size="11">int primes[5] = {2, 3, 5, 7, 11};</text>
+
+        <!-- Memory cells -->
+        <g transform="translate(20,45)">
+          <!-- Cell 0 -->
+          <rect x="0"   y="0" width="120" height="56" rx="6" fill="#1c2230" stroke="#f6c90e" stroke-width="1.5"/>
+          <text x="60"  y="28" fill="#f6c90e" font-size="20" text-anchor="middle" font-weight="bold">2</text>
+          <text x="60"  y="44" fill="#8892a4" font-size="10" text-anchor="middle">index [0]</text>
+          <text x="60"  y="68" fill="#38bdf8" font-size="10" text-anchor="middle">0x1000</text>
+
+          <!-- Cell 1 -->
+          <rect x="130" y="0" width="120" height="56" rx="6" fill="#1c2230" stroke="#2d3748" stroke-width="1.5"/>
+          <text x="190" y="28" fill="#e2e8f0" font-size="20" text-anchor="middle" font-weight="bold">3</text>
+          <text x="190" y="44" fill="#8892a4" font-size="10" text-anchor="middle">index [1]</text>
+          <text x="190" y="68" fill="#38bdf8" font-size="10" text-anchor="middle">0x1004</text>
+
+          <!-- Cell 2 -->
+          <rect x="260" y="0" width="120" height="56" rx="6" fill="#1c2230" stroke="#2d3748" stroke-width="1.5"/>
+          <text x="320" y="28" fill="#e2e8f0" font-size="20" text-anchor="middle" font-weight="bold">5</text>
+          <text x="320" y="44" fill="#8892a4" font-size="10" text-anchor="middle">index [2]</text>
+          <text x="320" y="68" fill="#38bdf8" font-size="10" text-anchor="middle">0x1008</text>
+
+          <!-- Cell 3 -->
+          <rect x="390" y="0" width="120" height="56" rx="6" fill="#1c2230" stroke="#2d3748" stroke-width="1.5"/>
+          <text x="450" y="28" fill="#e2e8f0" font-size="20" text-anchor="middle" font-weight="bold">7</text>
+          <text x="450" y="44" fill="#8892a4" font-size="10" text-anchor="middle">index [3]</text>
+          <text x="450" y="68" fill="#38bdf8" font-size="10" text-anchor="middle">0x100C</text>
+
+          <!-- Cell 4 -->
+          <rect x="520" y="0" width="120" height="56" rx="6" fill="#1c2230" stroke="#2d3748" stroke-width="1.5"/>
+          <text x="580" y="28" fill="#e2e8f0" font-size="20" text-anchor="middle" font-weight="bold">11</text>
+          <text x="580" y="44" fill="#8892a4" font-size="10" text-anchor="middle">index [4]</text>
+          <text x="580" y="68" fill="#38bdf8" font-size="10" text-anchor="middle">0x1010</text>
+
+          <!-- Arrows between cells -->
+          <text x="122" y="32" fill="#4a5568" font-size="16">→</text>
+          <text x="252" y="32" fill="#4a5568" font-size="16">→</text>
+          <text x="382" y="32" fill="#4a5568" font-size="16">→</text>
+          <text x="512" y="32" fill="#4a5568" font-size="16">→</text>
+
+          <!-- Legend -->
+          <text x="0"   y="90" fill="#f6c90e" font-size="10">▲ base addr</text>
+          <text x="350" y="90" fill="#38bdf8" font-size="10">each int = 4 bytes →  +4 per step</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="sub">2D Arrays</div>
+    <p class="prose">A <strong>2D array</strong> is an array of arrays — like a table with rows and columns. In memory it is still stored as one continuous block, row by row (row-major order).</p>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">2D Array</span></div>
+      <pre><span class="ty">int</span> matrix[<span class="nu">3</span>][<span class="nu">4</span>];              <span class="cm">// 3 rows, 4 columns</span>
+
+<span class="ty">int</span> grid[<span class="nu">2</span>][<span class="nu">3</span>] = {
+  {<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>},                   <span class="cm">// row 0</span>
+  {<span class="nu">4</span>, <span class="nu">5</span>, <span class="nu">6</span>}                    <span class="cm">// row 1</span>
+};
+
+<span class="cm">// Access: grid[row][col]</span>
+<span class="ty">int</span> val = grid[<span class="nu">1</span>][<span class="nu">2</span>];           <span class="cm">// = 6</span>
+
+<span class="cm">// Traverse with nested loops</span>
+<span class="kw">for</span>(<span class="ty">int</span> i=<span class="nu">0</span>; i&lt;<span class="nu">2</span>; i++)
+  <span class="kw">for</span>(<span class="ty">int</span> j=<span class="nu">0</span>; j&lt;<span class="nu">3</span>; j++)
+    <span class="fn">printf</span>(<span class="st">"%d "</span>, grid[i][j]);</pre>
+    </div>
+
+    <!-- VISUAL: 2D Array grid -->
+    <div class="visual-box">
+      <div class="visual-title">📊 2D Array — Row-Major Memory Layout</div>
+      <svg viewBox="0 0 660 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- Grid representation -->
+        <text x="20" y="24" fill="#8892a4" font-size="11">int grid[2][3]  —  Logical View</text>
+
+        <!-- Column headers -->
+        <text x="145" y="50" fill="#38bdf8" font-size="11" text-anchor="middle">col[0]</text>
+        <text x="225" y="50" fill="#38bdf8" font-size="11" text-anchor="middle">col[1]</text>
+        <text x="305" y="50" fill="#38bdf8" font-size="11" text-anchor="middle">col[2]</text>
+
+        <!-- Row 0 -->
+        <text x="80"  y="80" fill="#c084fc" font-size="11" text-anchor="middle">row[0]</text>
+        <rect x="110" y="60" width="70" height="36" rx="5" fill="#1c2230" stroke="#c084fc" stroke-width="1.5"/>
+        <text x="145" y="83" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">1</text>
+        <rect x="190" y="60" width="70" height="36" rx="5" fill="#1c2230" stroke="#c084fc" stroke-width="1.5"/>
+        <text x="225" y="83" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">2</text>
+        <rect x="270" y="60" width="70" height="36" rx="5" fill="#1c2230" stroke="#c084fc" stroke-width="1.5"/>
+        <text x="305" y="83" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">3</text>
+
+        <!-- Row 1 -->
+        <text x="80"  y="125" fill="#4ade80" font-size="11" text-anchor="middle">row[1]</text>
+        <rect x="110" y="105" width="70" height="36" rx="5" fill="#1c2230" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="145" y="128" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">4</text>
+        <rect x="190" y="105" width="70" height="36" rx="5" fill="#1c2230" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="225" y="128" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">5</text>
+        <rect x="270" y="105" width="70" height="36" rx="5" fill="#1c2230" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="305" y="128" fill="#fff" font-size="15" text-anchor="middle" font-weight="bold">6</text>
+
+        <!-- Arrow to memory -->
+        <text x="360" y="95" fill="#4a5568" font-size="22">→</text>
+
+        <!-- Flat memory row -->
+        <text x="395" y="50" fill="#8892a4" font-size="11">In Memory (row-major)</text>
+        <rect x="395" y="60" width="42" height="36" rx="4" fill="#1c2230" stroke="#c084fc" stroke-width="1"/>
+        <text x="416" y="83" fill="#c084fc" font-size="13" text-anchor="middle">1</text>
+        <rect x="440" y="60" width="42" height="36" rx="4" fill="#1c2230" stroke="#c084fc" stroke-width="1"/>
+        <text x="461" y="83" fill="#c084fc" font-size="13" text-anchor="middle">2</text>
+        <rect x="485" y="60" width="42" height="36" rx="4" fill="#1c2230" stroke="#c084fc" stroke-width="1"/>
+        <text x="506" y="83" fill="#c084fc" font-size="13" text-anchor="middle">3</text>
+        <rect x="530" y="60" width="42" height="36" rx="4" fill="#1c2230" stroke="#4ade80" stroke-width="1"/>
+        <text x="551" y="83" fill="#4ade80" font-size="13" text-anchor="middle">4</text>
+        <rect x="575" y="60" width="42" height="36" rx="4" fill="#1c2230" stroke="#4ade80" stroke-width="1"/>
+        <text x="596" y="83" fill="#4ade80" font-size="13" text-anchor="middle">5</text>
+        <rect x="620" y="60" width="42" height="36" rx="4" fill="#1c2230" stroke="#4ade80" stroke-width="1"/>
+        <text x="641" y="83" fill="#4ade80" font-size="13" text-anchor="middle">6</text>
+
+        <!-- addr labels -->
+        <text x="416" y="108" fill="#38bdf8" font-size="9" text-anchor="middle">1000</text>
+        <text x="461" y="108" fill="#38bdf8" font-size="9" text-anchor="middle">1004</text>
+        <text x="506" y="108" fill="#38bdf8" font-size="9" text-anchor="middle">1008</text>
+        <text x="551" y="108" fill="#38bdf8" font-size="9" text-anchor="middle">100C</text>
+        <text x="596" y="108" fill="#38bdf8" font-size="9" text-anchor="middle">1010</text>
+        <text x="641" y="108" fill="#38bdf8" font-size="9" text-anchor="middle">1014</text>
+
+        <text x="20" y="175" fill="#8892a4" font-size="11">💡 Formula: address of grid[i][j]  =  base + (i × cols + j) × sizeof(int)</text>
+      </svg>
+    </div>
+
+    <div class="sub">Common Array Operations</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Traversal, Search, Sum</span></div>
+      <pre><span class="ty">int</span> arr[] = {<span class="nu">10</span>, <span class="nu">20</span>, <span class="nu">30</span>, <span class="nu">40</span>, <span class="nu">50</span>};
+<span class="ty">int</span> n = <span class="kw">sizeof</span>(arr) / <span class="kw">sizeof</span>(arr[<span class="nu">0</span>]);  <span class="cm">// n = 5</span>
+
+<span class="cm">// Sum of all elements</span>
+<span class="ty">int</span> sum = <span class="nu">0</span>;
+<span class="kw">for</span>(<span class="ty">int</span> i=<span class="nu">0</span>; i&lt;n; i++) sum += arr[i];
+
+<span class="cm">// Linear search</span>
+<span class="ty">int</span> target = <span class="nu">30</span>, found = -<span class="nu">1</span>;
+<span class="kw">for</span>(<span class="ty">int</span> i=<span class="nu">0</span>; i&lt;n; i++)
+  <span class="kw">if</span>(arr[i] == target) { found = i; <span class="kw">break</span>; }
+
+<span class="cm">// Reverse an array</span>
+<span class="ty">int</span> left=<span class="nu">0</span>, right=n-<span class="nu">1</span>;
+<span class="kw">while</span>(left &lt; right){
+  <span class="ty">int</span> tmp = arr[left];
+  arr[left++] = arr[right];
+  arr[right--] = tmp;
+}</pre>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Common Mistake:</strong> Array index goes from <code>0</code> to <code>n-1</code>. Accessing <code>arr[n]</code> is <strong>out of bounds</strong> — it causes undefined behavior or crashes!
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       02 — STRINGS
+  ════════════════════════════════════════════════ -->
+  <section class="topic" id="strings">
+    <div class="topic-header">
+      <span class="topic-num">02</span>
+      <h2 class="topic-title"><span style="background:#38bdf8"></span>Strings</h2>
+      <div class="topic-divider"></div>
+    </div>
+
+    <p class="prose">In C, a <strong>string</strong> is simply an array of <code>char</code> terminated by a special <em>null character</em> <code>'\0'</code> (ASCII 0). There is no built-in string type — strings are always character arrays.</p>
+
+    <div class="callout callout-note">
+      <strong>Remember:</strong> A string of <code>n</code> characters needs an array of size <code>n+1</code> to hold the null terminator <code>'\0'</code>.
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">String Declaration</span></div>
+      <pre><span class="cm">// Method 1: char array with literal</span>
+<span class="ty">char</span> name[<span class="nu">6</span>] = {<span class="st">'H'</span>,<span class="st">'e'</span>,<span class="st">'l'</span>,<span class="st">'l'</span>,<span class="st">'o'</span>,<span class="st">'\0'</span>};
+
+<span class="cm">// Method 2: string literal (compiler adds '\0' automatically)</span>
+<span class="ty">char</span> name[] = <span class="st">"Hello"</span>;        <span class="cm">// size = 6 (5 chars + null)</span>
+
+<span class="cm">// Method 3: pointer to string (read-only, stored in data segment)</span>
+<span class="ty">char</span> *msg = <span class="st">"Hello World"</span>;   <span class="cm">// cannot modify msg[i]</span>
+
+<span class="cm">// Reading a string from user</span>
+<span class="ty">char</span> input[<span class="nu">50</span>];
+<span class="fn">scanf</span>(<span class="st">"%s"</span>, input);          <span class="cm">// stops at whitespace</span>
+<span class="fn">fgets</span>(input, <span class="nu">50</span>, stdin);     <span class="cm">// reads full line (safer)</span></pre>
+    </div>
+
+    <!-- VISUAL: String Memory -->
+    <div class="visual-box">
+      <div class="visual-title">🔤 String "Hello" in Memory</div>
+      <svg viewBox="0 0 680 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <text x="20" y="26" fill="#8892a4" font-size="11">char name[] = "Hello";   →   stored as:</text>
+        <g transform="translate(20,40)">
+          <!-- Cells -->
+          <rect x="0"   y="0" width="80" height="56" rx="6" fill="#1c2230" stroke="#38bdf8" stroke-width="1.5"/>
+          <text x="40"  y="30" fill="#38bdf8" font-size="22" text-anchor="middle" font-weight="bold">'H'</text>
+          <text x="40"  y="46" fill="#8892a4" font-size="10" text-anchor="middle">[0]</text>
+          <text x="40"  y="66" fill="#4a5568" font-size="9"  text-anchor="middle">0x200</text>
+
+          <rect x="90"  y="0" width="80" height="56" rx="6" fill="#1c2230" stroke="#2d3748" stroke-width="1"/>
+          <text x="130" y="30" fill="#e2e8f0" font-size="22" text-anchor="middle" font-weight="bold">'e'</text>
+          <text x="130" y="46" fill="#8892a4" font-size="10" text-anchor="middle">[1]</text>
+          <text x="130" y="66" fill="#4a5568" font-size="9"  text-anchor="middle">0x201</text>
+
+          <rect x="180" y="0" width="80" height="56" rx="6" fill="#1c2230" stroke="#2d3748" stroke-width="1"/>
+          <text x="220" y="30" fill="#e2e8f0" font-size="22" text-anchor="middle" font-weight="bold">'l'</text>
+          <text x="220" y="46" fill="#8892a4" font-size="10" text-anchor="middle">[2]</text>
+          <text x="220" y="66" fill="#4a5568" font-size="9"  text-anchor="middle">0x202</text>
+
+          <rect x="270" y="0" width="80" height="56" rx="6" fill="#1c2230" stroke="#2d3748" stroke-width="1"/>
+          <text x="310" y="30" fill="#e2e8f0" font-size="22" text-anchor="middle" font-weight="bold">'l'</text>
+          <text x="310" y="46" fill="#8892a4" font-size="10" text-anchor="middle">[3]</text>
+          <text x="310" y="66" fill="#4a5568" font-size="9"  text-anchor="middle">0x203</text>
+
+          <rect x="360" y="0" width="80" height="56" rx="6" fill="#1c2230" stroke="#2d3748" stroke-width="1"/>
+          <text x="400" y="30" fill="#e2e8f0" font-size="22" text-anchor="middle" font-weight="bold">'o'</text>
+          <text x="400" y="46" fill="#8892a4" font-size="10" text-anchor="middle">[4]</text>
+          <text x="400" y="66" fill="#4a5568" font-size="9"  text-anchor="middle">0x204</text>
+
+          <!-- Null terminator -->
+          <rect x="450" y="0" width="80" height="56" rx="6" fill="#1a1020" stroke="#f87171" stroke-width="2" stroke-dasharray="4,2"/>
+          <text x="490" y="26" fill="#f87171" font-size="14" text-anchor="middle" font-weight="bold">'\0'</text>
+          <text x="490" y="42" fill="#f87171" font-size="10" text-anchor="middle">NULL</text>
+          <text x="490" y="46" fill="#8892a4" font-size="10" text-anchor="middle">[5]</text>
+          <text x="490" y="66" fill="#4a5568" font-size="9"  text-anchor="middle">0x205</text>
+
+          <text x="548" y="26" fill="#f87171" font-size="11">← String</text>
+          <text x="548" y="40" fill="#f87171" font-size="11">  terminator!</text>
+          <text x="548" y="58" fill="#8892a4" font-size="10">ASCII = 0</text>
+
+          <text x="0" y="90" fill="#8892a4" font-size="10">💡 strlen("Hello") = 5  (does NOT count '\0')</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="sub">String Library Functions — &lt;string.h&gt;</div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Function</th><th>Syntax</th><th>What It Does</th></tr>
+        <tr><td><code>strlen</code></td><td><code>strlen(s)</code></td><td>Returns length of string (excludes '\0')</td></tr>
+        <tr><td><code>strcpy</code></td><td><code>strcpy(dest, src)</code></td><td>Copies src into dest (including '\0')</td></tr>
+        <tr><td><code>strcat</code></td><td><code>strcat(dest, src)</code></td><td>Appends src to end of dest</td></tr>
+        <tr><td><code>strcmp</code></td><td><code>strcmp(s1, s2)</code></td><td>Compares; returns 0 if equal, &lt;0 or &gt;0</td></tr>
+        <tr><td><code>strchr</code></td><td><code>strchr(s, ch)</code></td><td>Finds first occurrence of ch in s</td></tr>
+        <tr><td><code>strstr</code></td><td><code>strstr(s, sub)</code></td><td>Finds substring in s</td></tr>
+        <tr><td><code>strlwr</code></td><td><code>strlwr(s)</code></td><td>Converts to lowercase (non-standard)</td></tr>
+        <tr><td><code>strupr</code></td><td><code>strupr(s)</code></td><td>Converts to uppercase (non-standard)</td></tr>
+      </table>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">String Functions in Action</span></div>
+      <pre><span class="kw">#include</span> <span class="st">&lt;string.h&gt;</span>
+<span class="kw">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+
+<span class="ty">char</span> s1[<span class="nu">20</span>] = <span class="st">"Hello"</span>;
+<span class="ty">char</span> s2[]   = <span class="st">" World"</span>;
+
+<span class="fn">printf</span>(<span class="st">"%d\n"</span>, <span class="fn">strlen</span>(s1));       <span class="cm">// 5</span>
+<span class="fn">strcat</span>(s1, s2);
+<span class="fn">printf</span>(<span class="st">"%s\n"</span>, s1);               <span class="cm">// Hello World</span>
+<span class="fn">printf</span>(<span class="st">"%d\n"</span>, <span class="fn">strcmp</span>(<span class="st">"abc"</span>,<span class="st">"abc"</span>)); <span class="cm">// 0 (equal)</span>
+<span class="fn">printf</span>(<span class="st">"%d\n"</span>, <span class="fn">strcmp</span>(<span class="st">"b"</span>,<span class="st">"a"</span>));    <span class="cm">// positive (b > a)</span></pre>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       03 — POINTERS
+  ════════════════════════════════════════════════ -->
+  <section class="topic" id="pointers">
+    <div class="topic-header">
+      <span class="topic-num">03</span>
+      <h2 class="topic-title"><span style="background:#4ade80"></span>Pointers</h2>
+      <div class="topic-divider"></div>
+    </div>
+
+    <p class="prose">A <strong>pointer</strong> is a variable that stores the <em>memory address</em> of another variable. Instead of holding a value like <code>42</code>, it holds an address like <code>0x1004</code>. Pointers are one of C's most powerful — and most misunderstood — features.</p>
+
+    <div class="info-grid">
+      <div class="info-card" style="border-top-color:#4ade80">
+        <div class="info-card-icon">📍</div>
+        <div class="info-card-title">& Operator</div>
+        <div class="info-card-text">Address-of operator. Gets the memory address of a variable.<br><code>&x</code> → address of x</div>
+      </div>
+      <div class="info-card" style="border-top-color:#38bdf8">
+        <div class="info-card-icon">🔍</div>
+        <div class="info-card-title">* Operator</div>
+        <div class="info-card-text">Dereference operator. Gets the value at a pointer's address.<br><code>*p</code> → value at address p</div>
+      </div>
+      <div class="info-card" style="border-top-color:#f6c90e">
+        <div class="info-card-icon">🔢</div>
+        <div class="info-card-title">Pointer Arithmetic</div>
+        <div class="info-card-text">p+1 moves by sizeof(type) bytes, not just 1 byte.</div>
+      </div>
+      <div class="info-card" style="border-top-color:#c084fc">
+        <div class="info-card-icon">⛔</div>
+        <div class="info-card-title">NULL Pointer</div>
+        <div class="info-card-text">A pointer that points nowhere. Always initialise pointers to NULL if not used immediately.</div>
+      </div>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Pointer Basics</span></div>
+      <pre><span class="ty">int</span>  x = <span class="nu">42</span>;
+<span class="ty">int</span> *p;           <span class="cm">// declare a pointer to int</span>
+p = &amp;x;           <span class="cm">// p now holds address of x</span>
+
+<span class="fn">printf</span>(<span class="st">"%d"</span>,  x);   <span class="cm">// 42       — value of x</span>
+<span class="fn">printf</span>(<span class="st">"%p"</span>, &amp;x);   <span class="cm">// 0x1004   — address of x</span>
+<span class="fn">printf</span>(<span class="st">"%p"</span>,  p);   <span class="cm">// 0x1004   — value stored in p</span>
+<span class="fn">printf</span>(<span class="st">"%d"</span>, *p);   <span class="cm">// 42       — value AT address p</span>
+
+*p = <span class="nu">100</span>;           <span class="cm">// changes x through pointer!</span>
+<span class="fn">printf</span>(<span class="st">"%d"</span>, x);    <span class="cm">// 100</span></pre>
+    </div>
+
+    <!-- VISUAL: Pointer diagram -->
+    <div class="visual-box">
+      <div class="visual-title">👉 Pointer — Address & Dereference</div>
+      <svg viewBox="0 0 660 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- Variable x -->
+        <rect x="40" y="60" width="120" height="70" rx="8" fill="#1c2230" stroke="#4ade80" stroke-width="2"/>
+        <text x="100" y="82" fill="#8892a4" font-size="11" text-anchor="middle">variable  x</text>
+        <text x="100" y="108" fill="#4ade80" font-size="26" text-anchor="middle" font-weight="bold">42</text>
+        <text x="100" y="144" fill="#38bdf8" font-size="11" text-anchor="middle">addr: 0x1004</text>
+
+        <!-- Label for x -->
+        <text x="100" y="52" fill="#4ade80" font-size="11" text-anchor="middle">int x = 42;</text>
+
+        <!-- Arrow from p to x -->
+        <line x1="310" y1="95" x2="175" y2="95" stroke="#f6c90e" stroke-width="2" marker-end="url(#arr)"/>
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#f6c90e"/>
+          </marker>
+        </defs>
+
+        <!-- Pointer p -->
+        <rect x="310" y="60" width="140" height="70" rx="8" fill="#1c2230" stroke="#f6c90e" stroke-width="2"/>
+        <text x="380" y="82" fill="#8892a4" font-size="11" text-anchor="middle">pointer  p</text>
+        <text x="380" y="105" fill="#f6c90e" font-size="14" text-anchor="middle" font-weight="bold">0x1004</text>
+        <text x="380" y="122" fill="#8892a4" font-size="10" text-anchor="middle">(stores address of x)</text>
+        <text x="380" y="144" fill="#38bdf8" font-size="11" text-anchor="middle">addr: 0x2008</text>
+
+        <text x="380" y="52" fill="#f6c90e" font-size="11" text-anchor="middle">int *p = &amp;x;</text>
+
+        <!-- Operators legend -->
+        <rect x="490" y="55" width="160" height="90" rx="8" fill="#0d1117" stroke="#2d3748"/>
+        <text x="570" y="74" fill="#fff" font-size="12" text-anchor="middle" font-weight="bold">Operators</text>
+        <text x="500" y="94" fill="#4ade80" font-size="11">&amp;x  →  0x1004</text>
+        <text x="500" y="110" fill="#8892a4" font-size="10">(address-of)</text>
+        <text x="500" y="128" fill="#f6c90e" font-size="11">*p  →  42</text>
+        <text x="500" y="142" fill="#8892a4" font-size="10">(dereference)</text>
+
+        <!-- Note -->
+        <text x="40" y="180" fill="#8892a4" font-size="11">💡 *p = 100;  modifies x directly through the pointer!</text>
+      </svg>
+    </div>
+
+    <div class="sub">Pointer Arithmetic</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Pointer Arithmetic</span></div>
+      <pre><span class="ty">int</span> arr[] = {<span class="nu">10</span>, <span class="nu">20</span>, <span class="nu">30</span>, <span class="nu">40</span>};
+<span class="ty">int</span> *p = arr;       <span class="cm">// p points to arr[0]</span>
+
+<span class="fn">printf</span>(<span class="st">"%d"</span>, *p);        <span class="cm">// 10  (arr[0])</span>
+<span class="fn">printf</span>(<span class="st">"%d"</span>, *(p+<span class="nu">1</span>));    <span class="cm">// 20  (arr[1])</span>
+<span class="fn">printf</span>(<span class="st">"%d"</span>, *(p+<span class="nu">2</span>));    <span class="cm">// 30  (arr[2])</span>
+
+p++;                     <span class="cm">// moves forward by sizeof(int)=4 bytes</span>
+<span class="fn">printf</span>(<span class="st">"%d"</span>, *p);        <span class="cm">// 20  (now at arr[1])</span>
+
+<span class="cm">// Traverse array using pointer</span>
+<span class="kw">for</span>(<span class="ty">int</span> *q = arr; q &lt; arr+<span class="nu">4</span>; q++)
+  <span class="fn">printf</span>(<span class="st">"%d "</span>, *q);   <span class="cm">// 10 20 30 40</span></pre>
+    </div>
+
+    <div class="sub">Pointers & Functions</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Pass by Pointer (call by reference)</span></div>
+      <pre><span class="cm">// Without pointer: changes don't affect original</span>
+<span class="ty">void</span> <span class="fn">addOne</span>(<span class="ty">int</span> x){ x++; }     <span class="cm">// x is a copy</span>
+
+<span class="cm">// With pointer: changes DO affect original</span>
+<span class="ty">void</span> <span class="fn">addOneP</span>(<span class="ty">int</span> *x){ (*x)++; }
+
+<span class="ty">int</span> <span class="fn">main</span>(){
+  <span class="ty">int</span> n = <span class="nu">5</span>;
+  <span class="fn">addOne</span>(n);   <span class="cm">// n is still 5</span>
+  <span class="fn">addOneP</span>(&amp;n); <span class="cm">// n is now 6  ✓</span>
+
+  <span class="cm">// Swap using pointers</span>
+  <span class="ty">int</span> a=<span class="nu">3</span>, b=<span class="nu">7</span>;
+  <span class="ty">int</span> tmp=a; a=b; b=tmp;         <span class="cm">// classic swap</span>
+}</pre>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Dangling Pointer:</strong> Never use a pointer after the variable it points to has been freed or gone out of scope. Always set pointers to <code>NULL</code> after freeing: <code>free(p); p = NULL;</code>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       04 — STRUCTURES
+  ════════════════════════════════════════════════ -->
+  <section class="topic" id="structures">
+    <div class="topic-header">
+      <span class="topic-num">04</span>
+      <h2 class="topic-title"><span style="background:#f87171"></span>Structures</h2>
+      <div class="topic-divider"></div>
+    </div>
+
+    <p class="prose">A <strong>structure</strong> (<code>struct</code>) is a user-defined data type that groups together variables of <em>different types</em> under a single name. Each variable inside a structure is called a <strong>member</strong> or <strong>field</strong>.</p>
+
+    <p class="prose">Structures are the foundation of object-oriented thinking in C — a <code>struct Student</code> can hold name, roll number, and marks together, just like a real student record.</p>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Structure Definition & Usage</span></div>
+      <pre><span class="cm">// Define the structure (no memory allocated yet)</span>
+<span class="kw">struct</span> <span class="ty">Student</span> {
+  <span class="ty">int</span>  roll;
+  <span class="ty">char</span> name[<span class="nu">50</span>];
+  <span class="ty">float</span> marks;
+};
+
+<span class="ty">int</span> <span class="fn">main</span>(){
+  <span class="cm">// Declare and initialize</span>
+  <span class="kw">struct</span> <span class="ty">Student</span> s1 = {<span class="nu">101</span>, <span class="st">"Alice"</span>, <span class="nu">95.5</span>};
+  <span class="kw">struct</span> <span class="ty">Student</span> s2;
+
+  <span class="cm">// Access members with dot operator</span>
+  s2.roll  = <span class="nu">102</span>;
+  <span class="fn">strcpy</span>(s2.name, <span class="st">"Bob"</span>);
+  s2.marks = <span class="nu">88.0</span>;
+
+  <span class="fn">printf</span>(<span class="st">"%d %s %.1f\n"</span>, s1.roll, s1.name, s1.marks);
+
+  <span class="cm">// typedef makes syntax cleaner</span>
+  <span class="kw">typedef struct</span> { <span class="ty">int</span> x; <span class="ty">int</span> y; } <span class="ty">Point</span>;
+  <span class="ty">Point</span> p = {<span class="nu">3</span>, <span class="nu">4</span>};    <span class="cm">// no 'struct' keyword needed</span>
+}</pre>
+    </div>
+
+    <!-- VISUAL: Struct Memory Layout -->
+    <div class="visual-box">
+      <div class="visual-title">🏗️ Struct Memory Layout — struct Student</div>
+      <svg viewBox="0 0 680 220" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <text x="20" y="22" fill="#8892a4" font-size="11">struct Student s1 = {101, "Alice", 95.5};</text>
+
+        <!-- Big struct box -->
+        <rect x="20" y="34" width="540" height="140" rx="10" fill="#0d1117" stroke="#f87171" stroke-width="2"/>
+        <text x="290" y="28" fill="#f87171" font-size="11" text-anchor="middle">struct Student  (total ≈ 58 bytes)</text>
+
+        <!-- roll field -->
+        <rect x="35" y="50" width="90" height="50" rx="6" fill="#1c2230" stroke="#f6c90e" stroke-width="1.5"/>
+        <text x="80" y="68" fill="#8892a4" font-size="10" text-anchor="middle">int roll</text>
+        <text x="80" y="85" fill="#f6c90e" font-size="18" text-anchor="middle" font-weight="bold">101</text>
+        <text x="80" y="114" fill="#38bdf8" font-size="9" text-anchor="middle">4 bytes</text>
+        <text x="80" y="126" fill="#4a5568" font-size="9" text-anchor="middle">0x3000</text>
+
+        <!-- name field -->
+        <rect x="140" y="50" width="280" height="50" rx="6" fill="#1c2230" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="280" y="68" fill="#8892a4" font-size="10" text-anchor="middle">char name[50]</text>
+        <text x="280" y="85" fill="#38bdf8" font-size="16" text-anchor="middle" font-weight="bold">"Alice"</text>
+        <text x="280" y="114" fill="#38bdf8" font-size="9" text-anchor="middle">50 bytes</text>
+        <text x="280" y="126" fill="#4a5568" font-size="9" text-anchor="middle">0x3004 — 0x3035</text>
+
+        <!-- marks field -->
+        <rect x="435" y="50" width="105" height="50" rx="6" fill="#1c2230" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="487" y="68" fill="#8892a4" font-size="10" text-anchor="middle">float marks</text>
+        <text x="487" y="85" fill="#4ade80" font-size="18" text-anchor="middle" font-weight="bold">95.5</text>
+        <text x="487" y="114" fill="#38bdf8" font-size="9" text-anchor="middle">4 bytes</text>
+        <text x="487" y="126" fill="#4a5568" font-size="9" text-anchor="middle">0x3036</text>
+
+        <!-- Dot operator explanation -->
+        <text x="35"  y="155" fill="#f6c90e" font-size="11">s1.roll  →  101</text>
+        <text x="185" y="155" fill="#38bdf8" font-size="11">s1.name  →  "Alice"</text>
+        <text x="390" y="155" fill="#4ade80" font-size="11">s1.marks  →  95.5</text>
+
+        <text x="20" y="195" fill="#8892a4" font-size="11">💡 Each struct variable gets its OWN complete copy of all fields in memory.</text>
+      </svg>
+    </div>
+
+    <div class="sub">Pointer to Structure</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Struct Pointer & Arrow Operator</span></div>
+      <pre><span class="kw">struct</span> <span class="ty">Student</span> s1 = {<span class="nu">101</span>, <span class="st">"Alice"</span>, <span class="nu">95.5</span>};
+<span class="kw">struct</span> <span class="ty">Student</span> *ptr = &amp;s1;
+
+<span class="cm">// Two ways to access through pointer:</span>
+(*ptr).roll          <span class="cm">// dereference then dot  (verbose)</span>
+ptr->roll            <span class="cm">// arrow operator        (preferred) ✓</span>
+
+<span class="fn">printf</span>(<span class="st">"%s"</span>, ptr->name);    <span class="cm">// Alice</span>
+ptr->marks = <span class="nu">99.0</span>;         <span class="cm">// modify through pointer</span>
+
+<span class="cm">// Array of structures</span>
+<span class="kw">struct</span> <span class="ty">Student</span> class[<span class="nu">30</span>];
+class[<span class="nu">0</span>].roll = <span class="nu">1</span>;
+class[<span class="nu">0</span>].marks = <span class="nu">78.5</span>;</pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <strong>💡 Nested Structures:</strong> A struct can contain another struct as a member. Example: a <code>struct Address</code> can be a member of <code>struct Student</code>, letting you write <code>s1.addr.city</code>.
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       05 — UNIONS
+  ════════════════════════════════════════════════ -->
+  <section class="topic" id="unions">
+    <div class="topic-header">
+      <span class="topic-num">05</span>
+      <h2 class="topic-title"><span style="background:#c084fc"></span>Unions</h2>
+      <div class="topic-divider"></div>
+    </div>
+
+    <p class="prose">A <strong>union</strong> is like a structure — it can hold multiple members of different types. The critical difference is that all members in a union <em>share the same memory location</em>. Only <strong>one member can hold a valid value at a time</strong>.</p>
+
+    <p class="prose">The size of a union equals the size of its <em>largest member</em>. This makes unions extremely memory-efficient when you only ever need one field at a time.</p>
+
+    <!-- VISUAL: Union vs Struct comparison -->
+    <div class="visual-box">
+      <div class="visual-title">🔀 Union vs Struct — Memory Comparison</div>
+      <svg viewBox="0 0 680 240" width="100%" xmlns="http://www.w3.org/2000/svg">
+
+        <!-- STRUCT side -->
+        <text x="40" y="22" fill="#f87171" font-size="13" font-weight="bold">struct Data</text>
+        <text x="40" y="38" fill="#8892a4" font-size="10">{ int i; float f; char c; }</text>
+
+        <rect x="40"  y="50" width="60" height="36" rx="5" fill="#1c2230" stroke="#f6c90e" stroke-width="1.5"/>
+        <text x="70"  y="64" fill="#8892a4" font-size="9" text-anchor="middle">int i</text>
+        <text x="70"  y="78" fill="#f6c90e" font-size="10" text-anchor="middle">4 bytes</text>
+
+        <rect x="110" y="50" width="60" height="36" rx="5" fill="#1c2230" stroke="#4ade80" stroke-width="1.5"/>
+        <text x="140" y="64" fill="#8892a4" font-size="9" text-anchor="middle">float f</text>
+        <text x="140" y="78" fill="#4ade80" font-size="10" text-anchor="middle">4 bytes</text>
+
+        <rect x="180" y="50" width="30" height="36" rx="5" fill="#1c2230" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="195" y="64" fill="#8892a4" font-size="9" text-anchor="middle">c</text>
+        <text x="195" y="78" fill="#38bdf8" font-size="10" text-anchor="middle">1</text>
+
+        <text x="225" y="68" fill="#4a5568" font-size="20">}</text>
+
+        <rect x="40" y="96" width="170" height="20" rx="4" fill="#f8717120" stroke="#f87171"/>
+        <text x="125" y="110" fill="#f87171" font-size="11" text-anchor="middle">Total = 4+4+1 = 9 bytes (padded to 12)</text>
+
+        <!-- Divider -->
+        <line x1="340" y1="40" x2="340" y2="200" stroke="#2d3748" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="340" y="220" fill="#4a5568" font-size="11" text-anchor="middle">VS</text>
+
+        <!-- UNION side -->
+        <text x="380" y="22" fill="#c084fc" font-size="13" font-weight="bold">union Data</text>
+        <text x="380" y="38" fill="#8892a4" font-size="10">{ int i; float f; char c; }</text>
+
+        <!-- Overlapping boxes to show shared memory -->
+        <rect x="380" y="50" width="100" height="36" rx="5" fill="#c084fc15" stroke="#c084fc" stroke-width="2"/>
+        <rect x="380" y="50" width="100" height="36" rx="5" fill="#f6c90e10" stroke="#f6c90e" stroke-width="1" stroke-dasharray="3,2"/>
+        <rect x="380" y="50" width="25"  height="36" rx="3" fill="#38bdf820" stroke="#38bdf8" stroke-width="1" stroke-dasharray="2,2"/>
+
+        <text x="430" y="64" fill="#c084fc" font-size="9"  text-anchor="middle">int i (4b)</text>
+        <text x="430" y="76" fill="#f6c90e" font-size="9"  text-anchor="middle">float f (4b)</text>
+        <text x="393" y="70" fill="#38bdf8" font-size="8"  text-anchor="middle">c</text>
+
+        <text x="498" y="64" fill="#8892a4" font-size="10">All share</text>
+        <text x="498" y="76" fill="#8892a4" font-size="10">same addr!</text>
+
+        <rect x="380" y="96" width="130" height="20" rx="4" fill="#c084fc20" stroke="#c084fc"/>
+        <text x="445" y="110" fill="#c084fc" font-size="11" text-anchor="middle">Total = 4 bytes only!</text>
+
+        <!-- At-a-time note -->
+        <rect x="380" y="125" width="260" height="50" rx="8" fill="#0d1117" stroke="#2d3748"/>
+        <text x="510" y="145" fill="#fff" font-size="11" text-anchor="middle">Only ONE valid member at a time:</text>
+        <text x="510" y="162" fill="#c084fc" font-size="11" text-anchor="middle">d.i = 10; → d.f and d.c are garbage!</text>
+
+        <text x="40" y="200" fill="#8892a4" font-size="11">💡 Unions save memory when data is mutually exclusive (e.g., a value is EITHER int OR float)</text>
+      </svg>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Union Example</span></div>
+      <pre><span class="kw">union</span> <span class="ty">Data</span> {
+  <span class="ty">int</span>   i;
+  <span class="ty">float</span> f;
+  <span class="ty">char</span>  c;
+};
+
+<span class="ty">int</span> <span class="fn">main</span>(){
+  <span class="kw">union</span> <span class="ty">Data</span> d;
+
+  d.i = <span class="nu">42</span>;
+  <span class="fn">printf</span>(<span class="st">"%d\n"</span>, d.i);     <span class="cm">// 42  ✓ valid</span>
+  <span class="fn">printf</span>(<span class="st">"%f\n"</span>, d.f);     <span class="cm">// garbage! (same bytes, different interpretation)</span>
+
+  d.f = <span class="nu">3.14</span>;
+  <span class="fn">printf</span>(<span class="st">"%f\n"</span>, d.f);     <span class="cm">// 3.14 ✓ valid now</span>
+  <span class="fn">printf</span>(<span class="st">"%d\n"</span>, d.i);     <span class="cm">// garbage now!</span>
+
+  <span class="fn">printf</span>(<span class="st">"%lu\n"</span>, <span class="kw">sizeof</span>(d));  <span class="cm">// 4 bytes (size of largest member)</span>
+}</pre>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Feature</th><th>Structure</th><th>Union</th></tr>
+        <tr><td>Memory</td><td>Sum of all members' sizes</td><td>Size of largest member only</td></tr>
+        <tr><td>Members active</td><td>All simultaneously</td><td>Only one at a time</td></tr>
+        <tr><td>Use case</td><td>Group related data</td><td>Save memory, mutually exclusive data</td></tr>
+        <tr><td>Keyword</td><td><code>struct</code></td><td><code>union</code></td></tr>
+        <tr><td>Access syntax</td><td><code>s.member</code> or <code>ptr->member</code></td><td>Same syntax</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       06 — FILE HANDLING
+  ════════════════════════════════════════════════ -->
+  <section class="topic" id="filehandling">
+    <div class="topic-header">
+      <span class="topic-num">06</span>
+      <h2 class="topic-title"><span style="background:#fb923c"></span>File Handling</h2>
+      <div class="topic-divider"></div>
+    </div>
+
+    <p class="prose">File handling in C allows programs to <strong>persist data</strong> beyond program execution. Data written to a file survives after the program closes. C uses a <em>file pointer</em> (<code>FILE *</code>) and functions from <code>&lt;stdio.h&gt;</code> to interact with files.</p>
+
+    <!-- VISUAL: File Handling Flow -->
+    <div class="visual-box">
+      <div class="visual-title">📁 File Handling — Complete Flow</div>
+      <svg viewBox="0 0 680 200" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="farr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="#fb923c"/>
+          </marker>
+        </defs>
+
+        <!-- Step boxes -->
+        <!-- 1: Open -->
+        <rect x="20" y="60" width="110" height="70" rx="8" fill="#1c2230" stroke="#fb923c" stroke-width="2"/>
+        <text x="75" y="82"  fill="#fb923c" font-size="22" text-anchor="middle">📂</text>
+        <text x="75" y="100" fill="#fff"    font-size="12" text-anchor="middle" font-weight="bold">OPEN</text>
+        <text x="75" y="118" fill="#8892a4" font-size="10" text-anchor="middle">fopen()</text>
+
+        <!-- Arrow -->
+        <line x1="135" y1="95" x2="165" y2="95" stroke="#fb923c" stroke-width="2" marker-end="url(#farr)"/>
+
+        <!-- 2: Read/Write -->
+        <rect x="168" y="60" width="130" height="70" rx="8" fill="#1c2230" stroke="#38bdf8" stroke-width="2"/>
+        <text x="233" y="82"  fill="#38bdf8" font-size="22" text-anchor="middle">✏️</text>
+        <text x="233" y="100" fill="#fff"    font-size="12" text-anchor="middle" font-weight="bold">READ / WRITE</text>
+        <text x="233" y="118" fill="#8892a4" font-size="9"  text-anchor="middle">fprintf / fscanf / fgets</text>
+
+        <!-- Arrow -->
+        <line x1="302" y1="95" x2="332" y2="95" stroke="#fb923c" stroke-width="2" marker-end="url(#farr)"/>
+
+        <!-- 3: Process -->
+        <rect x="335" y="60" width="110" height="70" rx="8" fill="#1c2230" stroke="#4ade80" stroke-width="2"/>
+        <text x="390" y="82"  fill="#4ade80" font-size="22" text-anchor="middle">⚙️</text>
+        <text x="390" y="100" fill="#fff"    font-size="12" text-anchor="middle" font-weight="bold">PROCESS</text>
+        <text x="390" y="118" fill="#8892a4" font-size="10" text-anchor="middle">your logic</text>
+
+        <!-- Arrow -->
+        <line x1="449" y1="95" x2="479" y2="95" stroke="#fb923c" stroke-width="2" marker-end="url(#farr)"/>
+
+        <!-- 4: Close -->
+        <rect x="482" y="60" width="110" height="70" rx="8" fill="#1c2230" stroke="#f87171" stroke-width="2"/>
+        <text x="537" y="82"  fill="#f87171" font-size="22" text-anchor="middle">🔒</text>
+        <text x="537" y="100" fill="#fff"    font-size="12" text-anchor="middle" font-weight="bold">CLOSE</text>
+        <text x="537" y="118" fill="#8892a4" font-size="10" text-anchor="middle">fclose()</text>
+
+        <!-- Labels below -->
+        <text x="75"  y="150" fill="#fb923c" font-size="9" text-anchor="middle">Returns FILE*</text>
+        <text x="233" y="150" fill="#38bdf8" font-size="9" text-anchor="middle">Character / Line / Block</text>
+        <text x="537" y="150" fill="#f87171" font-size="9" text-anchor="middle">Flushes buffer!</text>
+
+        <text x="20"  y="185" fill="#8892a4" font-size="10">💡 Always check fopen() for NULL before reading/writing. Always fclose() — or data may be lost!</text>
+      </svg>
+    </div>
+
+    <div class="sub">File Opening Modes</div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>Mode</th><th>Meaning</th><th>File exists</th><th>File missing</th></tr>
+        <tr><td><code>"r"</code></td><td>Read only</td><td>Opens normally</td><td>Returns NULL</td></tr>
+        <tr><td><code>"w"</code></td><td>Write only</td><td>Truncates (clears) file</td><td>Creates new file</td></tr>
+        <tr><td><code>"a"</code></td><td>Append</td><td>Writes at end</td><td>Creates new file</td></tr>
+        <tr><td><code>"r+"</code></td><td>Read + Write</td><td>Opens normally</td><td>Returns NULL</td></tr>
+        <tr><td><code>"w+"</code></td><td>Read + Write</td><td>Truncates file</td><td>Creates new file</td></tr>
+        <tr><td><code>"rb"</code></td><td>Read binary</td><td>Opens in binary mode</td><td>Returns NULL</td></tr>
+        <tr><td><code>"wb"</code></td><td>Write binary</td><td>Truncates</td><td>Creates new file</td></tr>
+      </table>
+    </div>
+
+    <div class="sub">Core File Functions</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Writing to a File</span></div>
+      <pre><span class="kw">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+
+<span class="ty">int</span> <span class="fn">main</span>(){
+  <span class="ty">FILE</span> *fp = <span class="fn">fopen</span>(<span class="st">"data.txt"</span>, <span class="st">"w"</span>);
+
+  <span class="kw">if</span>(fp == <span class="ty">NULL</span>){
+    <span class="fn">printf</span>(<span class="st">"Error: cannot open file!\n"</span>);
+    <span class="kw">return</span> <span class="nu">1</span>;
+  }
+
+  <span class="fn">fprintf</span>(fp, <span class="st">"Hello File!\n"</span>);         <span class="cm">// formatted write</span>
+  <span class="fn">fputs</span>(<span class="st">"Second line\n"</span>, fp);         <span class="cm">// string write</span>
+  <span class="fn">fputc</span>(<span class="st">'A'</span>, fp);                      <span class="cm">// single char write</span>
+
+  <span class="fn">fclose</span>(fp);                           <span class="cm">// ALWAYS close!</span>
+  <span class="kw">return</span> <span class="nu">0</span>;
+}</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Reading from a File</span></div>
+      <pre><span class="ty">FILE</span> *fp = <span class="fn">fopen</span>(<span class="st">"data.txt"</span>, <span class="st">"r"</span>);
+<span class="kw">if</span>(!fp){ <span class="fn">perror</span>(<span class="st">"fopen"</span>); <span class="kw">return</span> <span class="nu">1</span>; }
+
+<span class="ty">char</span> buf[<span class="nu">100</span>];
+
+<span class="cm">// Read line by line</span>
+<span class="kw">while</span>(<span class="fn">fgets</span>(buf, <span class="kw">sizeof</span>(buf), fp) != <span class="ty">NULL</span>)
+  <span class="fn">printf</span>(<span class="st">"%s"</span>, buf);
+
+<span class="fn">fclose</span>(fp);
+
+<span class="cm">// Or character by character</span>
+fp = <span class="fn">fopen</span>(<span class="st">"data.txt"</span>, <span class="st">"r"</span>);
+<span class="ty">int</span> ch;
+<span class="kw">while</span>((ch = <span class="fn">fgetc</span>(fp)) != <span class="ty">EOF</span>)
+  <span class="fn">putchar</span>(ch);
+<span class="fn">fclose</span>(fp);</pre>
+    </div>
+
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">C</span><span class="code-label">Binary File — fread & fwrite</span></div>
+      <pre><span class="kw">struct</span> <span class="ty">Student</span> s = {<span class="nu">1</span>, <span class="st">"Alice"</span>, <span class="nu">95.5</span>};
+<span class="ty">FILE</span> *fp;
+
+<span class="cm">// Write struct to binary file</span>
+fp = <span class="fn">fopen</span>(<span class="st">"students.bin"</span>, <span class="st">"wb"</span>);
+<span class="fn">fwrite</span>(&amp;s, <span class="kw">sizeof</span>(s), <span class="nu">1</span>, fp);     <span class="cm">// write 1 struct</span>
+<span class="fn">fclose</span>(fp);
+
+<span class="cm">// Read struct back from binary file</span>
+<span class="kw">struct</span> <span class="ty">Student</span> s2;
+fp = <span class="fn">fopen</span>(<span class="st">"students.bin"</span>, <span class="st">"rb"</span>);
+<span class="fn">fread</span>(&amp;s2, <span class="kw">sizeof</span>(s2), <span class="nu">1</span>, fp);   <span class="cm">// read 1 struct</span>
+<span class="fn">fclose</span>(fp);
+<span class="fn">printf</span>(<span class="st">"%s %.1f\n"</span>, s2.name, s2.marks);</pre>
+    </div>
+
+    <!-- VISUAL: File Functions Summary -->
+    <div class="visual-box">
+      <div class="visual-title">📋 File Functions Quick Reference</div>
+      <svg viewBox="0 0 660 230" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <!-- Column headers -->
+        <rect x="20" y="10" width="190" height="30" rx="6" fill="#fb923c22" stroke="#fb923c"/>
+        <text x="115" y="30" fill="#fb923c" font-size="12" text-anchor="middle" font-weight="bold">Open / Close</text>
+
+        <rect x="230" y="10" width="190" height="30" rx="6" fill="#38bdf822" stroke="#38bdf8"/>
+        <text x="325" y="30" fill="#38bdf8" font-size="12" text-anchor="middle" font-weight="bold">Text I/O</text>
+
+        <rect x="440" y="10" width="200" height="30" rx="6" fill="#4ade8022" stroke="#4ade80"/>
+        <text x="540" y="30" fill="#4ade80" font-size="12" text-anchor="middle" font-weight="bold">Binary I/O</text>
+
+        <!-- Items col 1 -->
+        <text x="30" y="62"  fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fopen()</text>
+        <text x="30" y="62"  fill="#8892a4" font-size="10" dy="14">opens file, returns FILE*</text>
+        <text x="30" y="94"  fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fclose()</text>
+        <text x="30" y="94"  fill="#8892a4" font-size="10" dy="14">closes, flushes buffer</text>
+        <text x="30" y="126" fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">feof(fp)</text>
+        <text x="30" y="126" fill="#8892a4" font-size="10" dy="14">1 if end of file</text>
+        <text x="30" y="158" fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">rewind(fp)</text>
+        <text x="30" y="158" fill="#8892a4" font-size="10" dy="14">seek to beginning</text>
+        <text x="30" y="190" fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fseek()</text>
+        <text x="30" y="190" fill="#8892a4" font-size="10" dy="14">move to any position</text>
+
+        <!-- Items col 2 -->
+        <text x="240" y="62"  fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fprintf()</text>
+        <text x="240" y="62"  fill="#8892a4" font-size="10" dy="14">formatted write</text>
+        <text x="240" y="94"  fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fscanf()</text>
+        <text x="240" y="94"  fill="#8892a4" font-size="10" dy="14">formatted read</text>
+        <text x="240" y="126" fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fputs()</text>
+        <text x="240" y="126" fill="#8892a4" font-size="10" dy="14">write a string</text>
+        <text x="240" y="158" fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fgets()</text>
+        <text x="240" y="158" fill="#8892a4" font-size="10" dy="14">read a line</text>
+        <text x="240" y="190" fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fputc / fgetc</text>
+        <text x="240" y="190" fill="#8892a4" font-size="10" dy="14">single character I/O</text>
+
+        <!-- Items col 3 -->
+        <text x="450" y="62"  fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fwrite()</text>
+        <text x="450" y="62"  fill="#8892a4" font-size="10" dy="14">write raw bytes</text>
+        <text x="450" y="94"  fill="#e2e8f0" font-size="12" font-family="JetBrains Mono, monospace">fread()</text>
+        <text x="450" y="94"  fill="#8892a4" font-size="10" dy="14">read raw bytes</text>
+        <text x="450" y="126" fill="#8892a4" font-size="11">Use "rb"/"wb" modes</text>
+        <text x="450" y="145" fill="#8892a4" font-size="11">for binary files.</text>
+        <text x="450" y="164" fill="#4ade80" font-size="11">Good for structs!</text>
+      </svg>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Never forget to fclose()!</strong> If you skip <code>fclose()</code>, data may still be in the buffer and never actually written to disk. Closing the file flushes all pending writes and releases the OS file handle.
+    </div>
+
+    <div class="callout callout-tip">
+      <strong>💡 Error Checking Pattern:</strong> Always check if <code>fopen()</code> returned <code>NULL</code>. Use <code>perror("fopen")</code> to print a descriptive OS error message automatically.
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div style="margin-top:48px;padding-top:24px;border-top:1px solid #2d3748;text-align:center;">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#4a5568;">
+      // C Programming Study Notes · Arrays · Strings · Pointers · Structures · Unions · File Handling
+    </p>
+    <p style="font-size:12px;color:#2d3748;margin-top:6px;">Happy Coding 🚀</p>
+  </div>
+
+</main>
+
+<script>
+// Sidebar active highlighting on scroll
+const sections = document.querySelectorAll('.topic');
+const navItems = document.querySelectorAll('.nav-item');
+
+function onScroll(){
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if(top <= 120) current = sec.id;
+  });
+  navItems.forEach(a => {
+    a.classList.remove('active');
+    if(a.getAttribute('href') === '#'+current) a.classList.add('active');
+  });
+}
+
+window.addEventListener('scroll', onScroll, {passive:true});
+
+// Smooth scroll
+navItems.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const id = a.getAttribute('href').slice(1);
+    document.getElementById(id).scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+</body>
+</html>

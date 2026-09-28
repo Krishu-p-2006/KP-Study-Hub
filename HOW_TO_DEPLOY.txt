@@ -1,0 +1,87 @@
+================================================
+  BCA STUDY HUB — HOW TO DEPLOY & SHARE
+  Created by Krishu Prajapati, BCA 1st Year
+  Shri Ram PG College, MGKVP
+================================================
+
+WHAT'S IN THIS FOLDER
+----------------------
+public/
+  index.html                               ← Main page (no login needed!)
+  c-study-notes.html                       ← C Programming guide
+  digital_electronics_study_guide__1_.html ← Digital Electronics guide
+  organizational_behaviour__5_.html        ← OB guide
+
+HOW TO DEPLOY (GitHub Pages — FREE, EASY, FOREVER)
+====================================================
+
+STEP 1 — Create GitHub account
+-------------------------------
+1. Go to: https://github.com
+2. Click "Sign up" → use your email → create account
+3. Verify your email
+
+STEP 2 — Create a new repository
+----------------------------------
+1. Click the green "New" button (top left)
+2. Repository name: bca-study-hub
+3. Set to: Public ✅
+4. Click "Create repository"
+
+STEP 3 — Upload your files
+----------------------------
+1. On the next page, click "uploading an existing file"
+2. Drag & drop ALL files from the public/ folder:
+   - index.html
+   - c-study-notes.html
+   - digital_electronics_study_guide__1_.html
+   - organizational_behaviour__5_.html
+3. Click "Commit changes" (green button)
+
+STEP 4 — Enable GitHub Pages
+------------------------------
+1. Click "Settings" (top menu of your repo)
+2. Scroll down to "Pages" (left sidebar)
+3. Under "Source" → select "Deploy from a branch"
+4. Branch: main | Folder: / (root)
+5. Click Save
+
+STEP 5 — Your site is LIVE!
+-----------------------------
+After about 1 minute, visit:
+  https://YOUR-GITHUB-USERNAME.github.io/bca-study-hub/
+
+Example: if your username is "krishuprajapati":
+  https://krishuprajapati.github.io/bca-study-hub/
+
+DONE! Share that link with your whole class. 🎉
+
+================================================
+HOW TO ADD NEW STUDY MATERIAL LATER
+================================================
+
+1. Go to your GitHub repo
+2. Click "Add file" → "Upload files"
+3. Upload the new .html file (e.g. math-notes.html)
+4. Open index.html in GitHub → click the pencil ✏️ icon
+5. Copy one of the existing <a class="card"> blocks
+6. Change the href, title, description to match your new file
+7. Click "Commit changes"
+
+That's it! Your new subject appears on the site within minutes.
+
+================================================
+HOW TO SHARE WITH CLASSMATES
+================================================
+
+WhatsApp/Telegram:
+  "Free BCA study notes for MGKVP students 📚
+   C Programming, Digital Electronics, OB — all in one place!
+   https://YOUR-USERNAME.github.io/bca-study-hub/"
+
+No password, no sign-up — just open the link and study!
+
+================================================
+QUESTIONS? Contact Krishu:
+  krishuprajpati320906@gmail.com
+================================================

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>DSA 100 Problems Tracker — BCA Study Hub · Krishu Prajapati</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06070d;
+  --surface:#0c0e1a;
+  --card:#101525;
+  --card2:#131829;
+  --border:rgba(255,255,255,.06);
+  --border2:rgba(255,255,255,.11);
+  --accent:#4f7eff;
+  --accent2:#8b5cf6;
+  --green:#10d98c;
+  --amber:#f59e0b;
+  --red:#f43f5e;
+  --cyan:#06b6d4;
+  --text:#e8eaf6;
+  --muted:#525873;
+  --muted2:#8b90b0;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden
+}
+
+/* ── ANIMATED BG ── */
+.bg-layer{position:fixed;inset:0;pointer-events:none;z-index:0}
+.bg-layer::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(79,126,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,126,255,.018) 1px,transparent 1px);
+  background-size:48px 48px
+}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);animation:orbdrift 14s ease-in-out infinite}
+.o1{width:500px;height:500px;background:rgba(139,92,246,.09);top:-150px;right:-100px}
+.o2{width:350px;height:350px;background:rgba(244,63,94,.06);bottom:-100px;left:-100px;animation-delay:-7s}
+.o3{width:250px;height:250px;background:rgba(245,158,11,.05);top:40%;left:50%;animation-delay:-3.5s}
+@keyframes orbdrift{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-20px) scale(1.04)}}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 32px;
+  background:rgba(6,7,13,.85);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px)
+}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-icon{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--amber),var(--red));
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;box-shadow:0 4px 14px rgba(245,158,11,.35)
+}
+.nav-brand{font-weight:700;font-size:14px;letter-spacing:-.2px}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-pill{
+  font-size:10px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;
+  padding:4px 10px;border-radius:100px;cursor:pointer;text-decoration:none;
+  transition:all .2s
+}
+.nav-pill.ghost{
+  background:rgba(255,255,255,.04);border:1px solid var(--border2);
+  color:var(--muted2)
+}
+.nav-pill.ghost:hover{background:rgba(255,255,255,.08);color:var(--text)}
+.nav-pill.solid{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border:1px solid transparent;
+  box-shadow:0 4px 14px rgba(79,126,255,.3)
+}
+.nav-pill.solid:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(79,126,255,.45)}
+@media(max-width:480px){
+  nav{padding:10px 14px}
+  .nav-brand{font-size:13px}
+  .nav-pill.hide-mobile{display:none}
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:1;
+  max-width:860px;margin:0 auto;
+  padding:60px 24px 40px;text-align:center
+}
+@media(max-width:480px){.hero{padding:40px 16px 28px}}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--amber);
+  background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);
+  padding:5px 13px;border-radius:100px;margin-bottom:16px
+}
+.hero-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--amber);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero h1{
+  font-size:clamp(28px,5.5vw,52px);font-weight:800;
+  letter-spacing:-2px;line-height:1.08;margin-bottom:12px
+}
+.hero h1 .grad{
+  background:linear-gradient(135deg,var(--amber) 0%,var(--red) 50%,var(--accent2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
+}
+.hero-sub{color:var(--muted2);font-size:15px;line-height:1.65;max-width:460px;margin:0 auto 0}
+
+/* ── STATS BAR ── */
+.stats-row{
+  display:flex;justify-content:center;align-items:center;gap:0;
+  margin-top:32px;padding-top:28px;border-top:1px solid var(--border);
+  flex-wrap:wrap
+}
+.stat-item{text-align:center;padding:8px 20px}
+.stat-item+.stat-item{border-left:1px solid var(--border)}
+@media(max-width:400px){
+  .stat-item{padding:6px 12px}
+  .stat-item+.stat-item{border-left:none;border-top:1px solid var(--border)}
+  .stats-row{flex-direction:column;gap:0}
+}
+.stat-n{font-size:22px;font-weight:800;letter-spacing:-1px}
+.stat-l{font-size:11px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
+
+/* ── SECTION ── */
+.section{
+  position:relative;z-index:1;
+  max-width:860px;margin:0 auto;padding:40px 24px 52px
+}
+@media(max-width:480px){.section{padding:32px 16px 40px}}
+
+/* ── PROGRESS OVERVIEW ── */
+.dsa-overview{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;
+  margin-bottom:28px
+}
+@media(max-width:480px){.dsa-overview{grid-template-columns:repeat(3,1fr);gap:8px}}
+.dsa-stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;padding:16px 12px;text-align:center
+}
+@media(max-width:480px){.dsa-stat{padding:12px 8px;border-radius:12px}}
+.dsa-stat-num{font-size:32px;font-weight:800;letter-spacing:-1.5px;line-height:1}
+@media(max-width:480px){.dsa-stat-num{font-size:24px}}
+.dsa-stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-top:4px;font-family:var(--mono)}
+.dsa-progress-bar{
+  background:rgba(255,255,255,.05);
+  border-radius:40px;height:5px;margin-top:8px
+}
+.dsa-progress-fill{
+  background:linear-gradient(90deg,var(--amber),var(--red));
+  width:0%;height:100%;border-radius:40px;
+  transition:width .5s cubic-bezier(.4,0,.2,1)
+}
+
+/* ── FILTERS ── */
+.filter-row{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;align-items:center
+}
+.dsa-filter{
+  background:var(--surface);border:1px solid var(--border);
+  padding:6px 14px;border-radius:30px;font-size:12px;font-weight:600;
+  cursor:pointer;color:var(--muted2);transition:all .18s;font-family:'Outfit',sans-serif
+}
+.dsa-filter:hover{border-color:var(--border2);color:var(--text)}
+.dsa-filter.active{
+  background:var(--amber);color:#000;border-color:transparent;
+  box-shadow:0 4px 14px rgba(245,158,11,.3)
+}
+.filter-label{font-size:11px;color:var(--muted);font-family:var(--mono);margin-right:4px}
+
+/* ── TOPIC BLOCKS ── */
+.topic-block{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:16px;margin-bottom:16px;overflow:hidden;
+  animation:slideup .35s ease both
+}
+@keyframes slideup{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.topic-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;cursor:pointer;
+  border-bottom:1px solid var(--border);
+  user-select:none
+}
+.topic-head-left{display:flex;align-items:center;gap:10px}
+.topic-icon{font-size:16px}
+.topic-name{font-size:15px;font-weight:700;letter-spacing:-.2px}
+.topic-count{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.topic-progress-mini{
+  display:flex;align-items:center;gap:8px
+}
+.mini-bar{width:60px;height:4px;background:rgba(255,255,255,.06);border-radius:40px;overflow:hidden}
+.mini-fill{height:100%;border-radius:40px;background:linear-gradient(90deg,var(--amber),var(--red));transition:width .4s}
+.topic-chevron{font-size:12px;color:var(--muted);transition:transform .25s}
+.topic-block.collapsed .topic-chevron{transform:rotate(-90deg)}
+.topic-qlist{padding:4px 0 8px}
+.topic-block.collapsed .topic-qlist{display:none}
+
+/* ── QUESTION ROWS ── */
+.q-row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 18px;
+  border-bottom:1px solid rgba(255,255,255,.03);
+  cursor:pointer;transition:background .15s
+}
+.q-row:last-child{border-bottom:none}
+.q-row:hover{background:rgba(255,255,255,.03)}
+.q-check{
+  width:20px;height:20px;flex-shrink:0;
+  border:2px solid rgba(255,255,255,.15);border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;transition:all .2s
+}
+.q-row.done .q-check{background:var(--green);border-color:var(--green);color:#fff}
+.q-row.done .q-text{text-decoration:line-through;color:var(--muted)}
+.q-num{font-family:var(--mono);font-size:10px;color:var(--muted);min-width:22px}
+.q-text{flex:1;font-size:13.5px;line-height:1.4}
+@media(max-width:480px){.q-text{font-size:12.5px}}
+.q-badge{
+  font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;flex-shrink:0;font-family:var(--mono)
+}
+.q-easy{background:rgba(16,185,129,.12);color:#34d399}
+.q-medium{background:rgba(245,158,11,.12);color:#fbbf24}
+.q-hard{background:rgba(239,68,68,.12);color:#f87171}
+
+/* ── RESET BTN ── */
+.reset-row{display:flex;justify-content:center;margin-top:28px}
+.reset-btn{
+  background:none;border:1px solid var(--border);
+  padding:9px 20px;border-radius:30px;color:var(--muted2);
+  cursor:pointer;font-size:12px;font-family:'Outfit',sans-serif;
+  transition:all .18s
+}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* ── BACK LINK ── */
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--muted2);font-size:13px;text-decoration:none;
+  transition:color .18s;margin-bottom:6px
+}
+.back-link:hover{color:var(--amber)}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;
+  text-align:center;padding:32px 24px;
+  border-top:1px solid var(--border);
+  color:var(--muted);font-size:12px
+}
+footer strong{color:var(--muted2)}
+footer a{color:var(--accent);text-decoration:none}
+footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<div class="bg-layer">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-icon">🧠</div>
+    <span class="nav-brand">DSA 100 Tracker</span>
+  </div>
+  <div class="nav-right">
+    <a class="nav-pill ghost hide-mobile" href="index.html">← Home</a>
+    <a class="nav-pill solid" href="bca_placement_roadmap.html" target="_blank">🗺️ Career</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag"><span class="dot"></span>DSA · Interview Prep</div>
+  <h1>100 <span class="grad">DSA Problems</span><br/>Tracker</h1>
+  <p class="hero-sub">Curated 100 problems across 10 topics. Mark solved, filter by difficulty, track your progress.</p>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-n" id="statSolved" style="color:var(--green)">0</div>
+      <div class="stat-l">Solved</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" id="statRemaining" style="color:var(--red)">100</div>
+      <div class="stat-l">Remaining</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" id="statPercent" style="color:var(--amber)">0%</div>
+      <div class="stat-l">Progress</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-n" style="color:var(--accent2)">10</div>
+      <div class="stat-l">Topics</div>
+    </div>
+  </div>
+</div>
+
+<hr style="border:none;height:1px;background:var(--border);position:relative;z-index:1"/>
+
+<!-- MAIN TRACKER -->
+<div class="section">
+
+  <!-- Filter Row -->
+  <div class="filter-row">
+    <span class="filter-label">Filter:</span>
+    <div id="dsaFilters"></div>
+  </div>
+
+  <!-- Questions -->
+  <div id="dsaQuestionsContainer"></div>
+
+  <div class="reset-row">
+    <button class="reset-btn" id="resetAllDsa">⟳ Reset All Progress</button>
+  </div>
+
+</div>
+
+<footer>
+  Built with ❤️ by <strong>Krishu Prajapati</strong> · BCA 1st Year · Shri Ram PG College · MGKVP<br/>
+  <a href="index.html">← Back to Study Hub</a>
+</footer>
+
+<script>
+const DSA_TOPICS = [
+  { id:"arrays",     icon:"📦", name:"Arrays",              questions:["Find max/min element","Reverse array","Kth max/min","Rotate array by K","Kadane's Algorithm","Minimum jumps to end","Pair sum equals target","Common in 3 sorted arrays","Alternate pos/neg numbers","Subarray sum zero"] },
+  { id:"strings",    icon:"📝", name:"Strings",             questions:["Reverse string","Palindrome check","Duplicate characters","Rotation check","Valid shuffle of two strings","Count and say","Longest palindrome substring","Longest recurring subsequence","Print all subsequences","Edit Distance"] },
+  { id:"ll",         icon:"🔗", name:"Linked List",         questions:["Reverse Linked List","Reverse in K groups","Detect loop","Remove loop","Find loop start","Remove duplicates sorted","Remove duplicates unsorted","Move last to front","Add 1 to number","Intersection point"] },
+  { id:"stackq",     icon:"📚", name:"Stack & Queue",       questions:["Stack using arrays","Queue using arrays","Stack using LL","Queue using LL","Stack using queue","Queue using stack","Balanced parentheses","Next Greater Element","Next Smaller Element","LRU Cache"] },
+  { id:"trees",      icon:"🌳", name:"Trees",               questions:["Height of BT","Preorder traversal","Inorder traversal","Postorder traversal","Lowest Common Ancestor","Check BST","Max path sum","Serialize/Deserialize","Level order traversal","Left & Right view"] },
+  { id:"graphs",     icon:"🕸️", name:"Graphs",              questions:["BFS traversal","DFS traversal","Detect cycle undirected","Cycle in directed graph","Topological sort DFS","Kahn's Algorithm","Shortest path unweighted","Dijkstra's algorithm","Bellman-Ford","Connected components"] },
+  { id:"sortsearch", icon:"🔍", name:"Sorting & Searching", questions:["Bubble sort","Selection sort","Insertion sort","Merge sort","Quick sort","Heap sort","Binary search","Search in rotated sorted array","Find sqrt using binary search","Peak element"] },
+  { id:"dp",         icon:"🧩", name:"Dynamic Programming", questions:["Fibonacci","0/1 Knapsack","Unbounded Knapsack","Longest Common Subsequence","Longest Increasing Subsequence","Edit Distance","Coin change (min coins)","Matrix chain multiplication","Partition equal subset sum","Rod cutting"] },
+  { id:"backtrack",  icon:"🔄", name:"Backtracking",        questions:["Print all permutations","N-Queens","Sudoku solver","Rat in a maze","Generate subsets","Generate valid parentheses","Word search in grid","Knight's tour","All paths source to dest","Josephus problem"] },
+  { id:"hashing",    icon:"#️⃣", name:"Hashing",             questions:["Two Sum","Longest subarray sum K","Count subarrays sum K","Longest consecutive sequence","Check anagrams","Group anagrams","First non-repeating char","4 Sum","Distinct elements in window K","Clone graph"] }
+];
+
+const DSA_KEY = "dsa_krishu_100_v2";
+let solved = {};
+let activeFilter = "all";
+let collapsed = {};
+
+function load(){ try{ const s=localStorage.getItem(DSA_KEY); if(s) solved=JSON.parse(s); }catch(e){} }
+function save(){ localStorage.setItem(DSA_KEY,JSON.stringify(solved)); }
+function qid(tid,i){ return tid+"_"+i; }
+function diff(tid,i){
+  if(tid==="dp"&&i>5) return "hard";
+  if(tid==="graphs"&&(i===8||i===9)) return "hard";
+  if(tid==="backtrack"&&(i===1||i===2||i===7)) return "hard";
+  if(tid==="trees"&&(i===6||i===7)) return "hard";
+  if(i<=2) return "easy";
+  return "medium";
+}
+
+function updateStats(){
+  let total=0,done=0;
+  for(let t of DSA_TOPICS) for(let i=0;i<10;i++){total++;if(solved[qid(t.id,i)])done++;}
+  document.getElementById("statSolved").textContent=done;
+  document.getElementById("statRemaining").textContent=total-done;
+  document.getElementById("statPercent").textContent=Math.round((done/total)*100)+"%";
+}
+
+function topicSolved(tid){
+  let c=0; for(let i=0;i<10;i++) if(solved[qid(tid,i)]) c++; return c;
+}
+
+function renderFilters(){
+  const filters=[
+    {k:"all",label:"All (100)"},
+    {k:"easy",label:"Easy"},
+    {k:"medium",label:"Medium"},
+    {k:"hard",label:"Hard"},
+    {k:"done",label:"Done"},
+    {k:"todo",label:"To Do"}
+  ];
+  const c=document.getElementById("dsaFilters");
+  c.innerHTML="";
+  for(let f of filters){
+    const btn=document.createElement("button");
+    btn.className="dsa-filter"+(activeFilter===f.k?" active":"");
+    btn.textContent=f.label;
+    btn.onclick=()=>{ activeFilter=f.k; renderFilters(); renderQuestions(); };
+    c.appendChild(btn);
+  }
+}
+
+function renderQuestions(){
+  const container=document.getElementById("dsaQuestionsContainer");
+  container.innerHTML="";
+  for(let t of DSA_TOPICS){
+    // check if any questions pass filter for this topic
+    let hasVisible=false;
+    for(let i=0;i<10;i++){
+      const d=diff(t.id,i); const s=!!solved[qid(t.id,i)];
+      if(activeFilter==="all"||activeFilter===d||(activeFilter==="done"&&s)||(activeFilter==="todo"&&!s)) hasVisible=true;
+    }
+    if(!hasVisible) continue;
+
+    const tc=topicSolved(t.id);
+    const block=document.createElement("div");
+    block.className="topic-block"+(collapsed[t.id]?" collapsed":"");
+    block.id="topic-"+t.id;
+
+    const pct=Math.round((tc/10)*100);
+    block.innerHTML=`
+      <div class="topic-head" onclick="toggleTopic('${t.id}')">
+        <div class="topic-head-left">
+          <span class="topic-icon">${t.icon}</span>
+          <span class="topic-name">${t.name}</span>
+          <span class="topic-count">${tc}/10</span>
+        </div>
+        <div class="topic-progress-mini">
+          <div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div>
+          <span class="topic-chevron">▾</span>
+        </div>
+      </div>
+      <div class="topic-qlist" id="qlist-${t.id}"></div>
+    `;
+    container.appendChild(block);
+
+    const qlist=document.getElementById("qlist-"+t.id);
+    let qnum=0;
+    for(let i=0;i<10;i++){
+      const d=diff(t.id,i); const s=!!solved[qid(t.id,i)];
+      if(activeFilter!=="all"&&activeFilter!==d&&!(activeFilter==="done"&&s)&&!(activeFilter==="todo"&&!s)) continue;
+      qnum++;
+      const row=document.createElement("div");
+      row.className="q-row"+(s?" done":"");
+      row.innerHTML=`
+        <div class="q-check">${s?"✓":""}</div>
+        <span class="q-num">${i+1}</span>
+        <span class="q-text">${t.questions[i]}</span>
+        <span class="q-badge q-${d}">${d.toUpperCase()}</span>
+      `;
+      row.onclick=(function(tid,idx){
+        return function(){
+          solved[qid(tid,idx)]=!solved[qid(tid,idx)];
+          save(); renderQuestions(); updateStats();
+        };
+      })(t.id,i);
+      qlist.appendChild(row);
+    }
+  }
+  updateStats();
+}
+
+function toggleTopic(tid){
+  collapsed[tid]=!collapsed[tid];
+  const block=document.getElementById("topic-"+tid);
+  if(block) block.classList.toggle("collapsed",!!collapsed[tid]);
+}
+
+document.getElementById("resetAllDsa").onclick=function(){
+  if(confirm("Reset all 100 DSA problems? This cannot be undone.")) {
+    solved={}; save(); renderFilters(); renderQuestions(); updateStats();
+  }
+};
+
+load();
+renderFilters();
+renderQuestions();
+updateStats();
+</script>
+</body>
+</html>

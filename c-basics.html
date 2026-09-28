@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#07080d"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>C Programming Basics — BCA Study Hub · Krishu</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#07080d;--surface:#0d0f1a;--card:#111428;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --accent:#5b8cff;--accent2:#a78bfa;--green:#34d399;--amber:#fbbf24;--red:#f87171;--cyan:#22d3ee;
+  --text:#eef0f8;--muted:#6b7280;--muted2:#9ca3af;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --sidebar-w: 265px;
+  --topbar-h: 54px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Outfit',sans-serif;
+  display:flex;min-height:100vh;font-size:15px;line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress-bar{
+  position:fixed;top:0;left:0;height:2px;width:0%;z-index:1000;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width .1s linear;pointer-events:none
+}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;background:var(--surface);
+  border-right:1px solid var(--border);
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+  padding:24px 0;display:flex;flex-direction:column;
+  scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent;
+}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+.sb-brand{padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.sb-logo{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.sb-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:15px}
+.sb-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px}
+.sb-back{font-size:11.5px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:4px;margin-top:8px;transition:color .2s}
+.sb-back:hover{color:var(--accent)}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 20px;margin:10px 0 6px}
+.sb-link{
+  display:flex;align-items:center;gap:9px;
+  padding:8px 20px;font-size:13px;color:var(--muted2);
+  text-decoration:none;transition:background .15s,color .15s;
+  border-left:2px solid transparent;user-select:none;
+}
+.sb-link:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.sb-link.active{background:rgba(91,140,255,.08);color:var(--accent);border-left-color:var(--accent)}
+.sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:transform .2s}
+.sb-link.active .sb-dot{transform:scale(1.5)}
+
+/* ── MAIN ── */
+main{flex:1;max-width:860px;padding:52px 48px 100px;overflow-x:hidden}
+
+/* ── MOBILE TOP BAR ── */
+.mobile-bar{
+  display:none;position:fixed;top:0;left:0;right:0;z-index:400;
+  background:rgba(7,8,13,.92);border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:0 16px;
+  height:var(--topbar-h);
+  align-items:center;justify-content:space-between;gap:10px;
+  padding-top:var(--safe-top);
+}
+.mobile-bar-left{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.mobile-bar-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.mobile-bar-title{font-weight:700;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mobile-bar-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.mobile-bar-back{
+  font-size:11.5px;font-weight:600;color:var(--accent);
+  text-decoration:none;
+  background:rgba(91,140,255,.1);border:1px solid rgba(91,140,255,.2);
+  padding:5px 11px;border-radius:100px;white-space:nowrap;
+  transition:background .2s;touch-action:manipulation;
+}
+.mobile-bar-back:active{background:rgba(91,140,255,.25)}
+
+/* ── TOC BUTTON ── */
+.mob-toc-btn{
+  display:none;align-items:center;gap:5px;font-size:11.5px;font-weight:600;
+  color:var(--muted2);background:rgba(255,255,255,.06);border:1px solid var(--border2);
+  padding:5px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;
+  transition:background .15s;touch-action:manipulation;
+}
+.mob-toc-btn:active{background:rgba(255,255,255,.12)}
+
+/* ── MOBILE DRAWER ── */
+.mob-drawer{
+  position:fixed;inset:0;z-index:500;display:none;
+}
+.mob-drawer.open{display:block}
+.mob-drawer-bg{
+  position:absolute;inset:0;
+  background:rgba(7,8,13,.75);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.mob-drawer-panel{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--surface);border-top:1px solid var(--border2);
+  border-radius:20px 20px 0 0;padding:16px 0 0;
+  max-height:78vh;overflow-y:auto;
+  animation:slideup .28s cubic-bezier(.34,1.4,.64,1);
+  padding-bottom:calc(20px + var(--safe-bottom));
+  scrollbar-width:none;
+}
+.mob-drawer-panel::-webkit-scrollbar{display:none}
+@keyframes slideup{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mob-drawer-handle{width:36px;height:4px;border-radius:100px;background:rgba(255,255,255,.15);margin:0 auto 14px}
+.mob-drawer-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 20px;margin-bottom:8px}
+.mob-drawer-panel .sb-link{padding:11px 20px;font-size:14px}
+
+/* ── SCROLL TO TOP ── */
+#scroll-top{
+  position:fixed;bottom:calc(24px + var(--safe-bottom));right:20px;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--accent);color:#fff;border:none;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;z-index:300;
+  box-shadow:0 4px 20px rgba(91,140,255,.4);
+  opacity:0;transform:translateY(12px);pointer-events:none;
+  transition:opacity .25s,transform .25s;
+  touch-action:manipulation;
+}
+#scroll-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#scroll-top:active{transform:scale(.92)}
+
+/* ── COPY BUTTON ── */
+.copy-btn{
+  background:rgba(255,255,255,.06);border:1px solid var(--border2);
+  color:var(--muted2);border-radius:6px;padding:4px 9px;
+  font-size:11px;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;gap:4px;
+  transition:background .15s,color .15s;white-space:nowrap;
+  touch-action:manipulation;
+  font-family:'Outfit',sans-serif;
+}
+.copy-btn:active,.copy-btn:hover{background:rgba(255,255,255,.12);color:var(--text)}
+.copy-btn.copied{color:var(--green);border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.08)}
+
+/* ── RESPONSIVE BREAKPOINTS ── */
+@media(max-width:900px){
+  main{padding:52px 32px 100px}
+}
+
+@media(max-width:768px){
+  body{display:block}
+  .sidebar{display:none}
+  .mobile-bar{display:flex}
+  .mob-toc-btn{display:flex}
+  main{
+    padding:calc(var(--topbar-h) + var(--safe-top) + 24px) 16px calc(80px + var(--safe-bottom));
+    max-width:100%;
+  }
+  .pg-title{font-size:28px !important;letter-spacing:-1px !important}
+  .pg-sub{font-size:14px}
+  .sec-title{font-size:19px !important}
+  pre{font-size:12px !important;padding:14px 12px !important}
+  .flow{flex-direction:column;align-items:stretch}
+  .flow-arr{transform:rotate(90deg);text-align:center}
+  .flow-step{min-width:unset;text-align:left}
+  .mini-grid{grid-template-columns:1fr 1fr}
+  th,td{padding:9px 12px;font-size:12.5px}
+  .tbl-wrap{border-radius:10px}
+  .code-block{border-radius:10px;margin:14px 0}
+  .sec{margin-bottom:48px;scroll-margin-top:calc(var(--topbar-h) + 16px)}
+  .box{font-size:13px;padding:14px 16px}
+  .pg-chips{margin-bottom:36px;gap:6px}
+  .pg-chip{font-size:11px;padding:3px 10px}
+  .pg-eyebrow{font-size:10.5px}
+}
+
+@media(max-width:400px){
+  main{padding-left:14px;padding-right:14px}
+  .pg-title{font-size:24px !important}
+  .mini-grid{grid-template-columns:1fr}
+  pre{font-size:11px !important}
+}
+
+/* ── PAGE HEADER ── */
+.pg-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.pg-title{font-family:'Outfit',sans-serif;font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1.06;margin-bottom:12px}
+.pg-title em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pg-sub{color:var(--muted2);font-size:15px;line-height:1.65;margin-bottom:36px;max-width:600px}
+.pg-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px}
+.pg-chip{font-size:11.5px;font-weight:500;padding:4px 12px;border-radius:100px;border:1px solid var(--border2);color:var(--muted2)}
+
+/* ── SECTION ── */
+.sec{margin-bottom:64px;scroll-margin-top:24px}
+.sec-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.sec-num{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.sec-title{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px}
+p{color:var(--muted2);margin-bottom:14px;line-height:1.75}
+p strong{color:var(--text);font-weight:600}
+
+/* ── CODE ── */
+.code-block{
+  background:#080a12;border:1px solid var(--border2);
+  border-radius:12px;overflow:hidden;margin:18px 0;
+  position:relative;
+}
+.code-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;background:rgba(255,255,255,.03);
+  border-bottom:1px solid var(--border);gap:10px;
+}
+.code-bar-left{display:flex;align-items:center;gap:8px;min-width:0}
+.code-label{font-size:11px;font-weight:600;letter-spacing:.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.code-dots{display:flex;gap:5px;flex-shrink:0}
+.code-dots span{width:10px;height:10px;border-radius:50%}
+.cd1{background:#f87171}.cd2{background:#fbbf24}.cd3{background:#34d399}
+pre{
+  padding:20px;
+  overflow-x:auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;line-height:1.7;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.1) transparent;
+}
+pre::-webkit-scrollbar{height:4px}
+pre::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+
+/* syntax colors */
+.kw{color:#a78bfa}.fn{color:#22d3ee}.st{color:#34d399}
+.cm{color:#4b5563;font-style:italic}.nm{color:#fbbf24}
+.op{color:#f87171}.pp{color:#fb923c}
+
+/* ── INFO BOXES ── */
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;font-size:13.5px;line-height:1.65}
+.box-note{background:rgba(91,140,255,.07);border:1px solid rgba(91,140,255,.2);color:#93b4ff}
+.box-tip{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.2);color:#6ee7b7}
+.box-warn{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);color:#fcd34d}
+.box strong{font-weight:700;display:block;margin-bottom:4px}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--border2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead{background:rgba(255,255,255,.05)}
+th{padding:11px 16px;text-align:left;font-weight:600;color:var(--text);font-size:12px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+td{padding:10px 16px;color:var(--muted2);border-top:1px solid var(--border)}
+tr:hover td{background:rgba(255,255,255,.02)}
+td code,th code{background:rgba(255,255,255,.08);border-radius:4px;padding:2px 7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text)}
+
+/* ── GRID CARDS ── */
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:18px 0}
+.mini-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color .2s}
+.mini-card:hover{border-color:var(--border2)}
+.mini-card-title{font-size:13px;font-weight:600;margin-bottom:5px}
+.mini-card-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* ── FLOW ── */
+.flow{display:flex;flex-wrap:wrap;gap:0;margin:18px 0;align-items:center}
+.flow-step{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-size:13px;font-weight:500;text-align:center;min-width:110px;flex:1}
+.flow-arr{color:var(--muted);font-size:18px;padding:0 4px;flex-shrink:0}
+
+/* ── OPERATOR TABLE ── */
+.op-badge{display:inline-block;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.25);color:#f87171;border-radius:5px;padding:1px 7px;font-family:'JetBrains Mono',monospace;font-size:12px}
+
+/* ── ANIMATIONS ── */
+@media(prefers-reduced-motion:no-preference){
+  .sec{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+  .sec.visible{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- SCROLL TO TOP -->
+<button id="scroll-top" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- MOBILE TOP BAR -->
+<div class="mobile-bar">
+  <div class="mobile-bar-left">
+    <div class="mobile-bar-icon">🎓</div>
+    <span class="mobile-bar-title">C Basics · BCA Hub</span>
+  </div>
+  <div class="mobile-bar-actions">
+    <button class="mob-toc-btn" onclick="openDrawer()" aria-label="Open contents">☰ Contents</button>
+    <a class="mobile-bar-back" href="index.html">← Home</a>
+  </div>
+</div>
+
+<!-- MOBILE TOC DRAWER -->
+<div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Table of contents">
+  <div class="mob-drawer-bg" onclick="closeDrawer()"></div>
+  <div class="mob-drawer-panel">
+    <div class="mob-drawer-handle"></div>
+    <div class="mob-drawer-title">Contents</div>
+    <a class="sb-link" href="#intro" onclick="closeDrawer()"><span class="sb-dot" style="background:#5b8cff"></span>Introduction</a>
+    <a class="sb-link" href="#history" onclick="closeDrawer()"><span class="sb-dot" style="background:#a78bfa"></span>History of C</a>
+    <a class="sb-link" href="#features" onclick="closeDrawer()"><span class="sb-dot" style="background:#22d3ee"></span>Features</a>
+    <a class="sb-link" href="#usage" onclick="closeDrawer()"><span class="sb-dot" style="background:#34d399"></span>Usage &amp; Applications</a>
+    <a class="sb-link" href="#structure" onclick="closeDrawer()"><span class="sb-dot" style="background:#fbbf24"></span>Program Structure</a>
+    <a class="sb-link" href="#datatypes" onclick="closeDrawer()"><span class="sb-dot" style="background:#f87171"></span>Data Types</a>
+    <a class="sb-link" href="#variables" onclick="closeDrawer()"><span class="sb-dot" style="background:#fb923c"></span>Variables &amp; Constants</a>
+    <a class="sb-link" href="#operators" onclick="closeDrawer()"><span class="sb-dot" style="background:#5b8cff"></span>Operators</a>
+    <a class="sb-link" href="#input" onclick="closeDrawer()"><span class="sb-dot" style="background:#a78bfa"></span>Input &amp; Output</a>
+    <a class="sb-link" href="#ifelse" onclick="closeDrawer()"><span class="sb-dot" style="background:#22d3ee"></span>if / else</a>
+    <a class="sb-link" href="#switch" onclick="closeDrawer()"><span class="sb-dot" style="background:#34d399"></span>switch Statement</a>
+    <a class="sb-link" href="#loops" onclick="closeDrawer()"><span class="sb-dot" style="background:#fbbf24"></span>Loops</a>
+    <a class="sb-link" href="#functions" onclick="closeDrawer()"><span class="sb-dot" style="background:#f87171"></span>Functions</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">
+      <div class="sb-icon">🎓</div>
+      <span class="sb-name">BCA Study Hub</span>
+    </div>
+    <a class="sb-back" href="index.html">← Back to Dashboard</a>
+  </div>
+
+  <div class="sb-section">Contents</div>
+  <a class="sb-link active" href="#intro"><span class="sb-dot" style="background:#5b8cff"></span>Introduction</a>
+  <a class="sb-link" href="#history"><span class="sb-dot" style="background:#a78bfa"></span>History of C</a>
+  <a class="sb-link" href="#features"><span class="sb-dot" style="background:#22d3ee"></span>Features</a>
+  <a class="sb-link" href="#usage"><span class="sb-dot" style="background:#34d399"></span>Usage &amp; Applications</a>
+  <a class="sb-link" href="#structure"><span class="sb-dot" style="background:#fbbf24"></span>Program Structure</a>
+  <a class="sb-link" href="#datatypes"><span class="sb-dot" style="background:#f87171"></span>Data Types</a>
+  <a class="sb-link" href="#variables"><span class="sb-dot" style="background:#fb923c"></span>Variables &amp; Constants</a>
+  <a class="sb-link" href="#operators"><span class="sb-dot" style="background:#5b8cff"></span>Operators</a>
+  <a class="sb-link" href="#input"><span class="sb-dot" style="background:#a78bfa"></span>Input &amp; Output</a>
+  <a class="sb-link" href="#ifelse"><span class="sb-dot" style="background:#22d3ee"></span>if / else</a>
+  <a class="sb-link" href="#switch"><span class="sb-dot" style="background:#34d399"></span>switch Statement</a>
+  <a class="sb-link" href="#loops"><span class="sb-dot" style="background:#fbbf24"></span>Loops</a>
+  <a class="sb-link" href="#functions"><span class="sb-dot" style="background:#f87171"></span>Functions</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+
+  <!-- PAGE HEADER -->
+  <div class="pg-eyebrow">C Programming · Basics</div>
+  <h1 class="pg-title">Learn <em>C Programming</em><br/>From Scratch</h1>
+  <p class="pg-sub">A complete beginner's guide covering history, data types, operators, control flow, loops and functions — crafted for BCA 1st year students of MGKVP.</p>
+  <div class="pg-chips">
+    <span class="pg-chip">📘 BCA 1st Year</span>
+    <span class="pg-chip">🏫 MGKVP</span>
+    <span class="pg-chip">⚡ Basics Only</span>
+    <span class="pg-chip">✍️ By Krishu Prajapati</span>
+  </div>
+
+  <!-- 1. INTRODUCTION -->
+  <div class="sec" id="intro">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(91,140,255,.15);color:var(--accent)">01</div>
+      <div class="sec-title">Introduction to C</div>
+    </div>
+    <p>C is a <strong>general-purpose, procedural programming language</strong> developed in the early 1970s. It is one of the most widely used programming languages of all time and forms the foundation for many modern languages like C++, Java, and Python.</p>
+    <p>C gives the programmer <strong>direct control over memory and hardware</strong>, making it extremely powerful and efficient. It is often called the "mother of all programming languages."</p>
+    <div class="box box-note">
+      <strong>💡 Why Learn C First?</strong>
+      Learning C builds a strong foundation — once you know C, picking up any other language becomes much easier because C teaches you how computers actually work.
+    </div>
+  </div>
+
+  <!-- 2. HISTORY -->
+  <div class="sec" id="history">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(167,139,250,.15);color:var(--accent2)">02</div>
+      <div class="sec-title">History of C</div>
+    </div>
+    <p>C was developed at <strong>Bell Laboratories</strong> by <strong>Dennis Ritchie</strong> between 1969 and 1973. It evolved from an earlier language called <strong>B</strong>, which itself came from <strong>BCPL</strong>.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Year</th><th>Event</th></tr></thead>
+        <tbody>
+          <tr><td>1967</td><td>BCPL language developed by Martin Richards</td></tr>
+          <tr><td>1969</td><td>B language created by Ken Thompson at Bell Labs</td></tr>
+          <tr><td>1972</td><td><strong>C language created by Dennis Ritchie</strong> at Bell Labs</td></tr>
+          <tr><td>1978</td><td>"The C Programming Language" book published by Kernighan &amp; Ritchie (K&amp;R C)</td></tr>
+          <tr><td>1989</td><td>ANSI standardized C → called <strong>C89 or ANSI C</strong></td></tr>
+          <tr><td>1990</td><td>ISO adopted the standard → called <strong>C90</strong></td></tr>
+          <tr><td>1999</td><td><strong>C99</strong> released with new features</td></tr>
+          <tr><td>2011</td><td><strong>C11</strong> — latest major standard</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="box box-tip">
+      <strong>👨‍💻 Dennis Ritchie</strong>
+      Often called the father of C. He also co-created the Unix operating system. C was originally designed to write Unix — that's why it's so close to the hardware.
+    </div>
+  </div>
+
+  <!-- 3. FEATURES -->
+  <div class="sec" id="features">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(34,211,238,.15);color:var(--cyan)">03</div>
+      <div class="sec-title">Features of C</div>
+    </div>
+    <p>C has several key features that make it powerful and popular:</p>
+    <div class="mini-grid">
+      <div class="mini-card">
+        <div class="mini-card-title">⚡ Fast &amp; Efficient</div>
+        <div class="mini-card-desc">Compiled language; runs very close to machine speed</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-title">🔧 Low-Level Access</div>
+        <div class="mini-card-desc">Can directly manipulate memory using pointers</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-title">📦 Portable</div>
+        <div class="mini-card-desc">Write once, compile on any platform (Windows, Linux, Mac)</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-title">🧱 Structured</div>
+        <div class="mini-card-desc">Supports functions, loops, conditionals — clean code organization</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-title">📚 Rich Library</div>
+        <div class="mini-card-desc">Standard library provides many built-in functions</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-card-title">🌍 Widely Used</div>
+        <div class="mini-card-desc">Used in OS, embedded systems, and system software worldwide</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. USAGE & APPLICATIONS -->
+  <div class="sec" id="usage">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(52,211,153,.15);color:var(--green)">04</div>
+      <div class="sec-title">Usage &amp; Applications of C</div>
+    </div>
+    <p>C is used in almost every area of computing where performance and control matter:</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Area</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Operating Systems</strong></td><td>Linux, Windows, macOS kernels are written in C</td></tr>
+          <tr><td><strong>Embedded Systems</strong></td><td>Microcontrollers, washing machines, TVs, cars</td></tr>
+          <tr><td><strong>Compilers &amp; Interpreters</strong></td><td>Python, PHP, and Perl are written in C</td></tr>
+          <tr><td><strong>Databases</strong></td><td>MySQL, PostgreSQL core engines</td></tr>
+          <tr><td><strong>Game Development</strong></td><td>Game engines and graphics drivers</td></tr>
+          <tr><td><strong>Networking</strong></td><td>Routers, switches, network protocols</td></tr>
+          <tr><td><strong>Scientific Computing</strong></td><td>Simulations, calculations, research tools</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5. PROGRAM STRUCTURE -->
+  <div class="sec" id="structure">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(251,191,36,.15);color:var(--amber)">05</div>
+      <div class="sec-title">Structure of a C Program</div>
+    </div>
+    <p>Every C program follows a basic structure. Let's look at the simplest possible C program:</p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">hello.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="cm">// This is a comment — ignored by the compiler</span>
+<span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>   <span class="cm">// Header file for input/output</span>
+
+<span class="kw">int</span> <span class="fn">main</span>() {            <span class="cm">// main() is where program starts</span>
+
+    <span class="fn">printf</span>(<span class="st">"Hello, World!\n"</span>);  <span class="cm">// Print to screen</span>
+
+    <span class="kw">return</span> <span class="nm">0</span>;            <span class="cm">// 0 means program ended successfully</span>
+}</pre>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Part</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><code>#include &lt;stdio.h&gt;</code></td><td>Includes the Standard Input/Output library</td></tr>
+          <tr><td><code>int main()</code></td><td>Starting point of every C program</td></tr>
+          <tr><td><code>{ }</code></td><td>Curly braces define a block of code</td></tr>
+          <tr><td><code>printf()</code></td><td>Function to print output on screen</td></tr>
+          <tr><td><code>return 0;</code></td><td>Tells OS the program finished successfully</td></tr>
+          <tr><td><code>;</code></td><td>Semicolon ends every statement in C</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>How a C program runs:</strong></p>
+    <div class="flow">
+      <div class="flow-step">Write Code<br/><small style="color:var(--muted)">.c file</small></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">Compile<br/><small style="color:var(--muted)">gcc file.c</small></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">Link<br/><small style="color:var(--muted)">libraries</small></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">Execute<br/><small style="color:var(--muted)">.exe / a.out</small></div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">Output<br/><small style="color:var(--muted)">on screen</small></div>
+    </div>
+  </div>
+
+  <!-- 6. DATA TYPES -->
+  <div class="sec" id="datatypes">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(248,113,113,.15);color:var(--red)">06</div>
+      <div class="sec-title">Data Types</div>
+    </div>
+    <p>A <strong>data type</strong> tells the compiler what kind of data a variable will store. C has several built-in data types:</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Keyword</th><th>Size</th><th>Range</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Integer</strong></td><td><code>int</code></td><td>4 bytes</td><td>-2,147,483,648 to 2,147,483,647</td><td><code>int age = 20;</code></td></tr>
+          <tr><td><strong>Short Integer</strong></td><td><code>short</code></td><td>2 bytes</td><td>-32,768 to 32,767</td><td><code>short x = 100;</code></td></tr>
+          <tr><td><strong>Long Integer</strong></td><td><code>long</code></td><td>8 bytes</td><td>Very large range</td><td><code>long pop = 1400000000;</code></td></tr>
+          <tr><td><strong>Float</strong></td><td><code>float</code></td><td>4 bytes</td><td>6-7 decimal digits</td><td><code>float pi = 3.14;</code></td></tr>
+          <tr><td><strong>Double</strong></td><td><code>double</code></td><td>8 bytes</td><td>15-16 decimal digits</td><td><code>double d = 3.14159;</code></td></tr>
+          <tr><td><strong>Character</strong></td><td><code>char</code></td><td>1 byte</td><td>-128 to 127</td><td><code>char grade = 'A';</code></td></tr>
+          <tr><td><strong>Void</strong></td><td><code>void</code></td><td>0 bytes</td><td>No value</td><td>Used in functions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box box-note">
+      <strong>📌 Type Modifiers</strong>
+      You can use <code>signed</code>, <code>unsigned</code>, <code>short</code>, <code>long</code> to modify basic types. Example: <code>unsigned int</code> can only store positive numbers (0 to 4,294,967,295).
+    </div>
+
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">datatypes.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span>    age    = <span class="nm">20</span>;
+    <span class="kw">float</span>  marks  = <span class="nm">87.5</span>;
+    <span class="kw">double</span> pi     = <span class="nm">3.14159265</span>;
+    <span class="kw">char</span>   grade  = <span class="st">'A'</span>;
+
+    <span class="fn">printf</span>(<span class="st">"Age: %d\n"</span>, age);
+    <span class="fn">printf</span>(<span class="st">"Marks: %.2f\n"</span>, marks);
+    <span class="fn">printf</span>(<span class="st">"Pi: %lf\n"</span>, pi);
+    <span class="fn">printf</span>(<span class="st">"Grade: %c\n"</span>, grade);
+
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</pre>
+    </div>
+  </div>
+
+  <!-- 7. VARIABLES & CONSTANTS -->
+  <div class="sec" id="variables">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(251,146,60,.15);color:#fb923c">07</div>
+      <div class="sec-title">Variables &amp; Constants</div>
+    </div>
+    <p>A <strong>variable</strong> is a named memory location that stores a value which can change during program execution.</p>
+    <p><strong>Syntax:</strong> <code>data_type variable_name = value;</code></p>
+
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">variables.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="kw">int</span> age = <span class="nm">20</span>;           <span class="cm">// declaration + initialization</span>
+<span class="kw">float</span> salary;           <span class="cm">// declaration only</span>
+salary = <span class="nm">25000.50</span>;      <span class="cm">// assignment later</span>
+
+<span class="cm">// Multiple variables</span>
+<span class="kw">int</span> a = <span class="nm">5</span>, b = <span class="nm">10</span>, c = <span class="nm">15</span>;</pre>
+    </div>
+
+    <p><strong>Rules for naming variables:</strong></p>
+    <div class="box box-warn">
+      <strong>⚠️ Naming Rules</strong>
+      Must start with a letter or underscore _ · Can contain letters, digits, underscores · No spaces or special characters · Cannot use C keywords (like int, if, for) · Case sensitive (age ≠ Age ≠ AGE)
+    </div>
+
+    <p>A <strong>constant</strong> is a value that <strong>cannot change</strong> during program execution.</p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">constants.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="cm">// Method 1: using #define (macro)</span>
+<span class="pp">#define</span> PI 3.14159
+<span class="pp">#define</span> MAX 100
+
+<span class="cm">// Method 2: using const keyword</span>
+<span class="kw">const int</span> DAYS = <span class="nm">7</span>;
+<span class="kw">const float</span> RATE = <span class="nm">8.5</span>;</pre>
+    </div>
+  </div>
+
+  <!-- 8. OPERATORS -->
+  <div class="sec" id="operators">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(91,140,255,.15);color:var(--accent)">08</div>
+      <div class="sec-title">Operators</div>
+    </div>
+    <p>Operators are symbols that perform operations on variables and values.</p>
+
+    <p><strong>1. Arithmetic Operators</strong></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Operator</th><th>Name</th><th>Example</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><code>+</code></td><td>Addition</td><td><code>5 + 3</code></td><td>8</td></tr>
+          <tr><td><code>-</code></td><td>Subtraction</td><td><code>5 - 3</code></td><td>2</td></tr>
+          <tr><td><code>*</code></td><td>Multiplication</td><td><code>5 * 3</code></td><td>15</td></tr>
+          <tr><td><code>/</code></td><td>Division</td><td><code>10 / 3</code></td><td>3 (integer)</td></tr>
+          <tr><td><code>%</code></td><td>Modulus (remainder)</td><td><code>10 % 3</code></td><td>1</td></tr>
+          <tr><td><code>++</code></td><td>Increment</td><td><code>a++</code></td><td>a = a + 1</td></tr>
+          <tr><td><code>--</code></td><td>Decrement</td><td><code>a--</code></td><td>a = a - 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>2. Relational Operators</strong> (compare values, return 0 or 1)</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Operator</th><th>Meaning</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><code>==</code></td><td>Equal to</td><td><code>a == b</code></td></tr>
+          <tr><td><code>!=</code></td><td>Not equal to</td><td><code>a != b</code></td></tr>
+          <tr><td><code>&gt;</code></td><td>Greater than</td><td><code>a &gt; b</code></td></tr>
+          <tr><td><code>&lt;</code></td><td>Less than</td><td><code>a &lt; b</code></td></tr>
+          <tr><td><code>&gt;=</code></td><td>Greater than or equal</td><td><code>a &gt;= b</code></td></tr>
+          <tr><td><code>&lt;=</code></td><td>Less than or equal</td><td><code>a &lt;= b</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>3. Logical Operators</strong></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Operator</th><th>Name</th><th>Example</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td><code>&amp;&amp;</code></td><td>AND</td><td><code>a&gt;0 &amp;&amp; b&gt;0</code></td><td>True only if BOTH are true</td></tr>
+          <tr><td><code>||</code></td><td>OR</td><td><code>a&gt;0 || b&gt;0</code></td><td>True if ANY ONE is true</td></tr>
+          <tr><td><code>!</code></td><td>NOT</td><td><code>!(a&gt;0)</code></td><td>Reverses the result</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>4. Assignment Operators</strong></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Operator</th><th>Example</th><th>Same as</th></tr></thead>
+        <tbody>
+          <tr><td><code>=</code></td><td><code>a = 5</code></td><td>a = 5</td></tr>
+          <tr><td><code>+=</code></td><td><code>a += 3</code></td><td>a = a + 3</td></tr>
+          <tr><td><code>-=</code></td><td><code>a -= 3</code></td><td>a = a - 3</td></tr>
+          <tr><td><code>*=</code></td><td><code>a *= 3</code></td><td>a = a * 3</td></tr>
+          <tr><td><code>/=</code></td><td><code>a /= 3</code></td><td>a = a / 3</td></tr>
+          <tr><td><code>%=</code></td><td><code>a %= 3</code></td><td>a = a % 3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 9. INPUT & OUTPUT -->
+  <div class="sec" id="input">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(167,139,250,.15);color:var(--accent2)">09</div>
+      <div class="sec-title">Input &amp; Output</div>
+    </div>
+    <p>C uses <strong>printf()</strong> for output and <strong>scanf()</strong> for input. Both are defined in <code>&lt;stdio.h&gt;</code>.</p>
+
+    <p><strong>Format Specifiers:</strong></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Specifier</th><th>Data Type</th></tr></thead>
+        <tbody>
+          <tr><td><code>%d</code></td><td>int</td></tr>
+          <tr><td><code>%f</code></td><td>float</td></tr>
+          <tr><td><code>%lf</code></td><td>double</td></tr>
+          <tr><td><code>%c</code></td><td>char</td></tr>
+          <tr><td><code>%s</code></td><td>string</td></tr>
+          <tr><td><code>%ld</code></td><td>long int</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">input_output.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> age;
+    <span class="kw">float</span> marks;
+
+    <span class="fn">printf</span>(<span class="st">"Enter your age: "</span>);
+    <span class="fn">scanf</span>(<span class="st">"%d"</span>, &amp;age);         <span class="cm">// &amp; is address-of operator</span>
+
+    <span class="fn">printf</span>(<span class="st">"Enter your marks: "</span>);
+    <span class="fn">scanf</span>(<span class="st">"%f"</span>, &amp;marks);
+
+    <span class="fn">printf</span>(<span class="st">"Age = %d, Marks = %.2f\n"</span>, age, marks);
+
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</pre>
+    </div>
+    <div class="box box-warn">
+      <strong>⚠️ Important!</strong>
+      Always use <code>&amp;</code> before variable name in scanf() — it gives the memory address where the input should be stored.
+    </div>
+  </div>
+
+  <!-- 10. IF ELSE -->
+  <div class="sec" id="ifelse">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(34,211,238,.15);color:var(--cyan)">10</div>
+      <div class="sec-title">if / else Statement</div>
+    </div>
+    <p>The <strong>if-else</strong> statement is used for <strong>decision making</strong> — it runs different code based on whether a condition is true or false.</p>
+
+    <p><strong>Types of if-else:</strong></p>
+
+    <p>1. <strong>Simple if</strong></p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">simple_if.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="kw">if</span> (age &gt;= <span class="nm">18</span>) {
+    <span class="fn">printf</span>(<span class="st">"You can vote!\n"</span>);
+}</pre>
+    </div>
+
+    <p>2. <strong>if-else</strong></p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">if_else.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="kw">if</span> (marks &gt;= <span class="nm">40</span>) {
+    <span class="fn">printf</span>(<span class="st">"Pass\n"</span>);
+} <span class="kw">else</span> {
+    <span class="fn">printf</span>(<span class="st">"Fail\n"</span>);
+}</pre>
+    </div>
+
+    <p>3. <strong>if-else if-else (ladder)</strong></p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">ladder.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="kw">if</span> (marks &gt;= <span class="nm">90</span>) {
+    <span class="fn">printf</span>(<span class="st">"Grade A\n"</span>);
+} <span class="kw">else if</span> (marks &gt;= <span class="nm">75</span>) {
+    <span class="fn">printf</span>(<span class="st">"Grade B\n"</span>);
+} <span class="kw">else if</span> (marks &gt;= <span class="nm">60</span>) {
+    <span class="fn">printf</span>(<span class="st">"Grade C\n"</span>);
+} <span class="kw">else</span> {
+    <span class="fn">printf</span>(<span class="st">"Grade D\n"</span>);
+}</pre>
+    </div>
+
+    <p>4. <strong>Nested if-else</strong></p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">nested_if.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="kw">if</span> (age &gt;= <span class="nm">18</span>) {
+    <span class="kw">if</span> (hasVoterID == <span class="nm">1</span>) {
+        <span class="fn">printf</span>(<span class="st">"Can vote!\n"</span>);
+    } <span class="kw">else</span> {
+        <span class="fn">printf</span>(<span class="st">"Get voter ID first\n"</span>);
+    }
+} <span class="kw">else</span> {
+    <span class="fn">printf</span>(<span class="st">"Too young to vote\n"</span>);
+}</pre>
+    </div>
+  </div>
+
+  <!-- 11. SWITCH -->
+  <div class="sec" id="switch">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(52,211,153,.15);color:var(--green)">11</div>
+      <div class="sec-title">switch Statement</div>
+    </div>
+    <p>The <strong>switch</strong> statement is used when you want to compare one variable against <strong>multiple fixed values</strong>. It is cleaner than writing many if-else if statements.</p>
+
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">switch.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="kw">int</span> day;
+    <span class="fn">printf</span>(<span class="st">"Enter day number (1-7): "</span>);
+    <span class="fn">scanf</span>(<span class="st">"%d"</span>, &amp;day);
+
+    <span class="kw">switch</span> (day) {
+        <span class="kw">case</span> <span class="nm">1</span>:
+            <span class="fn">printf</span>(<span class="st">"Monday\n"</span>);
+            <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="nm">2</span>:
+            <span class="fn">printf</span>(<span class="st">"Tuesday\n"</span>);
+            <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="nm">3</span>:
+            <span class="fn">printf</span>(<span class="st">"Wednesday\n"</span>);
+            <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="nm">7</span>:
+            <span class="fn">printf</span>(<span class="st">"Sunday\n"</span>);
+            <span class="kw">break</span>;
+        <span class="kw">default</span>:
+            <span class="fn">printf</span>(<span class="st">"Invalid day\n"</span>);
+    }
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</pre>
+    </div>
+
+    <div class="box box-note">
+      <strong>📌 Important Rules</strong>
+      Always use <code>break</code> at the end of each case — without it, execution "falls through" to the next case. The <code>default</code> case runs when no case matches (like the else in if-else).
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>if-else</th><th>switch</th></tr></thead>
+        <tbody>
+          <tr><td>Works with</td><td>Any condition/expression</td><td>Only integer or char values</td></tr>
+          <tr><td>Best for</td><td>Range checks (marks &gt; 90)</td><td>Exact value checks (day == 1)</td></tr>
+          <tr><td>Speed</td><td>Slower for many conditions</td><td>Faster for many fixed values</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 12. LOOPS -->
+  <div class="sec" id="loops">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(251,191,36,.15);color:var(--amber)">12</div>
+      <div class="sec-title">Loops</div>
+    </div>
+    <p>Loops are used to <strong>repeat a block of code</strong> multiple times. C has three types of loops.</p>
+
+    <p><strong>1. for loop</strong> — used when you know how many times to repeat</p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">for_loop.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="cm">// Syntax: for(initialization; condition; update)</span>
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= <span class="nm">5</span>; i++) {
+    <span class="fn">printf</span>(<span class="st">"%d\n"</span>, i);
+}
+<span class="cm">// Output: 1 2 3 4 5</span>
+
+<span class="cm">// Print multiplication table of 5</span>
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= <span class="nm">10</span>; i++) {
+    <span class="fn">printf</span>(<span class="st">"5 x %d = %d\n"</span>, i, <span class="nm">5</span> * i);
+}</pre>
+    </div>
+
+    <p><strong>2. while loop</strong> — used when you don't know how many times to repeat</p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">while_loop.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="cm">// Syntax: while(condition) { ... }</span>
+
+<span class="kw">int</span> i = <span class="nm">1</span>;
+<span class="kw">while</span> (i &lt;= <span class="nm">5</span>) {
+    <span class="fn">printf</span>(<span class="st">"%d\n"</span>, i);
+    i++;
+}
+<span class="cm">// Output: 1 2 3 4 5</span>
+
+<span class="cm">// Keep asking until user enters 0</span>
+<span class="kw">int</span> num;
+<span class="kw">while</span> (num != <span class="nm">0</span>) {
+    <span class="fn">printf</span>(<span class="st">"Enter number (0 to stop): "</span>);
+    <span class="fn">scanf</span>(<span class="st">"%d"</span>, &amp;num);
+}</pre>
+    </div>
+
+    <p><strong>3. do-while loop</strong> — runs at least ONCE, then checks the condition</p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">dowhile_loop.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="cm">// Syntax: do { ... } while(condition);</span>
+
+<span class="kw">int</span> i = <span class="nm">1</span>;
+<span class="kw">do</span> {
+    <span class="fn">printf</span>(<span class="st">"%d\n"</span>, i);
+    i++;
+} <span class="kw">while</span> (i &lt;= <span class="nm">5</span>);
+<span class="cm">// Output: 1 2 3 4 5</span></pre>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Loop</th><th>Checks condition</th><th>Min runs</th><th>Best for</th></tr></thead>
+        <tbody>
+          <tr><td><code>for</code></td><td>Before each iteration</td><td>0 times</td><td>Known number of repetitions</td></tr>
+          <tr><td><code>while</code></td><td>Before each iteration</td><td>0 times</td><td>Unknown repetitions, condition first</td></tr>
+          <tr><td><code>do-while</code></td><td>After each iteration</td><td>1 time always</td><td>Menu-driven programs</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Loop Control Statements:</strong></p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">loop_control.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="cm">// break — exits the loop immediately</span>
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= <span class="nm">10</span>; i++) {
+    <span class="kw">if</span> (i == <span class="nm">5</span>) <span class="kw">break</span>;   <span class="cm">// stops at 5</span>
+    <span class="fn">printf</span>(<span class="st">"%d "</span>, i);    <span class="cm">// prints 1 2 3 4</span>
+}
+
+<span class="cm">// continue — skips current iteration</span>
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">1</span>; i &lt;= <span class="nm">5</span>; i++) {
+    <span class="kw">if</span> (i == <span class="nm">3</span>) <span class="kw">continue</span>;  <span class="cm">// skips 3</span>
+    <span class="fn">printf</span>(<span class="st">"%d "</span>, i);       <span class="cm">// prints 1 2 4 5</span>
+}</pre>
+    </div>
+  </div>
+
+  <!-- 13. FUNCTIONS -->
+  <div class="sec" id="functions">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(248,113,113,.15);color:var(--red)">13</div>
+      <div class="sec-title">Functions</div>
+    </div>
+    <p>A <strong>function</strong> is a block of code that performs a specific task. Functions help you avoid repeating code and make programs easier to understand.</p>
+    <p>Every C program has at least one function — <strong>main()</strong>.</p>
+
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">function_syntax.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="cm">// Syntax:</span>
+return_type function_name(parameters) {
+    <span class="cm">// body</span>
+    <span class="kw">return</span> value;
+}</pre>
+    </div>
+
+    <p><strong>Example — function with no return value:</strong></p>
+    <div class="code-block">
+      <div class="code-bar">
+        <div class="code-bar-left">
+          <div class="code-dots"><span class="cd1"></span><span class="cd2"></span><span class="cd3"></span></div>
+          <span class="code-label">functions.c</span>
+        </div>
+        <button class="copy-btn" onclick="copyCode(this)">📋 Copy</button>
+      </div>
+      <pre><span class="pp">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+
+<span class="cm">// Function declaration (prototype)</span>
+<span class="kw">void</span> <span class="fn">greet</span>();
+<span class="kw">int</span>  <span class="fn">add</span>(<span class="kw">int</span> a, <span class="kw">int</span> b);
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="fn">greet</span>();                    <span class="cm">// call greet function</span>
+    <span class="kw">int</span> sum = <span class="fn">add</span>(<span class="nm">5</span>, <span class="nm">3</span>);        <span class="cm">// call add function</span>
+    <span class="fn">printf</span>(<span class="st">"Sum = %d\n"</span>, sum);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}
+
+<span class="cm">// Function definitions</span>
+<span class="kw">void</span> <span class="fn">greet</span>() {
+    <span class="fn">printf</span>(<span class="st">"Hello from greet function!\n"</span>);
+}
+
+<span class="kw">int</span> <span class="fn">add</span>(<span class="kw">int</span> a, <span class="kw">int</span> b) {
+    <span class="kw">return</span> a + b;
+}</pre>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Return Type</th><th>Parameters</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>No return, no param</td><td><code>void</code></td><td>None</td><td><code>void greet()</code></td></tr>
+          <tr><td>No return, with param</td><td><code>void</code></td><td>Yes</td><td><code>void show(int x)</code></td></tr>
+          <tr><td>With return, no param</td><td>any type</td><td>None</td><td><code>int getAge()</code></td></tr>
+          <tr><td>With return, with param</td><td>any type</td><td>Yes</td><td><code>int add(int a, int b)</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box box-tip">
+      <strong>✅ Benefits of Functions</strong>
+      Reusability — write once, use many times · Better organization · Easy to debug · Makes large programs manageable
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ── ACTIVE SECTION TRACKING ──
+const allLinks = document.querySelectorAll('.sb-link, .mob-drawer-panel .sb-link');
+const sections = document.querySelectorAll('.sec');
+
+function updateActive() {
+  let current = '';
+  const offset = window.innerWidth <= 768 ? 70 : 100;
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - offset) current = s.id;
+  });
+  allLinks.forEach(l => {
+    l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+  });
+}
+
+// ── PROGRESS BAR ──
+function updateProgress() {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+// ── SCROLL TO TOP ──
+const scrollTopBtn = document.getElementById('scroll-top');
+function updateScrollTop() {
+  scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+}
+
+window.addEventListener('scroll', () => {
+  updateActive();
+  updateProgress();
+  updateScrollTop();
+}, { passive: true });
+
+updateActive();
+updateProgress();
+
+// ── MOBILE DRAWER ──
+function openDrawer() {
+  const d = document.getElementById('mobDrawer');
+  d.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  d.setAttribute('aria-hidden','false');
+}
+function closeDrawer() {
+  const d = document.getElementById('mobDrawer');
+  d.classList.remove('open');
+  document.body.style.overflow = '';
+  d.setAttribute('aria-hidden','true');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+// Close drawer on anchor click — smooth scroll with topbar offset
+document.querySelectorAll('.mob-drawer-panel .sb-link').forEach(link => {
+  link.addEventListener('click', e => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      closeDrawer();
+      setTimeout(() => {
+        const target = document.querySelector(href);
+        if (target) {
+          const topOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--topbar-h')) || 54;
+          const y = target.getBoundingClientRect().top + window.scrollY - topOffset - 16;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 50);
+    }
+  });
+});
+
+// ── COPY CODE BUTTON ──
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  const text = pre.innerText || pre.textContent;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => showCopied(btn));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showCopied(btn);
+  }
+}
+function showCopied(btn) {
+  btn.textContent = '✅ Copied!';
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.innerHTML = '📋 Copy';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+// ── INTERSECTION OBSERVER FOR ANIMATIONS ──
+if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  sections.forEach(s => observer.observe(s));
+}
+
+// ── SWIPE TO CLOSE DRAWER ──
+let touchStartY = 0;
+document.querySelector('.mob-drawer-panel').addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+}, { passive: true });
+document.querySelector('.mob-drawer-panel').addEventListener('touchend', e => {
+  const deltaY = e.changedTouches[0].clientY - touchStartY;
+  if (deltaY > 60) closeDrawer();
+}, { passive: true });
+</script>
+</body>
+</html>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <meta name="theme-color" content="#020617">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>100 DSA Problems Series | BCA Study Hub | Krishu Prajapati</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #020617;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    /* progress bar */
+    .progress-global {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f97316, #f59e0b, #eab308);
+      width: 0%;
+      z-index: 1000;
+      transition: width 0.12s linear;
+      box-shadow: 0 0 8px #f97316;
+    }
+
+    /* mobile top bar */
+    .mobile-header {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(2, 6, 23, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 12px 18px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .menu-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 40px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #fbbf24;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    /* sidebar */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 270px;
+      height: 100vh;
+      background: #0f172a;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      overflow-y: auto;
+      padding: 24px 0 32px;
+      z-index: 100;
+      transition: transform 0.25s ease;
+      scrollbar-width: thin;
+    }
+
+    .sidebar-header {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 20px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .badge-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(145deg, #f97316, #eab308);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #fff, #fbbf24);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .credit-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: #fbbf24;
+      background: rgba(251, 191, 36, 0.12);
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-top: 10px;
+    }
+
+    .sidebar-section {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #5b6e8c;
+      padding: 0 20px;
+      margin: 14px 0 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 20px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #94a3b8;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      background: rgba(249, 115, 22, 0.08);
+      color: #fbbf24;
+      border-left-color: #f97316;
+    }
+
+    .nav-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* main content */
+    .main-content {
+      margin-left: 270px;
+      padding: 40px 44px 90px;
+      max-width: 1300px;
+    }
+
+    /* top intro */
+    .hero {
+      margin-bottom: 36px;
+    }
+
+    .hero-badge {
+      color: #fbbf24;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff, #fbbf24);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .sub {
+      color: #7e8ba3;
+      max-width: 620px;
+      margin-bottom: 28px;
+    }
+
+    .stats-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      background: #0f172a;
+      border-radius: 28px;
+      padding: 20px 28px;
+      margin-bottom: 32px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      justify-content: space-between;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .stat-number {
+      font-size: 34px;
+      font-weight: 800;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #7e8ba3;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .progress-bg {
+      background: #1e293b;
+      border-radius: 40px;
+      height: 7px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #f97316, #eab308);
+      border-radius: 40px;
+      transition: width 0.3s;
+    }
+
+    /* filter chips */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .filter-chip {
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 40px;
+      padding: 7px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #cbd5e1;
+    }
+
+    .filter-chip.active {
+      background: #f97316;
+      border-color: #f97316;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    }
+
+    /* sections */
+    .topic-section {
+      margin-bottom: 64px;
+      scroll-margin-top: 90px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding-bottom: 12px;
+    }
+
+    .section-num {
+      background: rgba(249, 115, 22, 0.18);
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .section-title {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+    }
+
+    .info-card {
+      background: #0f172a;
+      border-radius: 20px;
+      padding: 15px 22px;
+      margin: 18px 0 20px;
+      font-size: 13.5px;
+      border-left: 4px solid #f97316;
+    }
+
+    /* question list */
+    .question-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .q-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: transparent;
+      transition: background 0.15s;
+      cursor: pointer;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .q-row:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      border: 2px solid #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: bold;
+      color: #020617;
+      background: transparent;
+    }
+
+    .q-row.completed .checkbox {
+      background: #10b981;
+      border-color: #10b981;
+    }
+
+    .q-row.completed .q-text {
+      text-decoration: line-through;
+      color: #6b7280;
+    }
+
+    .q-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #5b6e8c;
+      width: 34px;
+      flex-shrink: 0;
+    }
+
+    .q-text {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 450;
+      color: #cbd5e6;
+    }
+
+    .difficulty {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 40px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .diff-easy {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .diff-med {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .diff-hard {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .reset-section-btn {
+      margin-top: 16px;
+      background: none;
+      border: 1px solid #334155;
+      padding: 6px 18px;
+      border-radius: 30px;
+      color: #94a3b8;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    /* drawer mobile */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(6px);
+      z-index: 300;
+      display: none;
+    }
+
+    .drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #0f172a;
+      border-radius: 24px 24px 0 0;
+      padding: 20px 0 30px;
+      z-index: 301;
+      transform: translateY(100%);
+      transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .drawer.open {
+      transform: translateY(0);
+    }
+
+    .drawer-handle {
+      width: 45px;
+      height: 4px;
+      background: #334155;
+      border-radius: 20px;
+      margin: 0 auto 18px;
+    }
+
+    .scroll-top {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #f97316;
+      width: 46px;
+      height: 46px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.2s;
+      z-index: 99;
+      box-shadow: 0 5px 15px rgba(249, 115, 22, 0.4);
+      font-size: 22px;
+      border: none;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 780px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.mobile-open {
+        transform: translateX(0);
+        box-shadow: 4px 0 30px rgba(0, 0, 0, 0.6);
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 20px 18px 80px;
+      }
+      .mobile-header {
+        display: flex;
+      }
+      .stats-row {
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px;
+      }
+      h1 {
+        font-size: 1.9rem;
+      }
+      .section-title {
+        font-size: 22px;
+      }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 12px;
+      color: #475569;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 28px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-global" id="globalProgress"></div>
+<div class="mobile-header">
+  <div class="menu-btn" id="mobileMenuBtn">☰ Topics</div>
+  <div style="font-weight: 600; font-size: 14px;">📘 100 DSA</div>
+  <div style="width: 60px;"></div>
+</div>
+
+<!-- Sidebar (desktop + mobile drawer alternative) -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="logo-area">
+      <div class="badge-icon">⚡</div>
+      <div class="logo-text">DSA 100 Series</div>
+    </div>
+    <div class="credit-name">✨ by Krishu Prajapati ✨</div>
+  </div>
+  <div class="sidebar-section">📌 PROBLEM SETS</div>
+  <div id="sidebarNavList"></div>
+</aside>
+
+<!-- Main Area -->
+<main class="main-content">
+  <div class="hero">
+    <div class="hero-badge">🏆 BCA Study Hub • MGKVP</div>
+    <h1>100 DSA Problems<br>Master Series</h1>
+    <div class="sub">Created by <strong style="color:#fbbf24">Krishu Prajapati</strong> — Complete the entire set and build rock-solid problem solving skills.</div>
+  </div>
+
+  <!-- Stats Dashboard -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-number" id="totalSolvedStat">0</div><div class="stat-label">Solved</div><div class="progress-bg"><div class="progress-fill" id="globalFillBar"></div></div></div>
+    <div class="stat-card"><div class="stat-number" id="remainingStat">100</div><div class="stat-label">Remaining</div></div>
+    <div class="stat-card"><div class="stat-number" id="percentStat">0%</div><div class="stat-label">Progress</div></div>
+    <div class="stat-card"><div class="stat-number">100</div><div class="stat-label">Total Qs</div></div>
+  </div>
+
+  <!-- Filter Tabs -->
+  <div class="filter-bar" id="filterBar"></div>
+
+  <!-- All sections will be injected here -->
+  <div id="sectionsContainer"></div>
+  <footer>⚡ 100 must-solve DSA problems • Track progress • Built for BCA • by Krishu Prajapati</footer>
+</main>
+
+<!-- Mobile Drawer (bottom sheet) -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="drawer" id="mobileDrawer">
+  <div class="drawer-handle"></div>
+  <div style="padding: 0 20px;" id="drawerNavList"></div>
+</div>
+
+<button class="scroll-top" id="scrollTopBtn">↑</button>
+
+<script>
+  // --------------------------------------------------------------
+  // COMPLETE 100 DSA QUESTIONS (10 topics * 10 questions each = 100)
+  // --------------------------------------------------------------
+  const DSA_TOPICS = [
+    { id: "arrays", name: "📦 Arrays", color: "#f97316", desc: "Core building block — sliding window, two pointers, prefix sums.", tip: "Kadane, Dutch flag, rotation, subarray sums." },
+    { id: "strings", name: "🔤 Strings", color: "#ef4444", desc: "Pattern matching, anagrams, palindromes.", tip: "KMP, Rolling hash, two pointers." },
+    { id: "linkedlist", name: "🔗 Linked List", color: "#3b82f6", desc: "Singly, doubly, cycle detection, merging.", tip: "Slow-fast pointer, reversal in groups." },
+    { id: "stackqueue", name: "📚 Stack & Queue", color: "#10b981", desc: "LIFO, FIFO, monotonic stack, deque.", tip: "Balanced parentheses, Next Greater Element." },
+    { id: "trees", name: "🌳 Trees", color: "#a855f7", desc: "Binary Tree, BST, traversals.", tip: "DFS, BFS, LCA, diameter, views." },
+    { id: "graphs", name: "📊 Graphs", color: "#06b6d4", desc: "BFS, DFS, shortest paths, cycle detection.", tip: "Dijkstra, Topo sort, Union-Find." },
+    { id: "sortsearch", name: "⚙️ Sorting & Searching", color: "#eab308", desc: "Merge, quick, binary search variants.", tip: "Search in rotated array, peak element." },
+    { id: "dp", name: "🧠 Dynamic Programming", color: "#ec4899", desc: "Optimal substructure, memoization.", tip: "Knapsack, LCS, LIS, coin change." },
+    { id: "backtracking", name: "🔄 Backtracking", color: "#f97316", desc: "Recursion + pruning.", tip: "Permutations, N-Queens, subsets." },
+    { id: "hashing", name: "🗂️ Hashing", color: "#14b8a6", desc: "HashMaps for frequency & lookups.", tip: "Two sum, longest subarray with sum K." }
+  ];
+
+  // Exactly 10 problems per topic = 100 problems
+  const problemsPerTopic = {
+    arrays: ["Find max/min element", "Reverse array", "Kth max/min (quickselect)", "Rotate array by K", "Kadane's Algorithm (max subarray)", "Minimum jumps to end", "Pair sum equals target", "Common in 3 sorted arrays", "Alternate pos/neg numbers", "Subarray sum equals zero"],
+    strings: ["Reverse string", "Palindrome check", "Duplicate characters", "Rotation check", "Valid shuffle of two strings", "Count and say", "Longest palindrome substring", "Longest recurring subsequence", "Print all subsequences", "Edit Distance (DP)"],
+    linkedlist: ["Reverse LL (iterative)", "Reverse in K groups", "Detect loop (Floyd)", "Remove loop", "Find loop start", "Remove duplicates sorted LL", "Remove duplicates unsorted", "Move last to front", "Add 1 to number as LL", "Intersection point of two LL"],
+    stackqueue: ["Stack using arrays", "Queue using arrays", "Stack using LL", "Queue using LL", "Stack using queue", "Queue using stack", "Balanced parentheses", "Next Greater Element", "Next Smaller Element", "LRU Cache (Deque+map)"],
+    trees: ["Height of BT", "Preorder traversal", "Inorder traversal", "Postorder traversal", "Lowest Common Ancestor", "Check BST", "Max path sum", "Serialize/Deserialize", "Level order traversal", "Left & Right view"],
+    graphs: ["BFS traversal", "DFS traversal", "Detect cycle undirected", "Cycle in directed graph", "Topological sort (DFS)", "Kahn's Algorithm", "Shortest path unweighted", "Dijkstra's algorithm", "Bellman-Ford", "Connected components (union-find)"],
+    sortsearch: ["Bubble sort", "Selection sort", "Insertion sort", "Merge sort", "Quick sort", "Heap sort", "Binary search", "Search in rotated sorted array", "Find sqrt using binary search", "Peak element in array"],
+    dp: ["Fibonacci (memo/tab)", "0/1 Knapsack", "Unbounded Knapsack", "Longest Common Subsequence", "Longest Increasing Subsequence", "Edit Distance", "Coin change (min coins)", "Matrix chain multiplication", "Partition equal subset sum", "Rod cutting"],
+    backtracking: ["Print all permutations", "N-Queens", "Sudoku solver", "Rat in a maze", "Generate subsets (power set)", "Generate valid parentheses", "Word search in grid", "Knight's tour", "All paths src to dest", "Josephus problem"],
+    hashing: ["Two Sum", "Longest subarray sum K", "Count subarrays sum K", "Longest consecutive sequence", "Check anagrams", "Group anagrams", "First non-repeating char", "4 Sum", "Distinct in window K", "Clone graph (deep copy)"]
+  };
+
+  let solvedState = {};
+  const STORAGE_KEY = "krishu_dsa_100";
+
+  function loadData() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) solvedState = JSON.parse(stored);
+    } catch(e) {}
+  }
+  function saveData() { localStorage.setItem(STORAGE_KEY, JSON.stringify(solvedState)); }
+
+  function getQid(topicId, idx) { return `${topicId}_${idx}`; }
+
+  let currentFilter = "all"; // all, easy, medium, hard, done, todo
+  // assign difficulty heuristics for demo (balanced)
+  function getDifficulty(topicId, idx) {
+    if (topicId === "dp" && idx > 5) return "hard";
+    if (topicId === "graphs" && (idx === 8 || idx === 9)) return "hard";
+    if (topicId === "backtracking" && (idx === 1 || idx === 2 || idx === 7)) return "hard";
+    if (topicId === "trees" && (idx === 6 || idx === 7)) return "hard";
+    if (topicId === "linkedlist" && idx === 9) return "hard";
+    if (idx === 0 || idx === 1 || idx === 2) return "easy";
+    if (idx >= 7 && topicId !== "arrays") return "medium";
+    return "medium";
+  }
+
+  function updateGlobalStats() {
+    let total = 0, solvedCount = 0;
+    for (let topic of DSA_TOPICS) {
+      const probs = problemsPerTopic[topic.id];
+      for (let i = 0; i < probs.length; i++) {
+        total++;
+        if (solvedState[getQid(topic.id, i)]) solvedCount++;
+      }
+    }
+    const percent = total ? Math.round((solvedCount / total) * 100) : 0;
+    document.getElementById("totalSolvedStat").innerText = solvedCount;
+    document.getElementById("remainingStat").innerText = total - solvedCount;
+    document.getElementById("percentStat").innerText = percent + "%";
+    document.getElementById("globalFillBar").style.width = percent + "%";
+    const progBar = document.getElementById("globalProgress");
+    if (progBar) progBar.style.width = percent + "%";
+  }
+
+  function renderFilters() {
+    const filters = [
+      { key: "all", label: "All (100)" },
+      { key: "easy", label: "🟢 Easy" },
+      { key: "medium", label: "🟡 Medium" },
+      { key: "hard", label: "🔴 Hard" },
+      { key: "done", label: "✅ Solved" },
+      { key: "todo", label: "⬜ To Do" }
+    ];
+    const container = document.getElementById("filterBar");
+    container.innerHTML = filters.map(f => `<div class="filter-chip ${currentFilter === f.key ? 'active' : ''}" data-filter="${f.key}">${f.label}</div>`).join("");
+    document.querySelectorAll(".filter-chip").forEach(el => {
+      el.addEventListener("click", (e) => {
+        currentFilter = el.dataset.filter;
+        renderFilters();
+        renderAllSections();
+      });
+    });
+  }
+
+  function renderAllSections() {
+    const container = document.getElementById("sectionsContainer");
+    container.innerHTML = "";
+    let globalQCounter = 1;
+
+    for (let tIdx = 0; tIdx < DSA_TOPICS.length; tIdx++) {
+      const topic = DSA_TOPICS[tIdx];
+      const questions = problemsPerTopic[topic.id];
+      if (!questions) continue;
+
+      const sectionDiv = document.createElement("div");
+      sectionDiv.className = "topic-section";
+      sectionDiv.id = topic.id;
+      sectionDiv.innerHTML = `
+        <div class="section-header">
+          <div class="section-num" style="background:rgba(249,115,22,0.15); color:${topic.color}">${String(tIdx+1).padStart(2,'0')}</div>
+          <div class="section-title">${topic.name}</div>
+        </div>
+        <div class="info-card">💡 ${topic.desc} <strong style="color:${topic.color}">${topic.tip}</strong></div>
+        <div class="question-list" id="qlist-${topic.id}"></div>
+        <button class="reset-section-btn" data-topic="${topic.id}" style="margin-top: 10px;">⟳ Reset ${topic.name}</button>
+      `;
+      container.appendChild(sectionDiv);
+      const qContainer = document.getElementById(`qlist-${topic.id}`);
+      let visibleCount = 0;
+      for (let i = 0; i < questions.length; i++) {
+        const qText = questions[i];
+        const qid = getQid(topic.id, i);
+        const solved = !!solvedState[qid];
+        const diff = getDifficulty(topic.id, i);
+        let showItem = true;
+        if (currentFilter === "easy" && diff !== "easy") showItem = false;
+        if (currentFilter === "medium" && diff !== "medium") showItem = false;
+        if (currentFilter === "hard" && diff !== "hard") showItem = false;
+        if (currentFilter === "done" && !solved) showItem = false;
+        if (currentFilter === "todo" && solved) showItem = false;
+        if (!showItem) continue;
+
+        const row = document.createElement("div");
+        row.className = `q-row ${solved ? "completed" : ""}`;
+        const diffClass = diff === "easy" ? "diff-easy" : diff === "medium" ? "diff-med" : "diff-hard";
+        const diffLabel = diff === "easy" ? "Easy" : diff === "medium" ? "Medium" : "Hard";
+        row.innerHTML = `
+          <div class="q-num">${String(globalQCounter).padStart(2,'0')}</div>
+          <div class="checkbox">${solved ? "✓" : ""}</div>
+          <div class="q-text">${qText}</div>
+          <span class="difficulty ${diffClass}">${diffLabel}</span>
+        `;
+        row.addEventListener("click", (e) => {
+          e.stopPropagation();
+          solvedState[qid] = !solvedState[qid];
+          saveData();
+          renderAllSections();
+          updateGlobalStats();
+          updateSidebarActiveHighlight();
+        });
+        qContainer.appendChild(row);
+        globalQCounter++;
+        visibleCount++;
+      }
+      if (visibleCount === 0) {
+        const emptyMsg = document.createElement("div");
+        emptyMsg.style.padding = "24px"; emptyMsg.style.textAlign = "center"; emptyMsg.style.color = "#5b6e8c";
+        emptyMsg.innerText = "✨ No questions match the current filter";
+        qContainer.appendChild(emptyMsg);
+      }
+    }
+    // reset buttons listeners
+    document.querySelectorAll(".reset-section-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const topicId = btn.dataset.topic;
+        if (confirm(`Reset all "${topicId}" problems? Progress will be lost.`)) {
+          const probs = problemsPerTopic[topicId];
+          for (let i = 0; i < probs.length; i++) {
+            delete solvedState[getQid(topicId, i)];
+          }
+          saveData();
+          renderAllSections();
+          updateGlobalStats();
+        }
+      });
+    });
+    updateGlobalStats();
+    updateSidebarActiveHighlight();
+  }
+
+  function buildNavigation() {
+    const sidebarList = document.getElementById("sidebarNavList");
+    const drawerList = document.getElementById("drawerNavList");
+    let linksHtml = "";
+    for (let i = 0; i < DSA_TOPICS.length; i++) {
+      const t = DSA_TOPICS[i];
+      linksHtml += `<a class="nav-item" href="#${t.id}" data-nav="${t.id}"><span class="nav-dot" style="background:${t.color}"></span>${t.name}</a>`;
+    }
+    sidebarList.innerHTML = linksHtml;
+    drawerList.innerHTML = linksHtml;
+    // smooth scroll + close drawer
+    document.querySelectorAll(".nav-item").forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute("href").substring(1);
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          const offset = window.innerWidth <= 780 ? 80 : 30;
+          window.scrollTo({ top: targetEl.offsetTop - offset, behavior: "smooth" });
+        }
+        closeMobileDrawer();
+        closeSidebarOnMobile();
+      });
+    });
+  }
+
+  function updateSidebarActiveHighlight() {
+    const scrollPos = window.scrollY + 120;
+    const sections = document.querySelectorAll(".topic-section");
+    const navItems = document.querySelectorAll(".nav-item");
+    let currentId = "";
+    sections.forEach(sec => {
+      if (sec.offsetTop <= scrollPos) currentId = sec.id;
+    });
+    navItems.forEach(item => {
+      const href = item.getAttribute("href").substring(1);
+      if (href === currentId) item.classList.add("active");
+      else item.classList.remove("active");
+    });
+  }
+
+  // Mobile functions
+  function openMobileDrawer() { document.getElementById("mobileDrawer").classList.add("open"); document.getElementById("drawerOverlay").style.display = "block"; }
+  function closeMobileDrawer() { document.getElementById("mobileDrawer").classList.remove("open"); document.getElementById("drawerOverlay").style.display = "none"; }
+  function closeSidebarOnMobile() { if (window.innerWidth <= 780) document.getElementById("sidebar").classList.remove("mobile-open"); }
+
+  document.getElementById("mobileMenuBtn")?.addEventListener("click", () => {
+    if (window.innerWidth <= 780) {
+      document.getElementById("sidebar").classList.toggle("mobile-open");
+    } else openMobileDrawer();
+  });
+  document.getElementById("drawerOverlay")?.addEventListener("click", closeMobileDrawer);
+  window.addEventListener("resize", () => { if (window.innerWidth > 780) closeMobileDrawer(); });
+
+  // scroll top
+  const scrollBtn = document.getElementById("scrollTopBtn");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 400) scrollBtn.classList.add("visible");
+    else scrollBtn.classList.remove("visible");
+    updateSidebarActiveHighlight();
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (window.scrollY / docH) * 100;
+    document.getElementById("globalProgress").style.width = scrolled + "%";
+  });
+  scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  loadData();
+  buildNavigation();
+  renderFilters();
+  renderAllSections();
+  updateGlobalStats();
+  setTimeout(updateSidebarActiveHighlight, 100);
+</script>
+</body>
+</html>

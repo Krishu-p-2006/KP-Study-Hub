@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#07080d"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<title>Mathematics I — BCA Study Hub · Krishu</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#07080d;--surface:#0d0f1a;--card:#111428;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.13);
+  --accent:#f59e0b;--accent2:#ef4444;--green:#34d399;--blue:#5b8cff;--purple:#a78bfa;--cyan:#22d3ee;
+  --text:#eef0f8;--muted:#6b7280;--muted2:#9ca3af;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --topbar-h:54px;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;display:flex;min-height:100vh;font-size:15px;line-height:1.7;overflow-x:hidden}
+
+#progress-bar{position:fixed;top:0;left:0;height:2px;width:0%;z-index:1000;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .1s linear;pointer-events:none}
+
+/* SIDEBAR */
+.sidebar{width:265px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);position:sticky;top:0;height:100vh;overflow-y:auto;padding:24px 0;display:flex;flex-direction:column;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+.sb-brand{padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.sb-logo{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.sb-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:15px}
+.sb-name{font-weight:700;font-size:14px}
+.sb-back{font-size:11.5px;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:4px;margin-top:8px;transition:color .2s}
+.sb-back:hover{color:var(--accent)}
+.sb-section{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 20px;margin:10px 0 6px}
+.sb-link{display:flex;align-items:center;gap:9px;padding:8px 20px;font-size:13px;color:var(--muted2);text-decoration:none;transition:background .15s,color .15s;border-left:2px solid transparent;user-select:none}
+.sb-link:hover{background:rgba(255,255,255,.04);color:var(--text)}
+.sb-link.active{background:rgba(245,158,11,.08);color:var(--accent);border-left-color:var(--accent)}
+.sb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;transition:transform .2s}
+.sb-link.active .sb-dot{transform:scale(1.5)}
+
+/* MAIN */
+main{flex:1;max-width:860px;padding:52px 48px 100px;overflow-x:hidden}
+
+/* MOBILE BAR */
+.mobile-bar{display:none;position:fixed;top:0;left:0;right:0;z-index:400;background:rgba(7,8,13,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:0 16px;height:var(--topbar-h);align-items:center;justify-content:space-between;gap:10px;padding-top:var(--safe-top)}
+.mobile-bar-left{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.mobile-bar-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.mobile-bar-title{font-weight:700;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mobile-bar-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.mobile-bar-back{font-size:11.5px;font-weight:600;color:var(--accent);text-decoration:none;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);padding:5px 11px;border-radius:100px;white-space:nowrap;transition:background .2s}
+.mobile-bar-back:active{background:rgba(245,158,11,.25)}
+
+.mob-toc-btn{display:none;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--muted2);background:rgba(255,255,255,.06);border:1px solid var(--border2);padding:5px 10px;border-radius:8px;cursor:pointer;white-space:nowrap;touch-action:manipulation}
+.mob-toc-btn:active{background:rgba(255,255,255,.12)}
+
+/* DRAWER */
+.mob-drawer{position:fixed;inset:0;z-index:500;display:none}
+.mob-drawer.open{display:block}
+.mob-drawer-bg{position:absolute;inset:0;background:rgba(7,8,13,.75);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.mob-drawer-panel{position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border2);border-radius:20px 20px 0 0;padding:16px 0 0;max-height:78vh;overflow-y:auto;animation:slideup .28s cubic-bezier(.34,1.4,.64,1);padding-bottom:calc(20px + var(--safe-bottom));scrollbar-width:none}
+.mob-drawer-panel::-webkit-scrollbar{display:none}
+@keyframes slideup{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mob-drawer-handle{width:36px;height:4px;border-radius:100px;background:rgba(255,255,255,.15);margin:0 auto 14px}
+.mob-drawer-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:0 20px;margin-bottom:8px}
+.mob-drawer-panel .sb-link{padding:11px 20px;font-size:14px}
+
+/* SCROLL TOP */
+#scroll-top{position:fixed;bottom:calc(24px + var(--safe-bottom));right:20px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;z-index:300;box-shadow:0 4px 20px rgba(245,158,11,.4);opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .25s,transform .25s;touch-action:manipulation}
+#scroll-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#scroll-top:active{transform:scale(.92)}
+
+/* RESPONSIVE */
+@media(max-width:900px){main{padding:52px 32px 100px}}
+@media(max-width:768px){
+  body{display:block}
+  .sidebar{display:none}
+  .mobile-bar{display:flex}
+  .mob-toc-btn{display:flex}
+  main{padding:calc(var(--topbar-h) + var(--safe-top) + 24px) 16px calc(80px + var(--safe-bottom));max-width:100%}
+  .pg-title{font-size:28px !important;letter-spacing:-1px !important}
+  .sec-title{font-size:19px !important}
+  pre{font-size:12px !important;padding:14px 12px !important}
+  .mini-grid{grid-template-columns:1fr 1fr}
+  th,td{padding:9px 11px;font-size:12.5px}
+  .sec{margin-bottom:48px;scroll-margin-top:calc(var(--topbar-h) + 16px)}
+  .box{font-size:13px;padding:14px 16px}
+  .math-formula{font-size:14px !important;padding:14px 16px !important}
+}
+@media(max-width:400px){
+  main{padding-left:14px;padding-right:14px}
+  .pg-title{font-size:24px !important}
+  .mini-grid{grid-template-columns:1fr}
+}
+
+/* PAGE HEADER */
+.pg-eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.pg-title{font-family:'Outfit',sans-serif;font-size:38px;font-weight:800;letter-spacing:-2px;line-height:1.06;margin-bottom:12px}
+.pg-title em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pg-sub{color:var(--muted2);font-size:15px;line-height:1.65;margin-bottom:36px;max-width:600px}
+.pg-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:48px}
+.pg-chip{font-size:11.5px;font-weight:500;padding:4px 12px;border-radius:100px;border:1px solid var(--border2);color:var(--muted2)}
+
+/* SECTION */
+.sec{margin-bottom:64px;scroll-margin-top:24px}
+.sec-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.sec-num{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.sec-title{font-size:22px;font-weight:700;letter-spacing:-.5px}
+p{color:var(--muted2);margin-bottom:14px;line-height:1.75}
+p strong{color:var(--text);font-weight:600}
+h4{color:var(--text);font-size:14px;font-weight:600;margin:18px 0 8px}
+
+/* MATH FORMULA BOX */
+.math-formula{
+  background:#080a12;border:1px solid var(--border2);border-radius:12px;
+  padding:18px 22px;margin:16px 0;
+  font-family:'JetBrains Mono',monospace;font-size:15px;line-height:1.8;
+  color:var(--text);overflow-x:auto;-webkit-overflow-scrolling:touch;
+}
+.math-formula .label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;font-family:'Outfit',sans-serif}
+.mf{color:var(--accent);font-weight:600}
+.mv{color:var(--cyan)}
+.mn{color:var(--green)}
+.mc{color:var(--muted);font-style:italic}
+
+/* INFO BOXES */
+.box{border-radius:12px;padding:16px 18px;margin:18px 0;font-size:13.5px;line-height:1.65}
+.box-note{background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);color:#fcd34d}
+.box-tip{background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.2);color:#6ee7b7}
+.box-warn{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);color:#fca5a5}
+.box-blue{background:rgba(91,140,255,.07);border:1px solid rgba(91,140,255,.2);color:#93b4ff}
+.box strong{font-weight:700;display:block;margin-bottom:4px}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;margin:18px 0;border-radius:12px;border:1px solid var(--border2);-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+thead{background:rgba(255,255,255,.05)}
+th{padding:11px 16px;text-align:left;font-weight:600;color:var(--text);font-size:12px;letter-spacing:.3px;text-transform:uppercase;white-space:nowrap}
+td{padding:10px 16px;color:var(--muted2);border-top:1px solid var(--border)}
+tr:hover td{background:rgba(255,255,255,.02)}
+td code,th code{background:rgba(255,255,255,.08);border-radius:4px;padding:2px 7px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text)}
+
+/* MINI GRID */
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px;margin:18px 0}
+.mini-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color .2s}
+.mini-card:hover{border-color:var(--border2)}
+.mini-card-title{font-size:13px;font-weight:600;margin-bottom:5px}
+.mini-card-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* EXAMPLE BOX */
+.example{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:16px 0}
+.example-label{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.example p{margin-bottom:8px}
+.example p:last-child{margin-bottom:0}
+
+/* STEP LIST */
+.steps{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step-n{width:26px;height:26px;border-radius:7px;background:rgba(245,158,11,.15);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-body{flex:1;font-size:13.5px;color:var(--muted2);line-height:1.65}
+.step-body strong{color:var(--text)}
+
+/* ANIMATIONS */
+@media(prefers-reduced-motion:no-preference){
+  .sec{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+  .sec.visible{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<button id="scroll-top" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- MOBILE BAR -->
+<div class="mobile-bar">
+  <div class="mobile-bar-left">
+    <div class="mobile-bar-icon">📐</div>
+    <span class="mobile-bar-title">Maths I · BCA Sem 1</span>
+  </div>
+  <div class="mobile-bar-actions">
+    <button class="mob-toc-btn" onclick="openDrawer()">☰ Topics</button>
+    <a class="mobile-bar-back" href="index.html">← Home</a>
+  </div>
+</div>
+
+<!-- MOBILE DRAWER -->
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-drawer-bg" onclick="closeDrawer()"></div>
+  <div class="mob-drawer-panel">
+    <div class="mob-drawer-handle"></div>
+    <div class="mob-drawer-title">Topics — Mathematics I and II</div>
+    <a class="sb-link" href="#settheory" onclick="closeDrawer()"><span class="sb-dot" style="background:#f59e0b"></span>Set Theory</a>
+    <a class="sb-link" href="#relations" onclick="closeDrawer()"><span class="sb-dot" style="background:#ef4444"></span>Relations &amp; Functions</a>
+    <a class="sb-link" href="#matrices" onclick="closeDrawer()"><span class="sb-dot" style="background:#5b8cff"></span>Matrices &amp; Determinants</a>
+    <a class="sb-link" href="#progressions" onclick="closeDrawer()"><span class="sb-dot" style="background:#34d399"></span>Progressions (AP/GP)</a>
+    <a class="sb-link" href="#trigonometry" onclick="closeDrawer()"><span class="sb-dot" style="background:#a78bfa"></span>Trigonometry</a>
+    <a class="sb-link" href="#limits" onclick="closeDrawer()"><span class="sb-dot" style="background:#22d3ee"></span>Limits &amp; Continuity</a>
+    <a class="sb-link" href="#differentiation" onclick="closeDrawer()"><span class="sb-dot" style="background:#f59e0b"></span>Differentiation</a>
+    <a class="sb-link" href="#integration" onclick="closeDrawer()"><span class="sb-dot" style="background:#ef4444"></span>Integration</a>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">
+      <div class="sb-icon">📐</div>
+      <span class="sb-name">BCA Study Hub</span>
+    </div>
+    <a class="sb-back" href="index.html">← Back to Dashboard</a>
+  </div>
+  <div class="sb-section">Mathematics I and II</div>
+  <a class="sb-link active" href="#settheory"><span class="sb-dot" style="background:#f59e0b"></span>Set Theory</a>
+  <a class="sb-link" href="#relations"><span class="sb-dot" style="background:#ef4444"></span>Relations &amp; Functions</a>
+  <a class="sb-link" href="#matrices"><span class="sb-dot" style="background:#5b8cff"></span>Matrices &amp; Determinants</a>
+  <a class="sb-link" href="#progressions"><span class="sb-dot" style="background:#34d399"></span>Progressions (AP/GP)</a>
+  <a class="sb-link" href="#trigonometry"><span class="sb-dot" style="background:#a78bfa"></span>Trigonometry</a>
+  <a class="sb-link" href="#limits"><span class="sb-dot" style="background:#22d3ee"></span>Limits &amp; Continuity</a>
+  <a class="sb-link" href="#differentiation"><span class="sb-dot" style="background:#f59e0b"></span>Differentiation</a>
+  <a class="sb-link" href="#integration"><span class="sb-dot" style="background:#ef4444"></span>Integration</a>
+</nav>
+
+<main>
+  <div class="pg-eyebrow">BCA· Semester I and II · MGKVP</div>
+  <h1 class="pg-title">Mathematics <em>I and II</em></h1>
+  <p class="pg-sub">Complete study guide covering Set Theory, Relations, Matrices, Progressions, Trigonometry, Limits, Differentiation &amp; Integration — written for MGKVP BCA 1st Semester students.</p>
+  <div class="pg-chips">
+    <span class="pg-chip">📐 BCA Sem I and II</span>
+    <span class="pg-chip">🏫 MGKVP</span>
+    <span class="pg-chip">📘 BCA</span>
+    <span class="pg-chip">✍️ By Krishu Prajapati</span>
+    <span class="pg-chip">MM: 100</span>
+  </div>
+
+  <!-- 1. SET THEORY -->
+  <div class="sec" id="settheory">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(245,158,11,.15);color:var(--accent)">01</div>
+      <div class="sec-title">Set Theory</div>
+    </div>
+    <p>A <strong>set</strong> is a well-defined collection of distinct objects called <strong>elements</strong> or <strong>members</strong>. Sets are the foundation of all mathematics.</p>
+    <p><strong>Notation:</strong> Sets are written in curly braces. <code>A = {1, 2, 3, 4, 5}</code></p>
+
+    <div class="mini-grid">
+      <div class="mini-card"><div class="mini-card-title">🔢 Finite Set</div><div class="mini-card-desc">A = {1, 2, 3} — has countable elements</div></div>
+      <div class="mini-card"><div class="mini-card-title">♾️ Infinite Set</div><div class="mini-card-desc">N = {1,2,3,...} — elements go on forever</div></div>
+      <div class="mini-card"><div class="mini-card-title">∅ Empty Set</div><div class="mini-card-desc">∅ or {} — set with no elements</div></div>
+      <div class="mini-card"><div class="mini-card-title">🌐 Universal Set</div><div class="mini-card-desc">U — contains all elements under discussion</div></div>
+      <div class="mini-card"><div class="mini-card-title">🔗 Subset</div><div class="mini-card-desc">A ⊆ B — every element of A is in B</div></div>
+      <div class="mini-card"><div class="mini-card-title">⊂ Proper Subset</div><div class="mini-card-desc">A ⊂ B — A ⊆ B but A ≠ B</div></div>
+    </div>
+
+    <h4>Set Operations</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Operation</th><th>Symbol</th><th>Meaning</th><th>Example (A={1,2,3}, B={2,3,4})</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Union</strong></td><td><code>A ∪ B</code></td><td>All elements in A or B or both</td><td>{1, 2, 3, 4}</td></tr>
+          <tr><td><strong>Intersection</strong></td><td><code>A ∩ B</code></td><td>Elements in both A and B</td><td>{2, 3}</td></tr>
+          <tr><td><strong>Difference</strong></td><td><code>A − B</code></td><td>Elements in A but not in B</td><td>{1}</td></tr>
+          <tr><td><strong>Complement</strong></td><td><code>A'</code></td><td>Elements in U but not in A</td><td>U − A</td></tr>
+          <tr><td><strong>Symmetric Diff</strong></td><td><code>A △ B</code></td><td>(A−B) ∪ (B−A)</td><td>{1, 4}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>De Morgan's Laws (Very Important for Exams!)</h4>
+    <div class="math-formula">
+      <span class="label">De Morgan's Laws</span>
+      <span class="mf">(A ∪ B)' = A' ∩ B'</span>   &nbsp;&nbsp;<span class="mc">// Complement of union = intersection of complements</span><br/>
+      <span class="mf">(A ∩ B)' = A' ∪ B'</span>   &nbsp;&nbsp;<span class="mc">// Complement of intersection = union of complements</span>
+    </div>
+
+    <h4>Cardinality Formulas</h4>
+    <div class="math-formula">
+      <span class="label">Number of elements formula</span>
+      <span class="mf">n(A ∪ B) = n(A) + n(B) − n(A ∩ B)</span><br/><br/>
+      <span class="mf">n(A ∪ B ∪ C) = n(A)+n(B)+n(C) − n(A∩B) − n(B∩C) − n(A∩C) + n(A∩B∩C)</span>
+    </div>
+
+    <div class="example">
+      <div class="example-label">📝 Exam Example</div>
+      <p><strong>Q:</strong> In a class of 60 students, 35 play cricket, 30 play football, and 15 play both. How many play neither?</p>
+      <p><strong>Sol:</strong> n(C ∪ F) = 35 + 30 − 15 = 50</p>
+      <p><strong>Neither = 60 − 50 = 10 students ✓</strong></p>
+    </div>
+
+    <h4>Power Set</h4>
+    <p>The <strong>power set</strong> P(A) is the set of all subsets of A. If A has n elements, P(A) has <strong>2ⁿ</strong> elements.</p>
+    <div class="math-formula">
+      <span class="label">Power Set</span>
+      <span class="mc">If A = {1, 2} → n = 2</span><br/>
+      <span class="mf">P(A) = {∅, {1}, {2}, {1,2}}</span><br/>
+      <span class="mn">|P(A)| = 2² = 4</span>
+    </div>
+
+    <div class="box box-tip">
+      <strong>✅ Key Points to Remember</strong>
+      Every set is a subset of itself (A ⊆ A) · Empty set is a subset of every set (∅ ⊆ A) · n(∅) = 0 · Sets are unordered — {1,2} = {2,1}
+    </div>
+  </div>
+
+  <!-- 2. RELATIONS & FUNCTIONS -->
+  <div class="sec" id="relations">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(239,68,68,.15);color:var(--accent2)">02</div>
+      <div class="sec-title">Relations &amp; Functions</div>
+    </div>
+    <p>A <strong>relation</strong> from set A to set B is a subset of the Cartesian product A × B. It describes how elements of A are related to elements of B.</p>
+
+    <div class="math-formula">
+      <span class="label">Cartesian Product</span>
+      <span class="mc">A = {1,2}, B = {a,b}</span><br/>
+      <span class="mf">A × B = {(1,a), (1,b), (2,a), (2,b)}</span><br/>
+      <span class="mn">n(A × B) = n(A) × n(B) = 2 × 2 = 4</span>
+    </div>
+
+    <h4>Types of Relations</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Condition</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Reflexive</strong></td><td>(a, a) ∈ R for all a ∈ A</td><td>"is equal to" — a = a ✓</td></tr>
+          <tr><td><strong>Symmetric</strong></td><td>If (a,b) ∈ R then (b,a) ∈ R</td><td>"is sibling of" — if A is sibling of B, B is sibling of A</td></tr>
+          <tr><td><strong>Transitive</strong></td><td>If (a,b) ∈ R and (b,c) ∈ R → (a,c) ∈ R</td><td>"is less than" — if a&lt;b and b&lt;c then a&lt;c</td></tr>
+          <tr><td><strong>Equivalence</strong></td><td>Reflexive + Symmetric + Transitive</td><td>"is congruent to" in geometry</td></tr>
+          <tr><td><strong>Anti-symmetric</strong></td><td>If (a,b)∈R and (b,a)∈R → a=b</td><td>"is divisor of" — if a|b and b|a then a=b</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Functions</h4>
+    <p>A <strong>function</strong> f: A → B is a special relation where <strong>every element of A maps to exactly one element of B</strong>.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Condition</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong>One-One (Injective)</strong></td><td>Different inputs → different outputs; f(a)=f(b) ⟹ a=b</td><td>f(x) = 2x</td></tr>
+          <tr><td><strong>Onto (Surjective)</strong></td><td>Every element of B has at least one pre-image</td><td>f: R → R, f(x) = x³</td></tr>
+          <tr><td><strong>Bijective</strong></td><td>Both one-one AND onto</td><td>f(x) = x+1 from Z to Z</td></tr>
+          <tr><td><strong>Into</strong></td><td>At least one element of B has no pre-image</td><td>f(x) = x² from R to R (negatives unused)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box box-note">
+      <strong>📌 Composition of Functions</strong>
+      If f: A→B and g: B→C, then gof: A→C is defined as (gof)(x) = g(f(x)). Read from right to left — apply f first, then g.
+    </div>
+  </div>
+
+  <!-- 3. MATRICES -->
+  <div class="sec" id="matrices">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(91,140,255,.15);color:var(--blue)">03</div>
+      <div class="sec-title">Matrices &amp; Determinants</div>
+    </div>
+    <p>A <strong>matrix</strong> is a rectangular arrangement of numbers in rows and columns. A matrix with m rows and n columns is called an <strong>m × n matrix</strong>.</p>
+
+    <div class="math-formula">
+      <span class="label">Matrix Notation — 2×3 Matrix</span>
+      <span class="mf">A = [aᵢⱼ]</span> where i = row, j = column<br/><br/>
+      |  <span class="mn">1</span>  <span class="mn">2</span>  <span class="mn">3</span>  |<br/>
+      |  <span class="mn">4</span>  <span class="mn">5</span>  <span class="mn">6</span>  |<br/><br/>
+      <span class="mc">Order = 2 × 3 (2 rows, 3 columns)</span>
+    </div>
+
+    <h4>Types of Matrices</h4>
+    <div class="mini-grid">
+      <div class="mini-card"><div class="mini-card-title">Square Matrix</div><div class="mini-card-desc">m = n (equal rows &amp; columns). e.g. 2×2, 3×3</div></div>
+      <div class="mini-card"><div class="mini-card-title">Identity Matrix (I)</div><div class="mini-card-desc">Diagonal = 1, rest = 0. AI = IA = A</div></div>
+      <div class="mini-card"><div class="mini-card-title">Zero Matrix (O)</div><div class="mini-card-desc">All elements are 0. A + O = A</div></div>
+      <div class="mini-card"><div class="mini-card-title">Diagonal Matrix</div><div class="mini-card-desc">Non-diagonal elements are 0</div></div>
+      <div class="mini-card"><div class="mini-card-title">Symmetric Matrix</div><div class="mini-card-desc">A = Aᵀ (transpose equals original)</div></div>
+      <div class="mini-card"><div class="mini-card-title">Skew-Symmetric</div><div class="mini-card-desc">A = −Aᵀ (diagonal elements = 0)</div></div>
+    </div>
+
+    <h4>Matrix Operations</h4>
+    <div class="math-formula">
+      <span class="label">Addition &amp; Subtraction (same order only)</span>
+      <span class="mf">(A + B)ᵢⱼ = Aᵢⱼ + Bᵢⱼ</span><br/>
+      <span class="mf">(A − B)ᵢⱼ = Aᵢⱼ − Bᵢⱼ</span><br/><br/>
+      <span class="label">Multiplication — A(m×n) × B(n×p) = C(m×p)</span>
+      <span class="mf">Cᵢⱼ = Σ Aᵢₖ × Bₖⱼ</span> &nbsp;<span class="mc">// dot product of row i of A and col j of B</span><br/><br/>
+      <span class="label">Scalar Multiplication</span>
+      <span class="mf">(kA)ᵢⱼ = k × Aᵢⱼ</span>
+    </div>
+
+    <div class="box box-warn">
+      <strong>⚠️ Matrix Multiplication is NOT Commutative!</strong>
+      In general, AB ≠ BA. Always check that number of columns in A = number of rows in B before multiplying.
+    </div>
+
+    <h4>Transpose of a Matrix</h4>
+    <div class="math-formula">
+      <span class="label">Transpose — flip rows and columns</span>
+      <span class="mc">If A = [[1,2],[3,4],[5,6]] (3×2)</span><br/>
+      <span class="mf">Aᵀ = [[1,3,5],[2,4,6]] (2×3)</span><br/><br/>
+      <span class="label">Properties of Transpose</span>
+      <span class="mf">(Aᵀ)ᵀ = A</span><br/>
+      <span class="mf">(A+B)ᵀ = Aᵀ + Bᵀ</span><br/>
+      <span class="mf">(AB)ᵀ = BᵀAᵀ</span> &nbsp;<span class="mc">// order reverses!</span>
+    </div>
+
+    <h4>Determinants</h4>
+    <p>The <strong>determinant</strong> is a scalar value computed from a square matrix. Denoted <strong>det(A)</strong> or <strong>|A|</strong>.</p>
+
+    <div class="math-formula">
+      <span class="label">2×2 Determinant</span>
+      |A| = |<span class="mv">a  b</span>|  = <span class="mf">ad − bc</span><br/>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|<span class="mv">c  d</span>|<br/><br/>
+      <span class="mc">Example: |3  2| = 3×4 − 2×1 = 12 − 2 = 10</span><br/>
+      <span class="mc">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|1  4|</span><br/><br/>
+      <span class="label">3×3 Determinant (Cofactor Expansion along Row 1)</span>
+      |A| = <span class="mf">a₁₁(a₂₂a₃₃−a₂₃a₃₂) − a₁₂(a₂₁a₃₃−a₂₃a₃₁) + a₁₃(a₂₁a₃₂−a₂₂a₃₁)</span>
+    </div>
+
+    <h4>Properties of Determinants</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Property</th><th>Statement</th></tr></thead>
+        <tbody>
+          <tr><td>Identity</td><td>det(I) = 1</td></tr>
+          <tr><td>Zero row/col</td><td>If any row or column is all zeros → det = 0</td></tr>
+          <tr><td>Identical rows</td><td>If two rows are identical → det = 0</td></tr>
+          <tr><td>Row interchange</td><td>Swapping two rows changes sign of determinant</td></tr>
+          <tr><td>Scalar</td><td>det(kA) = kⁿ det(A) where n = order</td></tr>
+          <tr><td>Product</td><td>det(AB) = det(A) × det(B)</td></tr>
+          <tr><td>Transpose</td><td>det(Aᵀ) = det(A)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Inverse of a Matrix</h4>
+    <div class="math-formula">
+      <span class="label">Inverse exists only if det(A) ≠ 0 (Non-singular matrix)</span>
+      <span class="mf">A⁻¹ = (1/|A|) × adj(A)</span><br/><br/>
+      <span class="label">For 2×2 matrix A = [[a,b],[c,d]]</span>
+      <span class="mf">A⁻¹ = (1/(ad−bc)) × [[d, −b],[−c, a]]</span><br/><br/>
+      <span class="label">Properties</span>
+      <span class="mf">A × A⁻¹ = A⁻¹ × A = I</span><br/>
+      <span class="mf">(AB)⁻¹ = B⁻¹A⁻¹</span>
+    </div>
+
+    <div class="box box-blue">
+      <strong>🔑 Cramer's Rule — Solving Linear Equations</strong>
+      For system AX = B: &nbsp; x = Dₓ/D, &nbsp; y = Dᵧ/D, &nbsp; z = D_z/D
+      where D = det(A), Dₓ = det(A with x-column replaced by B), etc.
+    </div>
+  </div>
+
+  <!-- 4. PROGRESSIONS -->
+  <div class="sec" id="progressions">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(52,211,153,.15);color:var(--green)">04</div>
+      <div class="sec-title">Progressions (AP &amp; GP)</div>
+    </div>
+    <p>A <strong>progression</strong> is a sequence of numbers following a definite pattern. BCA Sem 1 covers two types: Arithmetic Progression (AP) and Geometric Progression (GP).</p>
+
+    <h4>Arithmetic Progression (AP)</h4>
+    <p>A sequence where each term differs from the previous by a <strong>constant value</strong> called the <strong>common difference (d)</strong>.</p>
+    <p>General form: <strong>a, a+d, a+2d, a+3d, ...</strong></p>
+
+    <div class="math-formula">
+      <span class="label">AP Formulas — Must Memorize!</span>
+      <span class="mf">nᵗʰ term:  aₙ = a + (n−1)d</span><br/>
+      <span class="mf">Sum of n terms:  Sₙ = n/2 [2a + (n−1)d]</span><br/>
+      <span class="mf">Also:  Sₙ = n/2 [a + l]</span> &nbsp;<span class="mc">// l = last term</span><br/>
+      <span class="mf">Common difference:  d = aₙ − aₙ₋₁</span>
+    </div>
+
+    <div class="example">
+      <div class="example-label">📝 Solved Example</div>
+      <p><strong>Q:</strong> Find the 15th term and sum of 20 terms of AP: 3, 7, 11, 15, ...</p>
+      <p>a = 3, d = 7−3 = 4</p>
+      <p>a₁₅ = 3 + (15−1)×4 = 3 + 56 = <strong>59</strong></p>
+      <p>S₂₀ = 20/2 [2×3 + (20−1)×4] = 10[6 + 76] = 10 × 82 = <strong>820</strong></p>
+    </div>
+
+    <h4>Geometric Progression (GP)</h4>
+    <p>A sequence where each term is obtained by multiplying the previous term by a <strong>constant value</strong> called the <strong>common ratio (r)</strong>.</p>
+    <p>General form: <strong>a, ar, ar², ar³, ...</strong></p>
+
+    <div class="math-formula">
+      <span class="label">GP Formulas — Must Memorize!</span>
+      <span class="mf">nᵗʰ term:  aₙ = arⁿ⁻¹</span><br/>
+      <span class="mf">Sum (r ≠ 1):  Sₙ = a(rⁿ − 1)/(r − 1)  &nbsp;if r &gt; 1</span><br/>
+      <span class="mf">Sum (r ≠ 1):  Sₙ = a(1 − rⁿ)/(1 − r)  &nbsp;if r &lt; 1</span><br/>
+      <span class="mf">Sum of ∞ GP (|r| &lt; 1):  S∞ = a/(1−r)</span><br/>
+      <span class="mf">Common ratio:  r = aₙ/aₙ₋₁</span>
+    </div>
+
+    <div class="example">
+      <div class="example-label">📝 Solved Example</div>
+      <p><strong>Q:</strong> Find the 6th term and sum of 5 terms of GP: 2, 6, 18, 54, ...</p>
+      <p>a = 2, r = 6/2 = 3</p>
+      <p>a₆ = 2 × 3⁵ = 2 × 243 = <strong>486</strong></p>
+      <p>S₅ = 2(3⁵ − 1)/(3 − 1) = 2(243−1)/2 = <strong>242</strong></p>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Property</th><th>AP</th><th>GP</th></tr></thead>
+        <tbody>
+          <tr><td>Pattern</td><td>Add constant d</td><td>Multiply constant r</td></tr>
+          <tr><td>nth term</td><td>a + (n−1)d</td><td>arⁿ⁻¹</td></tr>
+          <tr><td>Sum formula</td><td>n/2[2a+(n−1)d]</td><td>a(rⁿ−1)/(r−1)</td></tr>
+          <tr><td>Arithmetic Mean</td><td>AM = (a+b)/2</td><td>GM = √(ab)</td></tr>
+          <tr><td>Relation</td><td colspan="2">AM ≥ GM (always, for positive numbers)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box box-tip">
+      <strong>✅ AM-GM Inequality</strong>
+      For any two positive numbers a and b: (a+b)/2 ≥ √(ab). Equality holds only when a = b.
+    </div>
+  </div>
+
+  <!-- 5. TRIGONOMETRY -->
+  <div class="sec" id="trigonometry">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(167,139,250,.15);color:var(--purple)">05</div>
+      <div class="sec-title">Trigonometry</div>
+    </div>
+    <p>Trigonometry deals with the relationships between the <strong>sides and angles of triangles</strong>. In a right triangle with angle θ:</p>
+
+    <div class="math-formula">
+      <span class="label">Basic Ratios — SOH-CAH-TOA</span>
+      <span class="mf">sin θ = Opposite / Hypotenuse</span><br/>
+      <span class="mf">cos θ = Adjacent / Hypotenuse</span><br/>
+      <span class="mf">tan θ = Opposite / Adjacent = sin θ / cos θ</span><br/><br/>
+      <span class="mf">cosec θ = 1/sin θ</span><br/>
+      <span class="mf">sec θ  = 1/cos θ</span><br/>
+      <span class="mf">cot θ  = 1/tan θ = cos θ / sin θ</span>
+    </div>
+
+    <h4>Standard Values Table</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Angle</th><th>0°</th><th>30°</th><th>45°</th><th>60°</th><th>90°</th></tr></thead>
+        <tbody>
+          <tr><td><code>sin</code></td><td>0</td><td>1/2</td><td>1/√2</td><td>√3/2</td><td>1</td></tr>
+          <tr><td><code>cos</code></td><td>1</td><td>√3/2</td><td>1/√2</td><td>1/2</td><td>0</td></tr>
+          <tr><td><code>tan</code></td><td>0</td><td>1/√3</td><td>1</td><td>√3</td><td>∞</td></tr>
+          <tr><td><code>cosec</code></td><td>∞</td><td>2</td><td>√2</td><td>2/√3</td><td>1</td></tr>
+          <tr><td><code>sec</code></td><td>1</td><td>2/√3</td><td>√2</td><td>2</td><td>∞</td></tr>
+          <tr><td><code>cot</code></td><td>∞</td><td>√3</td><td>1</td><td>1/√3</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Fundamental Identities</h4>
+    <div class="math-formula">
+      <span class="label">Pythagorean Identities</span>
+      <span class="mf">sin²θ + cos²θ = 1</span><br/>
+      <span class="mf">1 + tan²θ = sec²θ</span><br/>
+      <span class="mf">1 + cot²θ = cosec²θ</span><br/><br/>
+      <span class="label">Compound Angle Formulas</span>
+      <span class="mf">sin(A+B) = sinA cosB + cosA sinB</span><br/>
+      <span class="mf">sin(A−B) = sinA cosB − cosA sinB</span><br/>
+      <span class="mf">cos(A+B) = cosA cosB − sinA sinB</span><br/>
+      <span class="mf">cos(A−B) = cosA cosB + sinA sinB</span><br/>
+      <span class="mf">tan(A+B) = (tanA + tanB)/(1 − tanA tanB)</span><br/><br/>
+      <span class="label">Double Angle Formulas</span>
+      <span class="mf">sin 2A = 2 sinA cosA</span><br/>
+      <span class="mf">cos 2A = cos²A − sin²A = 1 − 2sin²A = 2cos²A − 1</span><br/>
+      <span class="mf">tan 2A = 2 tanA / (1 − tan²A)</span>
+    </div>
+
+    <div class="box box-note">
+      <strong>📐 Signs in Quadrants — ASTC Rule</strong>
+      All (All +ve) → Sine (sin +ve) → Tan (tan +ve) → Cos (cos +ve)<br/>
+      Quadrants: I (All), II (Sin), III (Tan), IV (Cos)
+    </div>
+  </div>
+
+  <!-- 6. LIMITS & CONTINUITY -->
+  <div class="sec" id="limits">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(34,211,238,.15);color:var(--cyan)">06</div>
+      <div class="sec-title">Limits &amp; Continuity</div>
+    </div>
+    <p>The <strong>limit</strong> of a function f(x) as x approaches a value 'a' is the value that f(x) gets closer and closer to. Written as: <strong>lim(x→a) f(x) = L</strong></p>
+
+    <div class="math-formula">
+      <span class="label">Standard Limits — Exam Favourites</span>
+      <span class="mf">lim(x→0) sin x / x = 1</span><br/>
+      <span class="mf">lim(x→0) tan x / x = 1</span><br/>
+      <span class="mf">lim(x→0) (eˣ − 1) / x = 1</span><br/>
+      <span class="mf">lim(x→0) (aˣ − 1) / x = log a</span><br/>
+      <span class="mf">lim(x→∞) (1 + 1/x)ˣ = e</span><br/>
+      <span class="mf">lim(x→a) (xⁿ − aⁿ)/(x − a) = n · aⁿ⁻¹</span>
+    </div>
+
+    <h4>Methods to Evaluate Limits</h4>
+    <div class="steps">
+      <div class="step"><div class="step-n">1</div><div class="step-body"><strong>Direct Substitution:</strong> Simply put x = a. If you get a definite value, that's your limit.</div></div>
+      <div class="step"><div class="step-n">2</div><div class="step-body"><strong>Factorisation:</strong> If you get 0/0 form, factor numerator and denominator, cancel common factor, then substitute.</div></div>
+      <div class="step"><div class="step-n">3</div><div class="step-body"><strong>Rationalisation:</strong> Multiply numerator and denominator by conjugate (used with square roots).</div></div>
+      <div class="step"><div class="step-n">4</div><div class="step-body"><strong>L'Hôpital's Rule:</strong> If 0/0 or ∞/∞ form → differentiate numerator and denominator separately, then substitute.</div></div>
+    </div>
+
+    <div class="example">
+      <div class="example-label">📝 Solved Example</div>
+      <p><strong>Q:</strong> Find lim(x→2) (x² − 4)/(x − 2)</p>
+      <p>Direct substitution gives 0/0 form (indeterminate)</p>
+      <p>Factorise: (x²−4) = (x+2)(x−2)</p>
+      <p>= lim(x→2) (x+2)(x−2)/(x−2) = lim(x→2) (x+2) = 2+2 = <strong>4</strong></p>
+    </div>
+
+    <h4>Continuity</h4>
+    <p>A function f(x) is <strong>continuous at x = a</strong> if all three conditions hold:</p>
+    <div class="math-formula">
+      <span class="label">Three Conditions for Continuity at x = a</span>
+      <span class="mn">1.</span> <span class="mf">f(a) is defined</span><br/>
+      <span class="mn">2.</span> <span class="mf">lim(x→a) f(x) exists</span><br/>
+      <span class="mn">3.</span> <span class="mf">lim(x→a) f(x) = f(a)</span><br/><br/>
+      <span class="mc">Also: Left Hand Limit = Right Hand Limit = f(a)</span>
+    </div>
+
+    <div class="box box-warn">
+      <strong>⚠️ Common Discontinuities</strong>
+      Removable discontinuity (hole), Jump discontinuity (step function), Infinite discontinuity (vertical asymptote like 1/x at x=0)
+    </div>
+  </div>
+
+  <!-- 7. DIFFERENTIATION -->
+  <div class="sec" id="differentiation">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(245,158,11,.15);color:var(--accent)">07</div>
+      <div class="sec-title">Differentiation</div>
+    </div>
+    <p>Differentiation is the process of finding the <strong>derivative</strong> of a function — the rate at which the function changes. The derivative of f(x) is written as <strong>f'(x)</strong> or <strong>dy/dx</strong>.</p>
+
+    <div class="math-formula">
+      <span class="label">Definition from First Principles</span>
+      <span class="mf">f'(x) = lim(h→0) [f(x+h) − f(x)] / h</span>
+    </div>
+
+    <h4>Standard Derivatives — Must Know All!</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Function f(x)</th><th>Derivative f'(x)</th></tr></thead>
+        <tbody>
+          <tr><td><code>c</code> (constant)</td><td>0</td></tr>
+          <tr><td><code>xⁿ</code></td><td>nxⁿ⁻¹</td></tr>
+          <tr><td><code>eˣ</code></td><td>eˣ</td></tr>
+          <tr><td><code>aˣ</code></td><td>aˣ log a</td></tr>
+          <tr><td><code>log x</code> (ln x)</td><td>1/x</td></tr>
+          <tr><td><code>sin x</code></td><td>cos x</td></tr>
+          <tr><td><code>cos x</code></td><td>−sin x</td></tr>
+          <tr><td><code>tan x</code></td><td>sec²x</td></tr>
+          <tr><td><code>cosec x</code></td><td>−cosec x cot x</td></tr>
+          <tr><td><code>sec x</code></td><td>sec x tan x</td></tr>
+          <tr><td><code>cot x</code></td><td>−cosec²x</td></tr>
+          <tr><td><code>sin⁻¹x</code></td><td>1/√(1−x²)</td></tr>
+          <tr><td><code>cos⁻¹x</code></td><td>−1/√(1−x²)</td></tr>
+          <tr><td><code>tan⁻¹x</code></td><td>1/(1+x²)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Rules of Differentiation</h4>
+    <div class="math-formula">
+      <span class="label">Sum/Difference Rule</span>
+      <span class="mf">d/dx [f(x) ± g(x)] = f'(x) ± g'(x)</span><br/><br/>
+      <span class="label">Product Rule (UV Rule)</span>
+      <span class="mf">d/dx [u·v] = u·v' + v·u'</span><br/><br/>
+      <span class="label">Quotient Rule (U/V Rule)</span>
+      <span class="mf">d/dx [u/v] = (v·u' − u·v') / v²</span><br/><br/>
+      <span class="label">Chain Rule — Composite Functions</span>
+      <span class="mf">d/dx [f(g(x))] = f'(g(x)) · g'(x)</span><br/>
+      <span class="mc">Example: d/dx[sin(x²)] = cos(x²) · 2x</span>
+    </div>
+
+    <h4>Applications of Derivatives</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Application</th><th>Method</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Equation of tangent</strong></td><td>y − y₁ = m(x − x₁) where m = f'(x₁)</td></tr>
+          <tr><td><strong>Equation of normal</strong></td><td>y − y₁ = (−1/m)(x − x₁)</td></tr>
+          <tr><td><strong>Maxima / Minima</strong></td><td>Set f'(x) = 0 (critical points). f''(x) &lt; 0 → maximum; f''(x) &gt; 0 → minimum</td></tr>
+          <tr><td><strong>Increasing function</strong></td><td>f'(x) &gt; 0 in the interval</td></tr>
+          <tr><td><strong>Decreasing function</strong></td><td>f'(x) &lt; 0 in the interval</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="example">
+      <div class="example-label">📝 Solved Example</div>
+      <p><strong>Q:</strong> Find dy/dx if y = x³ + 5x² − 3x + 7</p>
+      <p>dy/dx = 3x² + 10x − 3</p>
+      <p><strong>Q:</strong> Differentiate y = sin(3x² + 1)</p>
+      <p>dy/dx = cos(3x² + 1) · 6x = <strong>6x cos(3x² + 1)</strong></p>
+    </div>
+  </div>
+
+  <!-- 8. INTEGRATION -->
+  <div class="sec" id="integration">
+    <div class="sec-header">
+      <div class="sec-num" style="background:rgba(239,68,68,.15);color:var(--accent2)">08</div>
+      <div class="sec-title">Integration</div>
+    </div>
+    <p>Integration is the <strong>reverse process of differentiation</strong>. It is also used to find the area under a curve. The integral of f(x) is written as <strong>∫f(x)dx</strong>.</p>
+
+    <div class="math-formula">
+      <span class="label">Two types of Integration</span>
+      <span class="mf">Indefinite: ∫f(x)dx = F(x) + C</span> &nbsp;<span class="mc">// C = constant of integration</span><br/>
+      <span class="mf">Definite:  ∫[a to b] f(x)dx = F(b) − F(a)</span>
+    </div>
+
+    <h4>Standard Integrals — Must Know All!</h4>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Function f(x)</th><th>Integral ∫f(x)dx</th></tr></thead>
+        <tbody>
+          <tr><td><code>xⁿ (n≠−1)</code></td><td>xⁿ⁺¹/(n+1) + C</td></tr>
+          <tr><td><code>1/x</code></td><td>log|x| + C</td></tr>
+          <tr><td><code>eˣ</code></td><td>eˣ + C</td></tr>
+          <tr><td><code>aˣ</code></td><td>aˣ/log a + C</td></tr>
+          <tr><td><code>sin x</code></td><td>−cos x + C</td></tr>
+          <tr><td><code>cos x</code></td><td>sin x + C</td></tr>
+          <tr><td><code>sec²x</code></td><td>tan x + C</td></tr>
+          <tr><td><code>cosec²x</code></td><td>−cot x + C</td></tr>
+          <tr><td><code>sec x tan x</code></td><td>sec x + C</td></tr>
+          <tr><td><code>cosec x cot x</code></td><td>−cosec x + C</td></tr>
+          <tr><td><code>1/√(1−x²)</code></td><td>sin⁻¹x + C</td></tr>
+          <tr><td><code>1/(1+x²)</code></td><td>tan⁻¹x + C</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Methods of Integration</h4>
+    <div class="math-formula">
+      <span class="label">Method 1: Substitution (u-substitution)</span>
+      <span class="mc">Put t = g(x), then dt = g'(x)dx, substitute and integrate</span><br/>
+      <span class="mc">Example: ∫2x·sin(x²)dx → let t = x², dt = 2x dx</span><br/>
+      <span class="mf">= ∫sin(t)dt = −cos(t) + C = −cos(x²) + C</span><br/><br/>
+      <span class="label">Method 2: Integration by Parts (ILATE Rule)</span>
+      <span class="mf">∫u·v dx = u·∫v dx − ∫(du/dx · ∫v dx) dx</span><br/>
+      <span class="mc">ILATE: Inverse trig, Logarithm, Algebra, Trig, Exponential</span><br/>
+      <span class="mc">(Choose u as the function that comes first in ILATE)</span><br/><br/>
+      <span class="label">Method 3: Partial Fractions</span>
+      <span class="mc">Used when integrand is a rational function (fraction of polynomials)</span><br/>
+      <span class="mc">Example: ∫1/(x²−1)dx = ∫[A/(x−1) + B/(x+1)]dx</span>
+    </div>
+
+    <div class="example">
+      <div class="example-label">📝 Solved Example</div>
+      <p><strong>Q:</strong> Evaluate ∫(3x² + 2x − 5)dx</p>
+      <p>= 3·(x³/3) + 2·(x²/2) − 5x + C</p>
+      <p>= <strong>x³ + x² − 5x + C</strong></p>
+      <p><strong>Q:</strong> Evaluate ∫₀² (x² + 1)dx</p>
+      <p>= [x³/3 + x]₀²</p>
+      <p>= (8/3 + 2) − (0 + 0) = 8/3 + 2 = <strong>14/3</strong></p>
+    </div>
+
+    <div class="box box-tip">
+      <strong>✅ Fundamental Theorem of Calculus</strong>
+      Differentiation and Integration are inverse operations: d/dx[∫f(x)dx] = f(x). This is why integration is also called "anti-differentiation."
+    </div>
+
+    <div class="box box-note">
+      <strong>📐 Application — Area Under Curve</strong>
+      Area bounded by y = f(x), x-axis, x = a and x = b is:
+      A = ∫[a to b] |f(x)| dx
+      (Take modulus because area is always positive)
+    </div>
+  </div>
+
+</main>
+
+<script>
+const allLinks = document.querySelectorAll('.sb-link, .mob-drawer-panel .sb-link');
+const sections = document.querySelectorAll('.sec');
+
+function updateActive() {
+  let current = '';
+  const offset = window.innerWidth <= 768 ? 70 : 100;
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - offset) current = s.id; });
+  allLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+}
+function updateProgress() {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('progress-bar').style.width = (docH > 0 ? (window.scrollY / docH) * 100 : 0) + '%';
+}
+const scrollTopBtn = document.getElementById('scroll-top');
+function updateScrollTop() { scrollTopBtn.classList.toggle('visible', window.scrollY > 400); }
+window.addEventListener('scroll', () => { updateActive(); updateProgress(); updateScrollTop(); }, { passive: true });
+updateActive(); updateProgress();
+
+function openDrawer() { document.getElementById('mobDrawer').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeDrawer() { document.getElementById('mobDrawer').classList.remove('open'); document.body.style.overflow = ''; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
+
+document.querySelectorAll('.mob-drawer-panel .sb-link').forEach(link => {
+  link.addEventListener('click', e => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault(); closeDrawer();
+      setTimeout(() => {
+        const target = document.querySelector(href);
+        if (target) { const y = target.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); }
+      }, 50);
+    }
+  });
+});
+
+let touchStartY = 0;
+document.querySelector('.mob-drawer-panel').addEventListener('touchstart', e => { touchStartY = e.touches[0].clientY; }, { passive: true });
+document.querySelector('.mob-drawer-panel').addEventListener('touchend', e => { if (e.changedTouches[0].clientY - touchStartY > 60) closeDrawer(); }, { passive: true });
+
+if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion:reduce)').matches) {
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  sections.forEach(s => obs.observe(s));
+}
+</script>
+</body>
+</html>
