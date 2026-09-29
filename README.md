@@ -5,7 +5,7 @@ BCA students ke liye ek study hub: notes, PYQs aur syllabus ek jagah.
 ## 🔗 Live Demo
 👉 [bca-study-hub-kp.web.app](https://bca-study-hub-kp.web.app/)
 
-## Features
+## Features 
 - Semester-wise study material
 - Easy navigation
 - Mobile responsive
